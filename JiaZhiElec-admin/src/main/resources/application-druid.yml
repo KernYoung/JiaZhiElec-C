@@ -1,0 +1,87 @@
+# 数据源配置
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        druid:
+            # 主库数据源
+            master:
+                driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                url: jdbc:sqlserver://112.80.47.186:14306;DatabaseName=JiaZhiDev
+                username: sa
+                password: Djj20190527Jdd
+            # 从库数据源
+            slave:
+                driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                # 从数据源开关/默认关闭
+                enabled: false
+                url: 
+                username: 
+                password:
+            # 第三方库数据源
+            one:
+                driverClassName: com.mysql.cj.jdbc.Driver
+                enabled: false
+                url: jdbc:mysql://112.80.47.186:13206/narwhals_vue_plus?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+                username: root
+                password: Djj20190527
+            two:
+                driverClassName: oracle.jdbc.driver.OracleDriver
+                enabled: false
+                url: jdbc:oracle:thin:@localhost:1521/orcl
+                username: root
+                password: password
+            # 初始连接数
+            initialSize: 10
+            # 最小连接池数量
+            minIdle: 20
+            # 最大连接池数量
+            maxActive: 200
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置连接超时时间
+            connectTimeout: 30000
+            # 配置网络超时时间
+            socketTimeout: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1
+            testWhileIdle: true
+            testOnBorrow: true
+            testOnReturn: false
+            # 缓存游标，默认false
+            poolPreparedStatements: true
+            # 缓存游标最大数量，默认-1（不缓存）
+            max-open-prepared-statements: 50
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: ruoyi
+                login-password: 123456
+            filter:
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 2000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+            #连接出错后再尝试连接三次
+            connection-error-retry-attempts: 3
+            #超过时间限制是否回收
+            remove-abandoned: true
+            #超时时间；单位为秒。180秒=3分钟
+            remove-abandoned-timeout: 20
+            #关闭abanded连接时输出错误日志
+            log-abandoned: false
