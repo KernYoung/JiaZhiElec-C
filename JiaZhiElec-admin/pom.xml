@@ -66,6 +66,14 @@
             <groupId>com.jiazhielec</groupId>
             <artifactId>jiazhielec-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jiazhielec</groupId>
+            <artifactId>jiazhielec-order</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jiazhielec</groupId>
+            <artifactId>jiazhielec-order</artifactId>
+        </dependency>
 
     </dependencies>
 

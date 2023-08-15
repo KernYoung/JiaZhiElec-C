@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiazhielec.order.mapper.DeliveryOrderMapper">
+
+	<resultMap type="DeliveryOrder" id="DeliveryOrderResult">
+		<id     property="id"     column="id"     />
+		<result property="VBELN"   column="VBELN"   />
+		<result property="WERKS"  column="WERKS"   />
+		<result property="KUNNR"   column="KUNNR"   />
+		<result property="NAME1"   column="NAME1"   />
+		<result property="createTime"     column="CREATE_TIME"      />
+		<result property="deliveryDate"      column="DELIVERY_DATE"       />
+	</resultMap>
+
+<!--	<resultMap id="DeliveryOrderWithDetailResult" type="DeliveryOrder" extends="DeliveryOrderResult">-->
+<!--		<collection property="deliveryOrderDetailList" notNullColumn="sub_id" javaType="java.util.List" resultMap="DeliveryOrderDetailResult" />-->
+<!--	</resultMap>-->
+
+	<resultMap type="DeliveryOrderDetail" id="DeliveryOrderDetailResult">
+		<result property="id"    column="id"    />
+		<result property="subVBELN"    column="VBELN"    />
+		<result property="POSNR"    column="POSNR"    />
+		<result property="MATNR"    column="MATNR"    />
+		<result property="KDMAT"    column="KDMAT"    />
+		<result property="POSTX"    column="POSTX"    />
+		<result property="CHARG"    column="CHARG"    />
+		<result property="LFIMG"    column="LFIMG"    />
+		<result property="MEINS"    column="MEINS"    />
+		<result property="LGOBE"    column="LGOBE"    />
+		<result property="BSTKD"    column="BSTKD"    />
+		<result property="WJSL"    column="WJSL"    />
+	</resultMap>
+
+	
+<!--	<sql id="selectDeliveryOrderVo">-->
+<!--        select d.id, d.VBELN, d.WERKS, d.KUNNR, d.NAME1, d.CREATE_TIME, d.DELIVERY_DATE-->
+<!--        from A8X_SAP_JZ_LIKP d-->
+<!--    </sql>-->
+
+	<select id="selectDeliveryOrderList" parameterType="DeliveryOrder" resultMap="DeliveryOrderResult">
+		select a.*
+		from A8X_SAP_JZ_LIKP a
+		<where>
+			<if test="VBELN != null  and VBELN != ''"> AND VBELN like concat('%', #{VBELN}, '%')</if>
+
+			<if test="NAME1 != null  and NAME1 != ''"> AND NAME1 like concat('%', #{NAME1}, '%')</if>
+<!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
+<!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
+		</where>
+		order by a.create_time desc
+	</select>
+
+	<select id="selectDeliveryOrderDetailList" parameterType="DeliveryOrderDetail" resultMap="DeliveryOrderDetailResult">
+		select top 10 a.*
+		from A8X_SAP_JZ_ORDERDETAIL a
+		<where>
+			<if test="subVBELN != null  and subVBELN != ''"> and a.VBELN = #{subVBELN}</if>
+			<if test="KDMAT != null  and KDMAT != ''"> and a.KDMAT = #{KDMAT}</if>
+			<if test="MATNR != null  and MATNR != ''"> and a.MATNR = #{MATNR}</if>
+		</where>
+	</select>
+
+
+</mapper> 

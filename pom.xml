@@ -179,6 +179,13 @@
                 <version>${jiazhielec.version}</version>
             </dependency>
 
+            <!-- 订单模块-->
+            <dependency>
+                <groupId>com.jiazhielec</groupId>
+                <artifactId>jiazhielec-order</artifactId>
+                <version>${jiazhielec.version}</version>
+            </dependency>
+
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.jiazhielec</groupId>
@@ -210,6 +217,7 @@
         <module>JiaZhiElec-quartz</module>
         <module>JiaZhiElec-generator</module>
         <module>JiaZhiElec-common</module>
+        <module>JiaZhiElec-order</module>
     </modules>
     <packaging>pom</packaging>
 
