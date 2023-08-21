@@ -39,6 +39,28 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 // 需要先引入 Vue 和 Element-UI 依赖库, 并在 <el-table></el-table> 组件下使用该组件
 import AFTableColumn from 'af-table-column'
+
+// import { hiPrintPlugin } from 'vue-plugin-hiprint'
+// hiPrintPlugin.disAutoConnect() // 取消自动连接直接打印客户端，如果设置了取消自动连接，后续是获取不到打印机列表的
+// Vue.use(hiPrintPlugin, '$pluginName')
+
+import {hiPrintPlugin} from './views/index'
+Vue.use(hiPrintPlugin)
+// hiPrintPlugin.disAutoConnect();
+
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+Vue.use(Antd);
+
+import Storage from 'vue-ls'
+let options = {
+  namespace: 'hiPrint-',
+  name: 'ls',
+  storage: 'local',
+};
+Vue.use(Storage, options);
+
+
 Vue.use(AFTableColumn)
 
 // 全局方法挂载
