@@ -42,3 +42,11 @@ export function delTemplate(id) {
     method: 'delete'
   })
 }
+
+// 获取单个模版详细
+export function getPrintQuery(id) {
+  return request({
+    url: '/print/template/' + id,
+    method: 'get'
+  })
+}

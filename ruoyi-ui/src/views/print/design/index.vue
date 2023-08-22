@@ -61,6 +61,18 @@
             <a-icon type="close"/>
           </a-button>
         </a-popconfirm>
+        
+        <a-popconfirm
+          title="是否确认保存?"
+          okType="primary"
+          okText="确定保存"
+          @confirm="savePaper"
+        >
+          <a-icon slot="icon" type="question-circle-o" style="color: #409EFF"/>
+          <a-button type="primary">
+            保存
+          </a-button>
+        </a-popconfirm>
         <json-view :template="template"/>
       </a-space>
       <a-space style="margin-bottom: 10px">
@@ -288,6 +300,7 @@ import printPreview from './preview'
 import jsonView from "../json-view.vue";
 import fontSize from "./font-size.js";
 import scale from "./scale.js";
+import { getPrintQuery, updateTemplate } from "@/api/print/template";
 // disAutoConnect();
 
 let hiprintTemplate;
@@ -340,6 +353,9 @@ export default {
       // 导入导出json
       jsonIn: '',
       jsonOut: '',
+      designId: '', // 模板id
+      designAllInfo: null,
+      designInfo: ''
     }
   },
   computed: {
@@ -357,9 +373,19 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    this.designId = this.$route.params && this.$route.params.id
+    this.getInfo()
   },
   methods: {
+    getInfo(){
+      getPrintQuery(this.designId).then(response => {
+        if(response.code == 200){
+          this.designAllInfo = response.data
+          this.designInfo = response.data.templateJson && JSON.parse(response.data.templateJson)
+          this.init()
+        }
+      });
+    },
     init() {
       hiprint.init({
         providers: [new defaultElementTypeProvider()]
@@ -455,7 +481,8 @@ export default {
       $('#hiprint-printTemplate').empty()
       let that = this;
       this.template = hiprintTemplate = new hiprint.PrintTemplate({
-        template: panel,
+        // template: panel,
+        template: that.designInfo,
         // 图片选择功能
         onImageChooseClick: (target) => {
           // 测试 3秒后修改图片地址值
@@ -595,7 +622,8 @@ export default {
       this.$refs.preView.show(hiprintTemplate, printData)
     },
     onlyPrint() {
-      let hiprintTemplate = this.$print(undefined, panel, printData, {}, {
+      let that = this
+      let hiprintTemplate = this.$print(undefined, that.designInfo, printData, {}, {
         styleHandler: () => {
           let css = '<link href="http://hiprint.io/Content/hiprint/css/print-lock.css" media="print" rel="stylesheet">';
           return css
@@ -606,7 +634,7 @@ export default {
     onlyPrint2() {
       let that = this;
       if (window.hiwebSocket.opened) {
-        let hiprintTemplate = this.$print2(undefined, panel, printData, {
+        let hiprintTemplate = this.$print2(undefined, that.designInfo, printData, {
           printer: '', title: 'Api单独打印',
           styleHandler: () => {
             // let css = '<link href="http://hiprint.io/Content/hiprint/css/print-lock.css" media="print" rel="stylesheet">';
@@ -642,6 +670,32 @@ export default {
       } catch (error) {
         this.$message.error(`操作失败: ${error}`);
       }
+    },
+    // 保存操作
+    savePaper(){
+      if(hiprintTemplate) {
+        let data = {
+          createBy: this.designAllInfo.createBy,
+          createTime: this.designAllInfo.createTime,
+          id: this.designAllInfo.id,
+          remark: this.designAllInfo.remark,
+          status: this.designAllInfo.status,
+          templateJson: JSON.stringify(hiprintTemplate.getJson() || {}),
+          templateName: this.designAllInfo.templateName,
+          updateBy: this.designAllInfo.updateBy,
+          updateTime: this.designAllInfo.updateTime,
+        }
+        // {
+        //   data.PrintTemplate: JSON.stringify(hiprintTemplate.getJson() || {})
+        // }this.designAllInfo
+        updateTemplate(data).then(response => {
+          if(response.code == 200){
+            this.$modal.msgSuccess("保存成功");
+            this.$router.go(-1)
+          }
+        });
+      }
+      
     },
     exportPdf(type) {
       hiprintTemplate.toPdf(printData, '测试导出pdf', {isDownload: false, type: type}).then((res) => {

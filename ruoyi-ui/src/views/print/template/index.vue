@@ -90,6 +90,13 @@
           <el-button
             size="mini"
             type="text"
+            icon="el-icon-plus"
+            @click="handleTemplate(scope.row)"
+            v-hasPermi="['print:template:edit']"
+          >设计模板</el-button>
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['print:template:edit']"
@@ -284,6 +291,11 @@ export default {
       this.download('print/template/export', {
         ...this.queryParams
       }, `template_${new Date().getTime()}.xlsx`)
+    },
+
+    // 设计模板
+    handleTemplate(row){
+      this.$router.push("/print/design/index/" + row.id);
     }
   }
 };

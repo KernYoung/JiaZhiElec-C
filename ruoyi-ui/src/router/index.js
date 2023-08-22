@@ -212,7 +212,21 @@ export const dynamicRoutes = [
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
       }
     ]
-  }
+  },
+  {
+    path: '/print/design',
+    component: Layout,
+    hidden: true,
+    permissions: ['print:template:edit'],
+    children: [
+      {
+        path: 'index/:id(\\d+)',
+        component: () => import('@/views/print/design/index'),
+        name: 'Design',
+        meta: { title: '模板设计', activeMenu: '/print/template' }
+      }
+    ]
+  },
 ]
 
 // 防止连续点击多次路由报错
