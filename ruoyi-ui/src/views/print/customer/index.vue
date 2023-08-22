@@ -84,7 +84,7 @@
       <el-table-column label="编号" align="center" prop="id" />
       <el-table-column label="客户名称" align="center" prop="customerName" />
       <el-table-column label="客户代码" align="center" prop="customerCode" />
-      <el-table-column label="映射模板" align="center" prop="templateMapping" />
+      <el-table-column label="可用模板" align="center" prop="templateMapping" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
