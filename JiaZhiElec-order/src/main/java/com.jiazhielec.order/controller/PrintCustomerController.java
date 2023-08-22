@@ -9,6 +9,7 @@ import com.jiazhielec.common.utils.poi.ExcelUtil;
 import com.jiazhielec.order.domain.PrintCustomer;
 import com.jiazhielec.order.service.IPrintCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class PrintCustomerController extends BaseController
     /**
      * 获取打印客户列表
      */
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:list')")
+    @PreAuthorize("@ss.hasPermi('print:customer:list')")
     @GetMapping("/list")
     public TableDataInfo list(PrintCustomer printCustomer)
     {
@@ -40,7 +41,7 @@ public class PrintCustomerController extends BaseController
     }
     
     @Log(title = "打印客户管理", businessType = BusinessType.EXPORT)
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:export')")
+    @PreAuthorize("@ss.hasPermi('print:customer:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, PrintCustomer printCustomer)
     {
@@ -52,7 +53,7 @@ public class PrintCustomerController extends BaseController
     /**
      * 根据打印客户编号获取详细信息
      */
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:query')")
+    @PreAuthorize("@ss.hasPermi('print:customer:query')")
     @GetMapping(value = "/{printCustomerId}")
     public AjaxResult getInfo(@PathVariable Long printCustomerId)
     {
@@ -62,7 +63,7 @@ public class PrintCustomerController extends BaseController
     /**
      * 新增打印客户
      */
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:add')")
+    @PreAuthorize("@ss.hasPermi('print:customer:add')")
     @Log(title = "打印客户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody PrintCustomer printCustomer)
@@ -82,7 +83,7 @@ public class PrintCustomerController extends BaseController
     /**
      * 修改打印客户
      */
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:edit')")
+    @PreAuthorize("@ss.hasPermi('print:customer:edit')")
     @Log(title = "打印客户管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody PrintCustomer printCustomer)
@@ -103,7 +104,7 @@ public class PrintCustomerController extends BaseController
     /**
      * 删除打印客户
      */
-//    @PreAuthorize("@ss.hasPermi('system:printCustomer:remove')")
+    @PreAuthorize("@ss.hasPermi('print:customer:remove')")
     @Log(title = "打印客户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{printCustomerIds}")
     public AjaxResult remove(@PathVariable Long[] printCustomerIds)
