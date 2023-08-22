@@ -17,7 +17,7 @@ public class DeliveryOrderDetail extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    private Integer id;
+    private Long id;
 
     /**交货单号  */
     private String subVBELN;
@@ -69,11 +69,11 @@ public class DeliveryOrderDetail extends BaseEntity
         this.WJSL = WJSL;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

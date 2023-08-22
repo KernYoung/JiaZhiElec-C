@@ -1,6 +1,7 @@
 package com.jiazhielec.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 import java.util.Date;
 import java.util.List;
@@ -15,25 +16,32 @@ public class DeliveryOrder extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    private Integer id;
+    @Excel(name = "出货单ID", cellType = Excel.ColumnType.NUMERIC)
+    private Long id;
 
     /**交货单号  */
+    @Excel(name = "交货单号")
     private String VBELN;
 
     /**公司代码  */
+    @Excel(name = "公司代码")
     private String WERKS;
 
     /**客户代码  */
+    @Excel(name = "客户代码")
     private String KUNNR;
 
     /**客户名称  */
+    @Excel(name = "客户名称")
     private String NAME1;
 
     /** 创建时间 */
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd", type = Excel.Type.EXPORT)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /** 交货日期 */
+    @Excel(name = "交货日期", width = 30, dateFormat = "yyyy-MM-dd", type = Excel.Type.EXPORT)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliveryDate;
 
@@ -41,11 +49,11 @@ public class DeliveryOrder extends BaseEntity
     /** 出货单明细 */
     private List<DeliveryOrderDetail> deliveryOrderDetails;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

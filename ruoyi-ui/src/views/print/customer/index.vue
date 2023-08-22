@@ -1,16 +1,24 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="模版名称" prop="templateName">
+      <el-form-item label="客户名称" prop="customerName">
         <el-input
-          v-model="queryParams.templateName"
-          placeholder="请输入模版名称"
+          v-model="queryParams.customerName"
+          placeholder="请输入客户名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="客户代码" prop="customerCode">
+        <el-input
+          v-model="queryParams.customerCode"
+          placeholder="请输入客户代码"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="模版状态" clearable>
+        <el-select v-model="queryParams.status" placeholder="客户状态" clearable>
           <el-option
             v-for="dict in dict.type.sys_normal_disable"
             :key="dict.value"
@@ -33,7 +41,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['print:template:add']"
+          v-hasPermi="['print:customer:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -44,7 +52,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['print:template:edit']"
+          v-hasPermi="['print:customer:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,7 +63,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['print:template:remove']"
+          v-hasPermi="['print:customer:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,16 +73,18 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['print:template:export']"
+          v-hasPermi="['print:customer:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="模版编号" align="center" prop="id" />
-      <el-table-column label="模版名称" align="center" prop="templateName" />
+      <el-table-column label="编号" align="center" prop="id" />
+      <el-table-column label="客户名称" align="center" prop="customerName" />
+      <el-table-column label="客户代码" align="center" prop="customerCode" />
+      <el-table-column label="映射模板" align="center" prop="templateMapping" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
@@ -92,14 +102,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['print:template:edit']"
+            v-hasPermi="['print:customer:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['print:template:remove']"
+            v-hasPermi="['print:customer:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -113,19 +123,19 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改模版对话框 -->
+    <!-- 添加或修改客户对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="模版名称" prop="templateName">
-          <el-input v-model="form.templateName" placeholder="请输入模版名称" />
+        <el-form-item label="客户名称" prop="customerName">
+          <el-input v-model="form.customerName" placeholder="请输入客户名称" />
         </el-form-item>
-<!--        <el-form-item label="模版编码" prop="templateCode">-->
-<!--          <el-input v-model="form.templateCode" placeholder="请输入编码名称" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="模版顺序" prop="templateSort">-->
+        <el-form-item label="客户代码" prop="customerCode">
+          <el-input v-model="form.customerCode" placeholder="请输入客户代码" />
+        </el-form-item>
+<!--        <el-form-item label="客户顺序" prop="templateSort">-->
 <!--          <el-input-number v-model="form.templateSort" controls-position="right" :min="0" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="模版状态" prop="status">
+        <el-form-item label="客户状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.sys_normal_disable"
@@ -147,10 +157,10 @@
 </template>
 
 <script>
-import { listTemplate, getTemplate, delTemplate, addTemplate, updateTemplate } from "@/api/print/template";
+import { listCustomer, getCustomer, delCustomer, addCustomer, updateCustomer } from "@/api/print/customer";
 
 export default {
-  name: "Template",
+  name: "Customer",
   dicts: ['sys_normal_disable'],
   data() {
     return {
@@ -166,8 +176,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 模版表格数据
-      templateList: [],
+      // 客户表格数据
+      customerList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -176,15 +186,19 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        templateName: undefined,
+        customerName: undefined,
+        customerCode: undefined,
         status: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        templateName: [
-          { required: true, message: "模版名称不能为空", trigger: "blur" }
+        customerName: [
+          { required: true, message: "客户名称不能为空", trigger: "blur" }
+        ],
+        customerCode: [
+          { required: true, message: "客户代码不能为空", trigger: "blur" }
         ]
       }
     };
@@ -193,11 +207,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询模版列表 */
+    /** 查询客户列表 */
     getList() {
       this.loading = true;
-      listTemplate(this.queryParams).then(response => {
-        this.templateList = response.rows;
+      listCustomer(this.queryParams).then(response => {
+        this.customerList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -211,7 +225,8 @@ export default {
     reset() {
       this.form = {
         id: undefined,
-        templateName: undefined,
+        customerName: undefined,
+        customerCode: undefined,
         status: "0",
         remark: undefined
       };
@@ -237,16 +252,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加模版";
+      this.title = "添加客户";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getTemplate(id).then(response => {
+      getCustomer(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改模版";
+        this.title = "修改客户";
       });
     },
     /** 提交按钮 */
@@ -254,13 +269,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != undefined) {
-            updateTemplate(this.form).then(response => {
+            updateCustomer(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addTemplate(this.form).then(response => {
+            addCustomer(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -272,8 +287,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除模版编号为"' + ids + '"的数据项？').then(function() {
-        return delTemplate(ids);
+      this.$modal.confirm('是否确认删除客户编号为"' + ids + '"的数据项？').then(function() {
+        return delCustomer(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
