@@ -78,4 +78,16 @@ public class DeliveryOrderController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 查询出货单带明细
+     * VBELN 交货单号
+     */
+//    @PreAuthorize("@ss.hasPermi('system:post:list')")
+    @GetMapping("/listAll/{VBELNs}")
+    public TableDataInfo listAll(@PathVariable String[] VBELNs)
+    {
+        List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderListWithDetail(VBELNs);
+        return getDataTable(list);
+    }
+
 }
