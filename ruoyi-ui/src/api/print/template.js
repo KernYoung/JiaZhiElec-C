@@ -21,7 +21,7 @@ export function getTemplate(id) {
 export function addTemplate(data) {
   return request({
     url: '/print/template',
-    method: 'template',
+    method: 'post',
     data: data
   })
 }

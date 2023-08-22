@@ -94,8 +94,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			create_time
  		)values(
  			<if test="id != null and id != 0">#{id},</if>
- 			<if test="templateName != null and templateName != ''">#{template_name},</if>
- 			<if test="templateJson != null and templateJson != ''">#{template_json},</if>
+ 			<if test="templateName != null and templateName != ''">#{templateName},</if>
+ 			<if test="templateJson != null and templateJson != ''">#{templateJson},</if>
  			<if test="status != null and status != ''">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>

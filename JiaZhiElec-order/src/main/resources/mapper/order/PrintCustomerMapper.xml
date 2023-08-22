@@ -100,9 +100,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			create_time
  		)values(
  			<if test="id != null and id != 0">#{id},</if>
- 			<if test="customerName != null and customerName != ''">#{customer_name},</if>
- 			<if test="customerCode != null and customerCode != ''">#{customer_code},</if>
-			<if test="templateMapping != null and templateMapping != 0">#{template_mapping},</if>
+ 			<if test="customerName != null and customerName != ''">#{customerName},</if>
+ 			<if test="customerCode != null and customerCode != ''">#{customerCode},</if>
+			<if test="templateMapping != null and templateMapping != 0">#{templateMapping},</if>
  			<if test="status != null and status != ''">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>

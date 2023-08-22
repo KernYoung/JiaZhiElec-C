@@ -17,12 +17,15 @@ public class PrintTemplate extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Excel(name = "ID", cellType = Excel.ColumnType.NUMERIC)
     private Long id;
 
     /**模版名称  */
+    @Excel(name = "模版名称")
     private String templateName;
 
     /**模板Json  */
+    @Excel(name = "模板Json")
     private String templateJson;
 
     /** 状态（0正常 1停用） */
