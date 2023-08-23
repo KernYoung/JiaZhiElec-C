@@ -47,7 +47,7 @@ public class DeliveryOrder extends BaseEntity
 
     
     /** 出货单明细 */
-    private List<DeliveryOrderDetail> deliveryOrderDetails;
+    private List<DeliveryOrderDetail> deliveryOrderDetailList;
 
     public Long getId() {
         return id;
@@ -107,12 +107,12 @@ public class DeliveryOrder extends BaseEntity
         this.deliveryDate = deliveryDate;
     }
 
-    public List<DeliveryOrderDetail> getDeliveryOrderDetails() {
-        return deliveryOrderDetails;
+    public List<DeliveryOrderDetail> getDeliveryOrderDetailList() {
+        return deliveryOrderDetailList;
     }
 
-    public void setDeliveryOrderDetails(List<DeliveryOrderDetail> deliveryOrderDetails) {
-        this.deliveryOrderDetails = deliveryOrderDetails;
+    public void setDeliveryOrderDetailList(List<DeliveryOrderDetail> deliveryOrderDetailList) {
+        this.deliveryOrderDetailList = deliveryOrderDetailList;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class DeliveryOrder extends BaseEntity
                 ", NAME1='" + NAME1 + '\'' +
                 ", createTime=" + createTime +
                 ", deliveryDate=" + deliveryDate +
-                ", deliveryOrderDetails=" + deliveryOrderDetails +
+                ", deliveryOrderDetailList=" + deliveryOrderDetailList +
                 '}';
     }
 }

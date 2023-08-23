@@ -14,9 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deliveryDate"      column="DELIVERY_DATE"       />
 	</resultMap>
 
-<!--	<resultMap id="DeliveryOrderWithDetailResult" type="DeliveryOrder" extends="DeliveryOrderResult">-->
-<!--		<collection property="deliveryOrderDetailList" notNullColumn="sub_id" javaType="java.util.List" resultMap="DeliveryOrderDetailResult" />-->
-<!--	</resultMap>-->
+	<resultMap id="DeliveryOrderWithDetailResult" type="DeliveryOrder" extends="DeliveryOrderResult">
+		<collection property="deliveryOrderDetailList" notNullColumn="id" javaType="java.util.List" resultMap="DeliveryOrderDetailResult" />
+	</resultMap>
 
 	<resultMap type="DeliveryOrderDetail" id="DeliveryOrderDetailResult">
 		<result property="id"    column="id"    />
@@ -62,10 +62,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 
-	<select id="selectDeliveryOrderListWithDetail" parameterType="Long" resultMap="DeliveryOrderResult">
-		select a.*
+	<select id="selectDeliveryOrderListWithDetail" parameterType="Long" resultMap="DeliveryOrderWithDetailResult">
+		select a.*, detail.*
 		from A8X_SAP_JZ_LIKP a
-		where vbeln in
+		left join A8X_SAP_JZ_ORDERDETAIL detail on a.VBELN = detail.VBELN
+		where a.vbeln in
 		<foreach collection="array" item="vbeln" open="(" separator="," close=")">
 			#{vbeln}
 		</foreach>
