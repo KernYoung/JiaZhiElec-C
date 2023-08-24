@@ -26,4 +26,12 @@ public interface IDeliveryOrderService
      * @return 交货单信息集合
      */
     List<DeliveryOrderDetail> selectDeliveryOrderListDetail(DeliveryOrderDetail deliveryOrder);
+
+    /**
+     * 查询交货单带明细
+     *
+     * @param VBELNs 交货单号
+     * @return 交货单信息集合
+     */
+    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs);
 }

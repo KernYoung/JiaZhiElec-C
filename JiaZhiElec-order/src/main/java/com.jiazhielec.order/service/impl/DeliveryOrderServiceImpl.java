@@ -59,4 +59,17 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
         return deliveryOrderDetails;
     }
 
+    /**
+     * 查询交货单带明细
+     *
+     * @param VBELNs 交货单号集合
+     * @return 交货单信息明细集合
+     */
+    @Override
+    @DataSource(DataSourceType.SLAVE)
+    public List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs) {
+        List<DeliveryOrder> deliveryOrders = deliveryOrderMapper.selectDeliveryOrderListWithDetail(VBELNs);
+        return deliveryOrders;
+    }
+
 }

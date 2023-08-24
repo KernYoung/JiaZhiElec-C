@@ -27,4 +27,12 @@ public interface DeliveryOrderMapper
      * @return 出货单信息明细集合
      */
     List<DeliveryOrderDetail> selectDeliveryOrderDetailList(DeliveryOrderDetail deliveryOrderDetail);
+
+    /**
+     * 查询出货单带明细数据
+     *
+     * @param vbeln 出货单号
+     * @return 出货单信息明细集合
+     */
+    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] vbeln);
 }
