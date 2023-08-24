@@ -46,12 +46,14 @@ export default {
     hideModal() {
       this.visible = false
     },
-    show(hiprintTemplate, printData, width = '210') {
+    show(hiprintTemplate, printData, type, width = '210') {
+      console.log(hiprintTemplate)
       this.visible = true
       this.spinning = true
       this.width = hiprintTemplate.editingPanel ? hiprintTemplate.editingPanel.width : width;
       this.hiprintTemplate = hiprintTemplate
       this.printData = printData
+      this.type = type
       setTimeout(() => {
         // eslint-disable-next-line no-undef
         $('#preview_content_design').html(hiprintTemplate.getHtml(printData))
@@ -60,12 +62,16 @@ export default {
     },
     print() {
       this.waitShowPrinter = true
-      this.hiprintTemplate.print(this.printData, {}, {
-        callback: () => {
-          console.log('callback')
-          this.waitShowPrinter = false
-        }
-      })
+      if(this.type == 1){
+
+      }else{
+        this.hiprintTemplate.print(this.printData, {}, {
+          callback: () => {
+            console.log('callback')
+            this.waitShowPrinter = false
+          }
+        })
+      }
     },
     toPdf() {
       this.hiprintTemplate.toPdf({}, '打印预览');

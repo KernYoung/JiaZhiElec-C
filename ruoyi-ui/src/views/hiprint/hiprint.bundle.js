@@ -1803,8 +1803,49 @@ var hiprint = function (t) {
           var rowsColumnsMerge = ''
           if (n.rowsColumnsMerge) {
             eval('rowsColumnsMerge=' + n.rowsColumnsMerge)
-            var rowsColumnsArr = rowsColumnsMerge(e, t, i, rowIndex, tableData, printData) || [1, 1]
-            var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
+            // console.log(111,rowsColumnsMerge)
+            // console.log(222,t, i, rowIndex)
+            // console.log(444,printData)
+            // var rowsColumnsArr = rowsColumnsMerge(e, t, i, rowIndex, tableData, printData) || [1, 1]
+            let sameInfo = printData.table
+            var result = {}; // 用于存放重复的元素和它们的数量
+            // 遍历Vue对象的属性
+            for (var key in sameInfo) {
+              var value = sameInfo[key].kdmat; // 获取属性值
+              // 检查属性值是否已经存在于result中
+              if (result[value]) {
+                result[value]++; // 如果存在，则将数量加1
+              } else {
+                result[value] = 1; // 如果不存在，则将属性值添加到result中，并设置数量为1
+              }
+            }
+            var rowsColumnsArr = []
+              if (i == 3 || i == 6) {
+                for (var value in result) {
+                  // console.log('这是啥---',result[value])
+                  if(result[value] > 1){
+                    // console.log('这是大于1',result[value])
+                    if (rowIndex % result[value] == 0) {
+                      rowsColumnsArr = [result[value], 1]
+                    } else {
+                      rowsColumnsArr = [0, 0]
+                    }
+                  }else{
+                    // console.log('这是111')
+                    rowsColumnsArr = [1, 1]
+                  }
+                  console.log(rowsColumnsArr)
+                  var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
+                rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
+                }
+              }else{
+                rowsColumnsArr = [1, 1]
+                var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
+                rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
+              }
+              // console.log(rowsColumnsArr)
+              // var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
+              // rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
           } else {
             var r = $("<td></td>");
           }
