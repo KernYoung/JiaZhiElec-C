@@ -50,3 +50,20 @@ export function getPrintQuery(id) {
     method: 'get'
   })
 }
+
+// 获取打印数据
+export function deliveryPrint(id) {
+  return request({
+    url: '/order/delivery/listAll/' + id,
+    method: 'get'
+  })
+}
+
+// 查询打印模版所有列表
+export function listTemplateAll(query) {
+  return request({
+    url: '/print/template/optionSelect',
+    method: 'get',
+    params: query
+  })
+}
