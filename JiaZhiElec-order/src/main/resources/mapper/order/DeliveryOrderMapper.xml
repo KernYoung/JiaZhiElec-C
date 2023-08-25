@@ -53,7 +53,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectDeliveryOrderDetailList" parameterType="DeliveryOrderDetail" resultMap="DeliveryOrderDetailResult">
-		select top 10 a.*
+		select a.*
+		from A8X_SAP_JZ_ORDERDETAIL a
+		<where>
+			<if test="subVBELN != null  and subVBELN != ''"> and a.VBELN = #{subVBELN}</if>
+			<if test="KDMAT != null  and KDMAT != ''"> and a.KDMAT = #{KDMAT}</if>
+			<if test="MATNR != null  and MATNR != ''"> and a.MATNR = #{MATNR}</if>
+		</where>
+	</select>
+
+	<select id="selectDeliveryOrderDetailListWithCollation" parameterType="DeliveryOrderDetail" resultMap="DeliveryOrderDetailResult">
+		select a.*
 		from A8X_SAP_JZ_ORDERDETAIL a
 		<where>
 			<if test="subVBELN != null  and subVBELN != ''"> and a.VBELN = #{subVBELN}</if>

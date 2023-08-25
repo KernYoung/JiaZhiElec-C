@@ -2,10 +2,12 @@ package com.jiazhielec.order.controller;
 
 import java.util.List;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.common.core.page.TableDataInfo;
 import com.jiazhielec.common.utils.poi.ExcelUtil;
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
+import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.service.IDeliveryOrderService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,15 +81,16 @@ public class DeliveryOrderController extends BaseController
     }
 
     /**
-     * 查询出货单带明细
+     * 查询出货单带明细用于预览打印的输出数据
      * VBELN 交货单号
      */
 //    @PreAuthorize("@ss.hasPermi('system:post:list')")
     @GetMapping("/listAll/{VBELNs}")
-    public TableDataInfo listAll(@PathVariable String[] VBELNs)
+    public TableDataInfo listAll(@PathVariable String[] VBELNs, @PathVariable Long template)
     {
         List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderListWithDetail(VBELNs);
-        return getDataTable(list);
+        List<PrintData> printDataList = deliveryOrderService.printDataConverter(list);
+        return getDataTable(printDataList);
     }
 
 }

@@ -1,8 +1,11 @@
 package com.jiazhielec.order.service;
 
 import java.util.List;
+
+import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
+import com.jiazhielec.order.domain.PrintData;
 
 /**
  * 部门管理 服务层
@@ -34,4 +37,12 @@ public interface IDeliveryOrderService
      * @return 交货单信息集合
      */
     List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs);
+
+    /**
+     * 将数据转为打印数据
+     *
+     * @param list 交货单集合
+     * @return 打印数据集合
+     */
+    List<PrintData> printDataConverter(List<DeliveryOrder> list);
 }

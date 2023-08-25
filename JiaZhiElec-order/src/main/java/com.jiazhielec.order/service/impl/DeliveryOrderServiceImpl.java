@@ -1,13 +1,18 @@
 package com.jiazhielec.order.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.common.annotation.DataSource;
 import com.jiazhielec.common.enums.DataSourceType;
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
+import com.jiazhielec.order.domain.PrintData;
+import com.jiazhielec.order.domain.PrintDataDetail;
 import com.jiazhielec.order.mapper.DeliveryOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +75,51 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
     public List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs) {
         List<DeliveryOrder> deliveryOrders = deliveryOrderMapper.selectDeliveryOrderListWithDetail(VBELNs);
         return deliveryOrders;
+    }
+
+    @Override
+    public List<PrintData> printDataConverter(List<DeliveryOrder> list) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+        PrintData printData;
+        PrintDataDetail printDataDetail;
+        List<PrintDataDetail> printDataDetails = new ArrayList<>();
+        Integer sortId = 1;
+        String codeQC;
+        String codeWork = "";
+        List<PrintData> printDataList = new ArrayList<>();
+        for (DeliveryOrder item : list){
+            printData = new PrintData();
+            printData.setNAME1(item.getNAME1());
+            printData.setDeliveryDate(new Date());
+            printData.setPrintNumber("test0001");
+
+            if (!item.getWERKS().isEmpty()){
+                if (item.getWERKS().equals("8000")){
+                    codeWork = "JZ";
+                }else if (item.getWERKS().equals("9000")){
+                    codeWork = "YIBANG";
+                }
+            }
+
+            for (DeliveryOrderDetail itemDetail : item.getDeliveryOrderDetailList()){
+                printDataDetail = new PrintDataDetail();
+                printDataDetail.setId(sortId);
+                printDataDetail.setBSTKD(itemDetail.getBSTKD());
+                printDataDetail.setPOSNR(itemDetail.getPOSNR());
+                printDataDetail.setKDMAT(itemDetail.getKDMAT());
+                printDataDetail.setLFIMG(itemDetail.getLFIMG());
+                printDataDetail.setMEINS("ST".equals(itemDetail.getMEINS()) ? "PCS" : itemDetail.getMEINS());
+
+                codeQC = codeWork + "_" + sdf.format(printData.getDeliveryDate()) + "_" + printDataDetail.getBSTKD() + "_" + printDataDetail.getPOSNR() + "_" +
+                        printDataDetail.getKDMAT() + "_" + printDataDetail.getMEINS();
+
+                printDataDetail.setCodeQC(codeQC);
+                printDataDetails.add(printDataDetail);
+            }
+            printData.setTable(printDataDetails);
+            printDataList.add(printData);
+        }
+        return printDataList;
     }
 
 }

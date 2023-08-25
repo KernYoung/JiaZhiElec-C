@@ -28,9 +28,21 @@ public class PrintTemplate extends BaseEntity
     @Excel(name = "模板Json")
     private String templateJson;
 
+    /**排序规则  */
+    @Excel(name = "排序规则")//升序,客户料号;交货单号
+    private String collation;
+
     /** 状态（0正常 1停用） */
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
+
+    public String getCollation() {
+        return collation;
+    }
+
+    public void setCollation(String collation) {
+        this.collation = collation;
+    }
 
     public Long getId() {
         return id;

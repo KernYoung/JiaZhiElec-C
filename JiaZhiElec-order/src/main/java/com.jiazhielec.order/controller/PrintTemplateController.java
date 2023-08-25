@@ -105,13 +105,13 @@ public class PrintTemplateController extends BaseController
         return toAjax(printTemplateService.deletePrintTemplateByIds(printTemplateIds));
     }
 
-//    /**
-//     * 获取打印模板选择框列表
-//     */
-//    @GetMapping("/optionselect")
-//    public AjaxResult optionselect()
-//    {
-//        List<PrintTemplate> printTemplates = printTemplateService.selectPrintTemplateAll();
-//        return success(printTemplates);
-//    }
+    /**
+     * 获取打印模板选择框列表
+     */
+    @GetMapping("/optionSelect")
+    public AjaxResult optionSelect()
+    {
+        List<PrintTemplate> printTemplates = printTemplateService.selectPrintTemplateAll();
+        return success(printTemplates);
+    }
 }
