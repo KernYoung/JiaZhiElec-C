@@ -584,54 +584,60 @@ export default {
     },
     printView(){
       let [that, printData] = [this, []]
-      console.log(that.vbelns)
-      deliveryPrint(that.vbelns.join(',')+'/'+that.queryParams.templateName).then(response => {
-        if(response.code == 200){
-          printData = response.rows
-          // 测试, 点预览更新拖拽元素
-          // hiprint.updateElementType('defaultModule.text', (type) => {
-          //   type.title = '这是更新后的元素';
-          //   return type
-          // })
-          // 测试, 通过socket刷新打印机列表； 默认只有连接的时候才会获取到最新的打印机列表
-          hiprint.refreshPrinterList((list) => {
-            console.log('refreshPrinterList')
-            console.log(list)
-          });
-          // 测试, 获取IP、IPV6、MAC地址、DNS
-          // 参数格式：
-          // 1. 类型（ip、ipv6、mac、dns、all、interface、vboxnet）
-          // 2. 回调 data => {addr, e}  addr: 返回的数据 e:错误信息
-          // 3. 其他参数 ...args
-          hiprint.getAddress('ip', (data) => {
-            console.log('ip')
-            console.log(data)
-          })
-          hiprint.getAddress('ipv6', (data) => {
-            console.log('ipv6')
-            console.log(data)
-          })
-          hiprint.getAddress('mac', (data) => {
-            console.log('mac')
-            console.log(data)
-          })
-          hiprint.getAddress('dns', (data) => {
-            console.log('dns')
-            console.log(data)
-          })
-          hiprint.getAddress('all', (data) => {
-            console.log('all')
-            console.log(data)
-          })
-          // 各个平台不一样, 用法见: https://www.npmjs.com/package/address
-          hiprint.getAddress('interface', (data) => {
-            console.log('interface')
-            console.log(data)
-          }, 'IPv4', 'eth1')
-          console.log(printData)
-          that.$refs.preView.show(hiprintTemplate, printData)
-        }
-      });
+      // console.log(that.vbelns)
+      if(that.queryParams.templateName == undefined ||that.queryParams.templateName == ''){
+        this.$message.error('请选择打印模版')
+      }else if(that.vbelns.length == 0){
+        this.$message.error('请选择出货单')
+      }else{
+        deliveryPrint(that.vbelns.join(',')+'/'+that.queryParams.templateName).then(response => {
+          if(response.code == 200){
+            printData = response.rows
+            // 测试, 点预览更新拖拽元素
+            // hiprint.updateElementType('defaultModule.text', (type) => {
+            //   type.title = '这是更新后的元素';
+            //   return type
+            // })
+            // 测试, 通过socket刷新打印机列表； 默认只有连接的时候才会获取到最新的打印机列表
+            hiprint.refreshPrinterList((list) => {
+              console.log('refreshPrinterList')
+              console.log(list)
+            });
+            // 测试, 获取IP、IPV6、MAC地址、DNS
+            // 参数格式：
+            // 1. 类型（ip、ipv6、mac、dns、all、interface、vboxnet）
+            // 2. 回调 data => {addr, e}  addr: 返回的数据 e:错误信息
+            // 3. 其他参数 ...args
+            hiprint.getAddress('ip', (data) => {
+              console.log('ip')
+              console.log(data)
+            })
+            hiprint.getAddress('ipv6', (data) => {
+              console.log('ipv6')
+              console.log(data)
+            })
+            hiprint.getAddress('mac', (data) => {
+              console.log('mac')
+              console.log(data)
+            })
+            hiprint.getAddress('dns', (data) => {
+              console.log('dns')
+              console.log(data)
+            })
+            hiprint.getAddress('all', (data) => {
+              console.log('all')
+              console.log(data)
+            })
+            // 各个平台不一样, 用法见: https://www.npmjs.com/package/address
+            hiprint.getAddress('interface', (data) => {
+              console.log('interface')
+              console.log(data)
+            }, 'IPv4', 'eth1')
+            console.log(printData)
+            that.$refs.preView.show(hiprintTemplate, printData)
+          }
+        });
+      }
     },
   }
 };
