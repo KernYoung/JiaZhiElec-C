@@ -585,7 +585,7 @@ export default {
     printView(){
       let [that, printData] = [this, []]
       console.log(that.vbelns)
-      deliveryPrint(that.vbelns.join(',')).then(response => {
+      deliveryPrint(that.vbelns.join(',')+'/'+that.queryParams.templateName).then(response => {
         if(response.code == 200){
           printData = response.rows
           // 测试, 点预览更新拖拽元素

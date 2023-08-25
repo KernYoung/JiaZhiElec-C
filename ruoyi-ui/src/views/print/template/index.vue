@@ -75,6 +75,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="模版编号" align="center" prop="id" />
       <el-table-column label="模版名称" align="center" prop="templateName" />
+      <el-table-column label="排序规则" align="center" prop="dataCollation" />
+      <!-- <el-table-column label="排序规则" align="center" prop="collation">
+        <template slot-scope="scope">
+          <span v-if="scope.row.collation == 0">无</span>
+          <span v-if="scope.row.collation == 1">升序</span>
+          <span v-if="scope.row.collation == 2">降序</span>
+        </template>
+      </el-table-column> -->
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
@@ -85,8 +93,15 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200px" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="260px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-plus"
+            @click="handleSort(scope.row)"
+            v-hasPermi="['print:template:edit']"
+          >排序规则</el-button>
           <el-button
             size="mini"
             type="text"
@@ -150,6 +165,41 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 添加模板规则 -->
+    <el-dialog title="排序规则" :visible.sync="openSort" width="500px" append-to-body>
+      <el-form ref="sortForm" :model="sortForm" :rules="sortRules" label-width="100px">
+        <!-- <el-form-item label="排序规则" prop="status">
+          <el-radio-group v-model="sortForm.status">
+            <el-radio key="无" label="无"></el-radio>
+            <el-radio key="升序" label="升序"></el-radio>
+            <el-radio key="降序" label="降序"></el-radio>
+          </el-radio-group>
+        </el-form-item> -->
+        <el-form-item label="升序排序字段" prop="ascendField">
+          <el-select v-model="sortForm.ascendField" multiple placeholder="升序排序字段" clearable>
+            <el-option
+              v-for="(item, index) in fieldList"
+              :key="index"
+              :label="item.name"
+              :value="item.name"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="降序排序字段" prop="descendField">
+          <el-select v-model="sortForm.descendField" multiple placeholder="降序排序字段" clearable>
+            <el-option
+              v-for="(item, index) in fieldList"
+              :key="index"
+              :label="item.name"
+              :value="item.name"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitSortForm">确 定</el-button>
+        <el-button @click="cancelSort">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -190,6 +240,18 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        templateName: [
+          { required: true, message: "模版名称不能为空", trigger: "blur" }
+        ]
+      },
+      // 排序规则
+      openSort: false,
+      fieldList: [{name:'ID'},{name:'交货单号'},{name:'行项目号'},{name:'产品编码'},{name:'客户料号'},{name:'客户物料描述'},{name:'有效日期'},{name:'数量'}
+      ,{name:'单位'},{name:'仓位'},{name:'订单号码'},{name:'未交量'}],
+      sortForm: {
+        status: '无',
+      },
+      sortRules:{
         templateName: [
           { required: true, message: "模版名称不能为空", trigger: "blur" }
         ]
@@ -296,6 +358,47 @@ export default {
     // 设计模板
     handleTemplate(row){
       this.$router.push("/print/design/index/" + row.id);
+    },
+
+    // 排序规则
+    handleSort(row){
+      this.resetSort()
+      this.sortForm.id = row.id
+      let dataCollation = row.dataCollation && row.dataCollation.split(';') || []
+      let ascendField = dataCollation[0] && dataCollation[0].split(':')
+      let descendField = dataCollation[1] && dataCollation[1].split(':')
+      this.sortForm.ascendField = ascendField && ascendField[1].split(',')
+      this.sortForm.descendField = descendField && descendField[1].split(',')
+      this.openSort = true
+    },
+    // 表单重置
+    resetSort() {
+      this.sortForm = {
+        id: undefined,
+        ascendField: undefined,
+        descendField: undefined,
+        status: "无"
+      };
+      this.resetForm("sortForm");
+    },
+    cancelSort(){
+      this.resetSort()
+      this.openSort = false
+    },
+    submitSortForm(){
+      let that = this
+      let dataCollation = '升序:'+ that.sortForm.ascendField +';'+'降序:'+ that.sortForm.descendField
+      let data = {
+        id: that.sortForm.id,
+        dataCollation: dataCollation,
+      }
+      updateTemplate(data).then(response => {
+        if(response.code == 200){
+          that.$modal.msgSuccess("提交成功");
+          that.openSort = false;
+          that.getList();
+        }
+      });
     }
   }
 };

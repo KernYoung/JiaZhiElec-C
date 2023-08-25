@@ -1806,8 +1806,9 @@ var hiprint = function (t) {
             // console.log(111,rowsColumnsMerge)
             // console.log(222,t, i, rowIndex)
             // console.log(444,printData)
-            // var rowsColumnsArr = rowsColumnsMerge(e, t, i, rowIndex, tableData, printData) || [1, 1]
-            let sameInfo = printData.table
+            // ---判断是否打印-----
+            if(printData){
+              let sameInfo = printData.table
             var result = {}; // 用于存放重复的元素和它们的数量
             // 遍历Vue对象的属性
             for (var key in sameInfo) {
@@ -1843,9 +1844,11 @@ var hiprint = function (t) {
                 var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
                 rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
               }
-              // console.log(rowsColumnsArr)
-              // var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
-              // rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
+            }else{
+              var rowsColumnsArr = rowsColumnsMerge(e, t, i, rowIndex, tableData, printData) || [1, 1]
+              var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' 
+              rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
+            }
           } else {
             var r = $("<td></td>");
           }
