@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 
-	<select id="selectDeliveryOrderListWithDetail" parameterType="Long" resultMap="DeliveryOrderWithDetailResult">
+	<select id="selectDeliveryOrderListWithDetail" resultMap="DeliveryOrderWithDetailResult">
 		select a.*, detail.*
 		from A8X_SAP_JZ_LIKP a
 		left join A8X_SAP_JZ_ORDERDETAIL detail on a.VBELN = detail.VBELN
@@ -80,7 +80,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach collection="array" item="vbeln" open="(" separator="," close=")">
 			#{vbeln}
 		</foreach>
-		order by a.create_time desc
+		#{dataCollation}
+<!--		<if test="dataCollation != null and dataCollation != ''">-->
+<!--			#{dataCollation}-->
+<!--		</if>-->
 	</select>
 
 </mapper> 

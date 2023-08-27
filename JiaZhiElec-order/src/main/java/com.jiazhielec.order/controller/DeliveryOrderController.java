@@ -8,8 +8,11 @@ import com.jiazhielec.common.utils.poi.ExcelUtil;
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
 import com.jiazhielec.order.domain.PrintData;
+import com.jiazhielec.order.domain.PrintTemplate;
 import com.jiazhielec.order.service.IDeliveryOrderService;
+import com.jiazhielec.order.service.IPrintTemplateService;
 import org.apache.commons.lang3.ArrayUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +45,9 @@ public class DeliveryOrderController extends BaseController
 {
     @Autowired
     private IDeliveryOrderService deliveryOrderService;
+
+    @Autowired
+    private IPrintTemplateService printTemplateService;
 
     /**
      * 获取出货单列表
@@ -85,10 +91,11 @@ public class DeliveryOrderController extends BaseController
      * VBELN 交货单号
      */
 //    @PreAuthorize("@ss.hasPermi('system:post:list')")
-    @GetMapping("/listAll/{VBELNs}")
-    public TableDataInfo listAll(@PathVariable String[] VBELNs, @PathVariable Long template)
+    @GetMapping("/listAll/{VBELNs}/{templateId}")
+    public TableDataInfo listAll(@PathVariable String[] VBELNs, @PathVariable Long templateId)
     {
-        List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderListWithDetail(VBELNs);
+        String dataCollation = printTemplateService.getDataCollation(templateId);
+        List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderListWithDetail(VBELNs, dataCollation);
         List<PrintData> printDataList = deliveryOrderService.printDataConverter(list);
         return getDataTable(printDataList);
     }

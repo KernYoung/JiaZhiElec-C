@@ -97,4 +97,12 @@ public interface IPrintTemplateService
      * @return 结果
      */
     public int updatePrintTemplate(PrintTemplate printTemplate);
+
+    /**
+     * 获取当前模板的排序规则
+     *
+     * @param templateId 模板id
+     * @return 结果
+     */
+    String getDataCollation(Long templateId);
 }

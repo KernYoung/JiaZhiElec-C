@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,20 +29,20 @@ public class PrintTemplate extends BaseEntity
     @Excel(name = "模板Json")
     private String templateJson;
 
-    /**排序规则  */
-    @Excel(name = "排序规则")//升序,客户料号;交货单号
-    private String collation;
+    /** 排序规则（ 升序:id,数量;降序:客户名称 ） */
+    @Excel(name = "排序规则")
+    private String dataCollation;
 
     /** 状态（0正常 1停用） */
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    public String getCollation() {
-        return collation;
+    public String getDataCollation() {
+        return dataCollation;
     }
 
-    public void setCollation(String collation) {
-        this.collation = collation;
+    public void setDataCollation(String dataCollation) {
+        this.dataCollation = dataCollation;
     }
 
     public Long getId() {
@@ -82,6 +83,7 @@ public class PrintTemplate extends BaseEntity
                 "id=" + id +
                 ", templateName='" + templateName + '\'' +
                 ", templateJson='" + templateJson + '\'' +
+                ", dataCollation='" + dataCollation + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }
