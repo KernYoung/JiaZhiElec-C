@@ -15,7 +15,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<resultMap id="DeliveryOrderWithDetailResult" type="DeliveryOrder" extends="DeliveryOrderResult">
-		<collection property="deliveryOrderDetailList" notNullColumn="id" javaType="java.util.List" resultMap="DeliveryOrderDetailResult" />
+		<id     property="id"     column="id"     />
+		<result property="VBELN"   column="VBELN"   />
+		<result property="WERKS"  column="WERKS"   />
+		<result property="KUNNR"   column="KUNNR"   />
+		<result property="NAME1"   column="NAME1"   />
+		<result property="createTime"     column="CREATE_TIME"      />
+		<result property="deliveryDate"      column="DELIVERY_DATE"       />
+		<collection property="deliveryOrderDetailList" notNullColumn="id2" javaType="java.util.List" resultMap="DeliveryOrderDetailResult2" />
+	</resultMap>
+
+	<resultMap type="DeliveryOrderDetail" id="DeliveryOrderDetailResult2">
+		<result property="id"    column="id2"    />
+		<result property="subVBELN"    column="VBELN2"    />
+		<result property="POSNR"    column="POSNR"    />
+		<result property="MATNR"    column="MATNR"    />
+		<result property="KDMAT"    column="KDMAT"    />
+		<result property="POSTX"    column="POSTX"    />
+		<result property="CHARG"    column="CHARG"    />
+		<result property="LFIMG"    column="LFIMG"    />
+		<result property="MEINS"    column="MEINS"    />
+		<result property="LGOBE"    column="LGOBE"    />
+		<result property="BSTKD"    column="BSTKD"    />
+		<result property="WJSL"    column="WJSL"    />
 	</resultMap>
 
 	<resultMap type="DeliveryOrderDetail" id="DeliveryOrderDetailResult">
@@ -73,17 +95,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectDeliveryOrderListWithDetail" resultMap="DeliveryOrderWithDetailResult">
-		select a.*, detail.*
+		select a.*,detail.id as id2,detail.VBELN as VBELN2,detail.POSNR as POSNR,detail.MATNR as MATNR,detail.KDMAT as KDMAT,detail.POSTX as POSTX,detail.CHARG as CHARG,detail.LFIMG as LFIMG,detail.MEINS as MEINS,detail.LGOBE as LGOBE,detail.BSTKD as BSTKD,detail.WJSL as WJSL
 		from A8X_SAP_JZ_LIKP a
 		left join A8X_SAP_JZ_ORDERDETAIL detail on a.VBELN = detail.VBELN
 		where a.vbeln in
-		<foreach collection="array" item="vbeln" open="(" separator="," close=")">
-			#{vbeln}
+		<foreach collection="vbelns" item="vbeln" open="(" separator="," close=")">
+			#{vbeln,jdbcType=VARCHAR}
 		</foreach>
-		#{dataCollation}
-<!--		<if test="dataCollation != null and dataCollation != ''">-->
-<!--			#{dataCollation}-->
-<!--		</if>-->
+		${dataCollation}
+
 	</select>
 
 </mapper> 
