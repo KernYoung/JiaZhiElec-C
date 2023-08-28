@@ -35,7 +35,7 @@ public class PrintDataDetail
     private String MEINS;
 
     /**二维码  */
-    private String codeQC;
+    private String qrcode;
 
 //    /**产品编码  */
 //    private String MATNR;
@@ -101,11 +101,11 @@ public class PrintDataDetail
         this.MEINS = MEINS;
     }
 
-    public String getCodeQC() {
-        return codeQC;
+    public String getQrcode() {
+        return qrcode;
     }
 
-    public void setCodeQC(String codeQC) {
-        this.codeQC = codeQC;
+    public void setQrcode(String qrcode) {
+        this.qrcode = qrcode;
     }
 }

@@ -34,5 +34,5 @@ public interface DeliveryOrderMapper
      * @param vbeln 出货单号
      * @return 出货单信息明细集合
      */
-    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] vbeln);
+    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] vbeln, String dataCollation);
 }

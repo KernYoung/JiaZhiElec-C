@@ -36,7 +36,7 @@ public interface IDeliveryOrderService
      * @param VBELNs 交货单号
      * @return 交货单信息集合
      */
-    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs);
+    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs, String dataCollation);
 
     /**
      * 将数据转为打印数据

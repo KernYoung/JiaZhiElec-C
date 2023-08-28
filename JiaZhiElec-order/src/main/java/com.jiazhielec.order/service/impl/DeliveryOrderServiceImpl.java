@@ -72,8 +72,8 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
      */
     @Override
     @DataSource(DataSourceType.SLAVE)
-    public List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs) {
-        List<DeliveryOrder> deliveryOrders = deliveryOrderMapper.selectDeliveryOrderListWithDetail(VBELNs);
+    public List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] VBELNs, String dataCollation) {
+        List<DeliveryOrder> deliveryOrders = deliveryOrderMapper.selectDeliveryOrderListWithDetail(VBELNs, dataCollation);
         return deliveryOrders;
     }
 
@@ -113,7 +113,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
                 codeQC = codeWork + "_" + sdf.format(printData.getDeliveryDate()) + "_" + printDataDetail.getBSTKD() + "_" + printDataDetail.getPOSNR() + "_" +
                         printDataDetail.getKDMAT() + "_" + printDataDetail.getMEINS();
 
-                printDataDetail.setCodeQC(codeQC);
+                printDataDetail.setQrcode(codeQC);
                 printDataDetails.add(printDataDetail);
             }
             printData.setTable(printDataDetails);

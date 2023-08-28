@@ -174,4 +174,100 @@ public class PrintTemplateServiceImpl implements IPrintTemplateService
     {
         return printTemplateMapper.updatePrintTemplate(printTemplate);
     }
+
+    @Override
+    public String getDataCollation(Long templateId) {
+        String result = "";
+        PrintTemplate printTemplate = selectPrintTemplateById(templateId);
+        String dataCollation = printTemplate.getDataCollation();
+        String ascStr = "";
+        String descStr = "";
+        String[] ascArr;
+        String[] descArr;
+        if (dataCollation != null && !dataCollation.isEmpty()){
+            if (dataCollation.indexOf("升序:") != -1){
+                ascStr = dataCollation.substring(dataCollation.indexOf("升序:") + 3);
+            }
+            if (dataCollation.indexOf("降序:") != -1){
+                descStr = dataCollation.substring(dataCollation.indexOf("降序:") + 3);
+            }
+
+            if (ascStr.indexOf("降序:") != -1){
+                ascStr = ascStr.substring(0, ascStr.indexOf("降序:"));
+                if (ascStr.indexOf(";") != 0) ascStr = ascStr.substring(0, ascStr.indexOf(";"));
+            }
+            if (descStr.indexOf("升序:") != -1){
+                descStr = descStr.substring(0, descStr.indexOf("升序:"));
+                if (descStr.indexOf(";") != 0) descStr = descStr.substring(0, descStr.indexOf(";"));
+            }
+
+            ascArr = ascStr.split(",");
+            descArr = descStr.split(",");
+
+            String single;
+            if (ascArr.length > 0 && !ascArr[0].isEmpty()){
+                result += "order by ";
+                for (int i = 0; i < ascArr.length; i ++){
+                    single = matcher(ascArr[i]);
+                    result += single;
+                    if (i == ascArr.length -1){
+                        result += " asc";
+                    }else {
+                        result += ",";
+                    }
+                }
+            }
+
+            if (descArr.length > 0 && !descArr[0].isEmpty()){
+                if (result.indexOf("order") == -1) result += "order by ";
+                for (int i = 0; i < descArr.length; i ++){
+                    single = matcher(descArr[i]);
+                    result += single;
+                    if (i == descArr.length -1){
+                        result += " desc";
+                    }else {
+                        result += ",";
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private String matcher(String str) {
+        if (str != null && !str.isEmpty()){
+            switch (str){
+                case "ID":
+                    return "id";
+                case "交货单号":
+                    return "VBELN";
+                case "行项目号":
+                    return "POSNR";
+                case "产品编码":
+                    return "MATNR";
+                case "客户料号":
+                    return "KDMAT";
+                case "客户物料描述":
+                    return "POSTX";
+                case "有效日期":
+                    return "CHARG";
+                case "数量":
+                    return "LFIMG";
+                case "单位":
+                    return "MEINS";
+                case "仓位":
+                    return "LGOBE";
+                case "订单号码":
+                    return "BSTKD";
+                case "未交量":
+                    return "WJSL";
+                default:
+                    return "";
+            }
+        }else {
+            return "";
+        }
+    }
+
+
 }
