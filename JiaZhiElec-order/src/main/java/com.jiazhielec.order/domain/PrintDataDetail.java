@@ -84,6 +84,12 @@ public class PrintDataDetail extends BaseEntity
      */
     private Date effectiveDate;
 
+    /**
+     * 单号
+     * @return
+     */
+    private String printNumber;
+
     public Integer getId() {
         return id;
     }
@@ -229,5 +235,13 @@ public class PrintDataDetail extends BaseEntity
 
     public void setQrcode(String qrcode) {
         this.qrcode = qrcode;
+    }
+
+    public String getPrintNumber() {
+        return printNumber;
+    }
+
+    public void setPrintNumber(String printNumber) {
+        this.printNumber = printNumber;
     }
 }

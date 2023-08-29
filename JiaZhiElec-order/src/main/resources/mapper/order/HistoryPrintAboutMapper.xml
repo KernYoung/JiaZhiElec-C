@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiazhielec.order.mapper.HistoryPrintAboutMapper">
+    <resultMap type="PrintData" id="PrintDataResult">
+        <id     property="id"        column="id"       />
+        <result property="key"      column="DATE_KEY"     />
+        <result property="value"      column="SEQ_VALUE"     />
+    </resultMap>
+</mapper>

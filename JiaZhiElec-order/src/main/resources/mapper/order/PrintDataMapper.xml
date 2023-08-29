@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiazhielec.order.mapper.PrintDataMapper">
+    <resultMap type="PrintData" id="PrintDataResult">
+        <id     property="id"        column="id"       />
+        <result property="vbeln"      column="VBELN"     />
+        <result property="werks"      column="WERKS"     />
+        <result property="kunnr"        column="KUNNR"       />
+        <result property="name1"        column="NAME1"        />
+        <result property="deliveryDate"      column="DELIVERYDATE"     />
+        <result property="printDate"    column="PRINTDATE"   />
+        <result property="template"      column="TEMPLATE"     />
+        <result property="printNumber"    column="PRINTNUMBER"   />
+    </resultMap>
+
+</mapper>

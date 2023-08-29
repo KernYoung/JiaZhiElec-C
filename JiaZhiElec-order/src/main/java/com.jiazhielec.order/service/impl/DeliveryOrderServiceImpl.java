@@ -89,7 +89,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
         List<PrintData> printDataList = new ArrayList<>();
         for (DeliveryOrder item : list){
             printData = new PrintData();
-            printData.setNAME1(item.getNAME1());
+            printData.setName1(item.getNAME1());
             printData.setDeliveryDate(new Date());
             printData.setPrintNumber("test0001");
 
@@ -104,14 +104,14 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
             for (DeliveryOrderDetail itemDetail : item.getDeliveryOrderDetailList()){
                 printDataDetail = new PrintDataDetail();
                 printDataDetail.setId(sortId);
-                printDataDetail.setBSTKD(itemDetail.getBSTKD());
-                printDataDetail.setPOSNR(itemDetail.getPOSNR());
-                printDataDetail.setKDMAT(itemDetail.getKDMAT());
-                printDataDetail.setLFIMG(itemDetail.getLFIMG());
-                printDataDetail.setMEINS("ST".equals(itemDetail.getMEINS()) ? "PCS" : itemDetail.getMEINS());
+                printDataDetail.setBstkd(itemDetail.getBSTKD());
+                printDataDetail.setPosnr(itemDetail.getPOSNR());
+                printDataDetail.setKdmat(itemDetail.getKDMAT());
+                printDataDetail.setLfimg(itemDetail.getLFIMG());
+                printDataDetail.setMeins("ST".equals(itemDetail.getMEINS()) ? "PCS" : itemDetail.getMEINS());
 
-                codeQC = codeWork + "_" + sdf.format(printData.getDeliveryDate()) + "_" + printDataDetail.getBSTKD() + "_" + printDataDetail.getPOSNR() + "_" +
-                        printDataDetail.getKDMAT() + "_" + printDataDetail.getMEINS();
+                codeQC = codeWork + "_" + sdf.format(printData.getDeliveryDate()) + "_" + printDataDetail.getBstkd() + "_" + printDataDetail.getPosnr() + "_" +
+                        printDataDetail.getKdmat() + "_" + printDataDetail.getMeins();
 
                 printDataDetail.setQrcode(codeQC);
                 printDataDetails.add(printDataDetail);
