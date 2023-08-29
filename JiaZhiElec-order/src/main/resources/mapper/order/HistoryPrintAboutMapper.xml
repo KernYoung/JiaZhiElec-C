@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiazhielec.order.mapper.HistoryPrintAboutMapper">
+    <resultMap type="PrintData" id="PrintDataResult">
+        <id     property="id"        column="id"       />
+        <result property="key"      column="DATE_KEY"     />
+        <result property="value"      column="SEQ_VALUE"     />
+    </resultMap>
+
+    <insert id="insertIntoDataBase" parameterType="PrintData" useGeneratedKeys="true" keyProperty="id">
+        insert into A8X_PRINT_SEQ(
+        <if test="id != null and id != 0">id,</if>
+        <if test="key != null and key != ''">DATE_KEY,</if>
+        <if test="value != null and value != ''">SEQ_VALUE,</if>
+        )values(
+        <if test="id != null and id != 0">#{id},</if>
+        <if test="key != null and key != ''">#{DATE_KEY},</if>
+        <if test="value != null and value != ''">#{SEQ_VALUE},</if>
+        )
+    </insert>
+</mapper>

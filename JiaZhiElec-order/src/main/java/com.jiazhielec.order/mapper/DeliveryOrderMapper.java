@@ -2,6 +2,7 @@ package com.jiazhielec.order.mapper;
 
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public interface DeliveryOrderMapper
     /**
      * 查询出货单带明细数据
      *
-     * @param vbeln 出货单号
+     * @param vbelns 出货单号
      * @return 出货单信息明细集合
      */
-    List<DeliveryOrder> selectDeliveryOrderListWithDetail(String[] vbeln, String dataCollation);
+    List<DeliveryOrder> selectDeliveryOrderListWithDetail(@Param("vbelns")String[] vbelns, @Param("dataCollation")String dataCollation);
 }
