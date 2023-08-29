@@ -2,7 +2,10 @@ package com.jiazhielec.order.domain;
 
 
 
+import com.jiazhielec.common.core.domain.BaseEntity;
+
 import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
@@ -10,48 +13,76 @@ import java.math.BigDecimal;
  * 
  * @author Kern
  */
-public class PrintDataDetail
+public class PrintDataDetail extends BaseEntity
 {
 
     /** ID */
     private Integer id;
 
     /**订单号码  */
-    private String BSTKD;
+    private String bstkd;
 
     /**行项目号  */
-    private Integer POSNR;
+    private Integer posnr;
 
 //    /**交货单号  */
-//    private String subVBELN;
+    private String subVBELN;
 
     /**客户料号  */
-    private String KDMAT;
+    private String kdmat;
 
     /**数量  */
-    private BigDecimal LFIMG;
+    private BigDecimal lfimg;
 
     /**单位  */
-    private String MEINS;
+    private String meins;
 
     /**二维码  */
     private String qrcode;
 
-//    /**产品编码  */
-//    private String MATNR;
+    /**产品编码  */
+    private String matnr;
 
-//    /**客户物料描述  */
-//    private String POSTX;
+    /**客户物料描述  */
+    private String postx;
 
-//    /**有效日期  */
-//    private String CHARG;
+    /**有效日期  */
+    private String charg;
 
-//    /**仓位  */
-//    private String LGOBE;
-//
-//    /**未交量  */
-//    private BigDecimal WJSL;
+    /**仓位  */
+    private String lgobe;
 
+    /**未交量  */
+    private BigDecimal wjsl;
+
+    /**
+     *
+     * @return
+     */
+    private String name;
+
+    /**
+     *
+     * @return
+     */
+    private Integer item;
+
+    /**
+     * 备注
+     * @return
+     */
+    private String remark;
+
+    /**
+     *箱数
+     */
+    private Integer cartons;
+
+    /**
+     * 有效日期
+     * @return
+     */
+    private Date effectiveDate;
 
     public Integer getId() {
         return id;
@@ -61,44 +92,135 @@ public class PrintDataDetail
         this.id = id;
     }
 
-    public String getBSTKD() {
-        return BSTKD;
+
+    public String getBstkd() {
+        return bstkd;
     }
 
-    public void setBSTKD(String BSTKD) {
-        this.BSTKD = BSTKD;
+    public void setBstkd(String bstkd) {
+        this.bstkd = bstkd;
     }
 
-    public Integer getPOSNR() {
-        return POSNR;
+    public Integer getPosnr() {
+        return posnr;
     }
 
-    public void setPOSNR(Integer POSNR) {
-        this.POSNR = POSNR;
+    public void setPosnr(Integer posnr) {
+        this.posnr = posnr;
     }
 
-    public String getKDMAT() {
-        return KDMAT;
+    public String getSubVBELN() {
+        return subVBELN;
     }
 
-    public void setKDMAT(String KDMAT) {
-        this.KDMAT = KDMAT;
+    public void setSubVBELN(String subVBELN) {
+        this.subVBELN = subVBELN;
     }
 
-    public BigDecimal getLFIMG() {
-        return LFIMG;
+    public String getKdmat() {
+        return kdmat;
     }
 
-    public void setLFIMG(BigDecimal LFIMG) {
-        this.LFIMG = LFIMG;
+    public void setKdmat(String kdmat) {
+        this.kdmat = kdmat;
     }
 
-    public String getMEINS() {
-        return MEINS;
+    public BigDecimal getLfimg() {
+        return lfimg;
     }
 
-    public void setMEINS(String MEINS) {
-        this.MEINS = MEINS;
+    public void setLfimg(BigDecimal lfimg) {
+        this.lfimg = lfimg;
+    }
+
+    public String getMeins() {
+        return meins;
+    }
+
+    public void setMeins(String meins) {
+        this.meins = meins;
+    }
+
+    public String getMatnr() {
+        return matnr;
+    }
+
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+    }
+
+    public String getPostx() {
+        return postx;
+    }
+
+    public void setPostx(String postx) {
+        this.postx = postx;
+    }
+
+    public String getCharg() {
+        return charg;
+    }
+
+    public void setCharg(String charg) {
+        this.charg = charg;
+    }
+
+    public String getLgobe() {
+        return lgobe;
+    }
+
+    public void setLgobe(String lgobe) {
+        this.lgobe = lgobe;
+    }
+
+    public BigDecimal getWjsl() {
+        return wjsl;
+    }
+
+    public void setWjsl(BigDecimal wjsl) {
+        this.wjsl = wjsl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getItem() {
+        return item;
+    }
+
+    public void setItem(Integer item) {
+        this.item = item;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getCartons() {
+        return cartons;
+    }
+
+    public void setCartons(Integer cartons) {
+        this.cartons = cartons;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     public String getQrcode() {
