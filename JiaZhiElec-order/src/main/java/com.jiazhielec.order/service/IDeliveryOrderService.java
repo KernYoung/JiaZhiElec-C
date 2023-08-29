@@ -45,4 +45,6 @@ public interface IDeliveryOrderService
      * @return 打印数据集合
      */
     List<PrintData> printDataConverter(List<DeliveryOrder> list);
+
+    int storePrintDataIntoDatabase(String[] vbelNs, Long templateId,PrintData params);
 }

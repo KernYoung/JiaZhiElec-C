@@ -1,11 +1,11 @@
 package com.jiazhielec.order.service;
 
 import com.jiazhielec.order.domain.PrintData;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+
 /**
  * @author djj-01
  */
-public interface PrintDataService {
+public interface IPrintDataService {
     /**
      * 存储数据
      */

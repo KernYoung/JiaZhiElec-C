@@ -2,10 +2,10 @@ package com.jiazhielec.order.service.impl;
 
 import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.mapper.PrintDataMapper;
-import com.jiazhielec.order.service.PrintDataService;
+import com.jiazhielec.order.service.IPrintDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PrintDataServiceImpl implements PrintDataService {
+public class IPrintDataServiceImpl implements IPrintDataService {
     @Autowired
     private PrintDataMapper printDataMapper;
     @Override

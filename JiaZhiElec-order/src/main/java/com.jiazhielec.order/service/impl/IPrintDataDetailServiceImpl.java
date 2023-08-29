@@ -2,11 +2,10 @@ package com.jiazhielec.order.service.impl;
 
 import com.jiazhielec.order.domain.PrintDataDetail;
 import com.jiazhielec.order.mapper.PrintDataDetailMapper;
-import com.jiazhielec.order.service.PrintDataDetailService;
-import org.checkerframework.checker.units.qual.A;
+import com.jiazhielec.order.service.IPrintDataDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PrintDataDetailServiceImpl implements PrintDataDetailService {
+public class IPrintDataDetailServiceImpl implements IPrintDataDetailService {
     @Autowired
     private PrintDataDetailMapper printDataDetailMapper;
     @Override

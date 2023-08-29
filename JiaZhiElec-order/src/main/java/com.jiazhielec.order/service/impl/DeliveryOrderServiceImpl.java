@@ -9,11 +9,11 @@ import java.util.List;
 import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.common.annotation.DataSource;
 import com.jiazhielec.common.enums.DataSourceType;
-import com.jiazhielec.order.domain.DeliveryOrder;
-import com.jiazhielec.order.domain.DeliveryOrderDetail;
-import com.jiazhielec.order.domain.PrintData;
-import com.jiazhielec.order.domain.PrintDataDetail;
+import com.jiazhielec.order.domain.*;
 import com.jiazhielec.order.mapper.DeliveryOrderMapper;
+import com.jiazhielec.order.mapper.HistoryPrintAboutMapper;
+import com.jiazhielec.order.mapper.PrintDataDetailMapper;
+import com.jiazhielec.order.mapper.PrintDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jiazhielec.order.service.IDeliveryOrderService;
@@ -28,6 +28,13 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
 {
     @Autowired
     private DeliveryOrderMapper deliveryOrderMapper;
+
+    @Autowired
+    private PrintDataMapper printDataMapper;
+    @Autowired
+    private PrintDataDetailMapper printDataDetailMapper;
+    @Autowired
+    private HistoryPrintAboutMapper historyPrintAboutMapper;
 
     /**
      * 查询交货单数据
@@ -120,6 +127,20 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
             printDataList.add(printData);
         }
         return printDataList;
+    }
+
+    @Override
+    public int storePrintDataIntoDatabase(String[] vbelNs, Long templateId,PrintData params) {
+        PrintData printData=new PrintData();
+        PrintDataDetail printDataDetail=new PrintDataDetail();
+        HistoryPrintAbout historyPrintAbout=new HistoryPrintAbout();
+
+
+
+        printDataMapper.insertIntoDataBase(printData);
+        printDataDetailMapper.insertIntoDataBase(printDataDetail);
+        historyPrintAboutMapper.insertIntoDataBase(historyPrintAbout);
+        return 0;
     }
 
 }

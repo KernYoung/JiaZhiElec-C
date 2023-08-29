@@ -5,6 +5,6 @@ import com.jiazhielec.order.domain.PrintDataDetail;
 /**
  * @author djj-01
  */
-public interface PrintDataDetailService {
+public interface IPrintDataDetailService {
     public int insertIntoDataBase(PrintDataDetail data);
 }
