@@ -247,7 +247,7 @@ export default {
       // 排序规则
       openSort: false,
       fieldList: [{name:'ID'},{name:'交货单号'},{name:'行项目号'},{name:'产品编码'},{name:'客户料号'},{name:'客户物料描述'},{name:'有效日期'},{name:'数量'}
-      ,{name:'单位'},{name:'仓位'},{name:'订单号码'},{name:'未交量'}],
+      ,{name:'单位'},{name:'仓位'},{name:'订单号码'},{name:'未交量'},{name:'箱数'},{name:'序号'}],
       sortForm: {
         status: '无',
       },

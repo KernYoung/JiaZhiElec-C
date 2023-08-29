@@ -122,29 +122,49 @@
 <!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
 <!--    </el-row>-->
 
-    <el-table v-loading="loading" :data="deliveryList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="deliveryList" @selection-change="handleSelectionChange" @row-click="getDetailList">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="交货日期" align="center" prop="deliveryDate" />
-
-<!--      <el-table-column label="交货单号" align="center" prop="vbeln" >-->
-<!--        <template slot-scope="scope">-->
-<!--          <div @click="getDetailList(scope.row)">{{ scope.row.vbeln }}</div>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-
-      <el-table-column label="交货单号" align="center" prop="vbeln" @click="getDetailList(scope.row)" />
-
-
-      <el-table-column label="公司代码" align="center" prop="werks" />
-      <el-table-column label="客户代码" align="center" prop="kunnr" />
-      <el-table-column label="客户名称" align="center" prop="name1"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" />
-<!--      <el-table-column label="创建时间" align="center" prop="createTime" width="180">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="操作" width="200px" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="交货日期" align="center" prop="deliveryDate">
+        <template slot-scope="scope">
+          <el-date-picker clearable
+            v-model="scope.row.deliveryDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择交货日期" @change="handleInput(scope.row)">
+          </el-date-picker>
+        </template>
+      </el-table-column>
+      <el-table-column label="交货单号" align="center" prop="vbeln">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.vbeln" clearable placeholder="交货单号" @input="handleInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="公司代码" align="center" prop="werks" >
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.werks" clearable placeholder="公司代码" @input="handleInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="客户代码" align="center" prop="kunnr" >
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.kunnr" clearable placeholder="客户代码" @input="handleInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="客户名称" align="center" prop="name1">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.name1" clearable placeholder="客户名称" @input="handleInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="createTime">
+        <template slot-scope="scope">
+          <el-date-picker clearable
+            v-model="scope.row.createTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择创建时间" @change="handleInput(scope.row)">
+          </el-date-picker>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="120px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -173,27 +193,93 @@
 
     <p style="">明细</p>
 
-    <el-table v-loading="loading" :data="deliveryDetailList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="交货单号" align="center" prop="subVBELN" />
-      <el-table-column label="行项目号" align="center" prop="posnr" />
-      <el-table-column label="产品编码" align="center" prop="matnr" />
-      <el-table-column label="客户料号" align="center" prop="kdmat" />
-      <el-table-column label="客户物料描述" align="center" prop="postx"/>
-      <el-table-column label="有效日期" align="center" prop="charg" width="180">
+    <el-table v-loading="loading" :data="deliveryDetailList">
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
+      <el-table-column label="交货单号" align="center" prop="subVBELN">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.subVBELN" clearable placeholder="交货单号" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="行项目号" align="center" prop="posnr">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.posnr" clearable placeholder="行项目号" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="产品编码" align="center" prop="matnr">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.matnr" clearable placeholder="产品编码" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="客户料号" align="center" prop="kdmat">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.kdmat" clearable placeholder="客户料号" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="客户物料描述" align="center" prop="postx">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.postx" clearable placeholder="客户物料描述" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="有效日期" align="center" prop="effectiveDate" width="180">
+        <template slot-scope="scope">
+          <el-date-picker clearable
+            v-model="scope.row.effectiveDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择有效日期" @change="handleItemInput(scope.row)">
+          </el-date-picker>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column label="有效日期" align="center" prop="charg" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
+      </el-table-column> -->
+      <el-table-column label="数量" align="center" prop="lfimg">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.lfimg" clearable placeholder="数量" @input="handleItemInput(scope.row)" />
+        </template>
       </el-table-column>
-      <el-table-column label="数量" align="center" prop="lfimg"/>
-      <el-table-column label="单位" align="center" prop="meins"/>
-      <el-table-column label="仓位" align="center" prop="lgobe"/>
-      <el-table-column label="订单号码" align="center" prop="bstkd"/>
-      <el-table-column label="未交量" align="center" prop="wjsl"/>
-<!--      <el-table-column label="箱数" align="center" prop="name1"/>-->
-<!--      <el-table-column label="备注" align="center" prop="name1"/>-->
-<!--      <el-table-column label="品名" align="center" prop="name1"/>-->
-<!--      <el-table-column label="序号" align="center" prop="name1"/>-->
+      <el-table-column label="单位" align="center" prop="meins">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.meins" clearable placeholder="单位" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="仓位" align="center" prop="lgobe">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.lgobe" clearable placeholder="仓位" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="订单号码" align="center" prop="bstkd">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.bstkd" clearable placeholder="订单号码" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+      <el-table-column label="未交量" align="center" prop="wjsl">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.wjsl" clearable placeholder="未交量" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+     <el-table-column label="箱数" align="center" prop="cartons">
+        <template slot-scope="scope">
+          <el-input v-model.number="scope.row.cartons" clearable placeholder="箱数" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+     <el-table-column label="备注" align="center" prop="charg">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.charg" clearable placeholder="备注" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+     <el-table-column label="品名" align="center" prop="name">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.name" clearable placeholder="品名" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+     <el-table-column label="序号" align="center" prop="item">
+        <template slot-scope="scope">
+          <el-input v-model.number="scope.row.item" clearable placeholder="序号" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 添加或修改岗位对话框 -->
@@ -301,6 +387,7 @@ export default {
       template: null,
       designInfo: '',
       vbelns: null,
+      allData: null
     };
   },
   created() {
@@ -315,22 +402,32 @@ export default {
         this.deliveryList = response.rows;
         this.total = response.total;
         this.loading = false;
+        this.allData = response.rows
+        this.allData.map(k=>{
+          k.children = []
+        })
+        this.getDetailList(response.rows[0])
       });
     },
     /** 查询出货单明细列表 */
     getDetailList(row) {
-      this.loading = true;
-      // debugger;
-      this.queryParams.subVBELN = row.vbeln;
-      // console.info("subVBELN: " + row.vbeln);
-      // console.info("KDMAT: " + this.queryParams.KDMAT);
-      // console.info("MATNR: " + this.queryParams.MATNR);
-      listDeliveryDetail(this.queryParams).then(response => {
-        this.deliveryDetailList = new Array();
-        this.deliveryDetailList = response.rows;
-        // this.total = response.total;
-        this.loading = false;
-      });
+      this.allData.map((k,index)=>{
+        if(k.vbeln == row.vbeln){
+          if(k.children.length>0){
+            this.deliveryDetailList = this.allData[index].children
+          }else{
+            this.loading = true;
+            this.queryParams.subVBELN = row.vbeln;
+            listDeliveryDetail(this.queryParams).then(response => {
+              this.deliveryDetailList = new Array();
+              this.deliveryDetailList = response.rows;
+              this.allData[index].children = response.rows
+              this.loading = false;
+              // console.log(this.allData)
+            });
+          }
+        }
+      })
     },
     // 取消按钮
     cancel() {
@@ -376,6 +473,12 @@ export default {
       this.vbelns = selection.map(item => item.vbeln)
       this.single = selection.length!=1
       this.multiple = !selection.length
+      if(selection.length>0){
+        this.getDetailList(selection[selection.length-1])
+      }else{
+        // this.getDetailList(this.deliveryList[0])
+        this.deliveryDetailList = []
+      }
     },
     /** 新增按钮操作 */
     // handleAdd() {
@@ -586,10 +689,17 @@ export default {
       let [that, printData] = [this, []]
       // console.log(that.vbelns)
       if(that.queryParams.templateName == undefined ||that.queryParams.templateName == ''){
-        this.$message.error('请选择打印模版')
+        that.$message.error('请选择打印模版')
       }else if(that.vbelns.length == 0){
-        this.$message.error('请选择出货单')
+        that.$message.error('请选择出货单')
       }else{
+        let vbelnList = []
+        that.allData.map(k=>{
+          if(that.vbelns.indexOf(k.vbeln)>-1){
+            vbelnList.push(k)
+          }
+        })
+        console.log(vbelnList)
         deliveryPrint(that.vbelns.join(',')+'/'+that.queryParams.templateName).then(response => {
           if(response.code == 200){
             printData = response.rows
@@ -633,12 +743,30 @@ export default {
               console.log('interface')
               console.log(data)
             }, 'IPv4', 'eth1')
-            console.log(printData)
+            // console.log(printData)
             that.$refs.preView.show(hiprintTemplate, printData)
           }
         });
       }
     },
+
+    // 修改表格，缓存本地
+    handleInput(val){
+      this.allData.map(k=>{
+        if(val.vbeln == k.vbeln){
+          k = val
+        }
+      })
+    },
+    handleItemInput(val){
+      this.allData.map(k=>{
+        k.children.map(m=>{
+          if(val.subVBELN == m.subVBELN){
+            m = val
+          }
+        })
+      })
+    }
   }
 };
 </script>
