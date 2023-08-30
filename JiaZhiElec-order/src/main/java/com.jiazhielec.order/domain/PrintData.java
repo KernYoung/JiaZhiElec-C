@@ -37,7 +37,11 @@ public class PrintData extends BaseEntity
     /**
      * 打印日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date printDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
 
     /**
      * 模板号
@@ -128,5 +132,15 @@ public class PrintData extends BaseEntity
 
     public void setTable(List<PrintDataDetail> table) {
         this.table = table;
+    }
+
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -1,22 +1,26 @@
 package com.jiazhielec.order.service.impl;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.common.annotation.DataSource;
 import com.jiazhielec.common.enums.DataSourceType;
+import com.jiazhielec.common.utils.DateUtils;
+import com.jiazhielec.common.utils.StringUtils;
 import com.jiazhielec.order.domain.*;
 import com.jiazhielec.order.mapper.DeliveryOrderMapper;
 import com.jiazhielec.order.mapper.HistoryPrintAboutMapper;
 import com.jiazhielec.order.mapper.PrintDataDetailMapper;
 import com.jiazhielec.order.mapper.PrintDataMapper;
+import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jiazhielec.order.service.IDeliveryOrderService;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.unit.DataUnit;
 
 /**
  * 出货单管理 服务实现
@@ -130,17 +134,54 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
     }
 
     @Override
-    public int storePrintDataIntoDatabase(String[] vbelNs, Long templateId,PrintData params) {
-        PrintData printData=new PrintData();
-        PrintDataDetail printDataDetail=new PrintDataDetail();
-        HistoryPrintAbout historyPrintAbout=new HistoryPrintAbout();
+    @DataSource(DataSourceType.SLAVE)
+    @Transactional
+    public int storePrintDataIntoDatabase(List<PrintData> printDataList,Long templateId) {
 
+        for (PrintData printData :printDataList){
+            printData.setCreateTime(new Date());
+            printData.setId(null);
+            //明细列表
+            String printNumber = getSeq("");
+            printData.setPrintNumber(printNumber);
+            printData.setTemplate(String.valueOf(templateId));
+            List<PrintDataDetail> child= printData.getTable();
+            if (child!=null||child.size()>0){
+                for (PrintDataDetail printDataDetail :child){
+                    printDataDetail.setPrintNumber(printNumber);
+                    printDataDetail.setCreateTime(new Date());
+                    printDataDetail.setId(null);
+                    printDataDetailMapper.insertIntoDataBase(printDataDetail);
+                }
+            }
+            printDataMapper.insertIntoDataBase(printData);
+        }
 
-
-        printDataMapper.insertIntoDataBase(printData);
-        printDataDetailMapper.insertIntoDataBase(printDataDetail);
-        historyPrintAboutMapper.insertIntoDataBase(historyPrintAbout);
         return 0;
+    }
+
+    private  String getSeq(String prefix) {
+        String key = DateUtils.dateTimeNow("yyMMdd");
+
+        HistoryPrintAbout historyPrintAbout=historyPrintAboutMapper.selectHistoryPrintBykey(key);
+
+        if(historyPrintAbout==null){
+            historyPrintAbout = new HistoryPrintAbout();
+            historyPrintAbout.setKey(key);
+            historyPrintAbout.setValue(1);
+            historyPrintAboutMapper.insertIntoDataBase(historyPrintAbout);
+            return prefix+key+"001";
+        }else {
+            Integer value = historyPrintAbout.getValue();
+            String s = String.valueOf(value + 1);
+            while (s.length() < 3)
+            {
+                s = "0" + s;
+            }
+            historyPrintAbout.setValue(value + 1);
+            historyPrintAboutMapper.updateIntoDataBase(historyPrintAbout);
+            return prefix+key+s;
+        }
     }
 
 }

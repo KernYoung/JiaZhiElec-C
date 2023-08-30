@@ -4,7 +4,9 @@ import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.mapper.PrintDataMapper;
 import com.jiazhielec.order.service.IPrintDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class IPrintDataServiceImpl implements IPrintDataService {
     @Autowired
     private PrintDataMapper printDataMapper;

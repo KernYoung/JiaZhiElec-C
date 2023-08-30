@@ -1,6 +1,7 @@
 package com.jiazhielec.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.order.domain.DeliveryOrder;
@@ -46,5 +47,5 @@ public interface IDeliveryOrderService
      */
     List<PrintData> printDataConverter(List<DeliveryOrder> list);
 
-    int storePrintDataIntoDatabase(String[] vbelNs, Long templateId,PrintData params);
+    int storePrintDataIntoDatabase(List<PrintData> printDataList,Long templateId);
 }
