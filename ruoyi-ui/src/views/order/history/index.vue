@@ -33,24 +33,6 @@
           @keyup.enter.native="getDetailList"
         />
       </el-form-item>
-<!--      <el-form-item label="打印模版" prop="printTemplate">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.printTemplate"-->
-<!--          placeholder="请选择打印模版"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-      <!-- <el-form-item label="打印模版" prop="printTemplate">
-        <el-select v-model="queryParams.printTemplate" placeholder="打印模版" clearable>
-          <el-option
-            v-for="dict in dict.type.sys_normal_disable"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item> -->
       <el-form-item label="打印模版" prop="templateName">
         <el-select v-model="queryParams.templateName" placeholder="打印模版" clearable @change="getInfo">
           <el-option
@@ -64,77 +46,12 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:post:export']"
-        >导出Excel</el-button>
         <el-button type="primary" icon="el-icon-download" size="mini" @click="printView">打印</el-button>
-        <el-button type="warning" size="mini" @click="printHistory" v-hasPermi="['order:delivery:history']">打印历史</el-button>
       </el-form-item>
     </el-form>
 
-<!--    <el-row :gutter="10" class="mb8">-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['system:post:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['system:post:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['system:post:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['system:post:export']"-->
-<!--        >导出Excel</el-button>-->
-<!--      </el-col>-->
-<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
-<!--    </el-row>-->
-
     <el-table v-loading="loading" :data="deliveryList" @selection-change="handleSelectionChange" @row-click="getDetailList">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="交货日期" align="center" prop="deliveryDate">
-        <template slot-scope="scope">
-          <el-date-picker clearable
-            v-model="scope.row.deliveryDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择交货日期" @change="handleInput(scope.row)">
-          </el-date-picker>
-        </template>
-      </el-table-column>
+      <el-table-column label="交货日期" align="center" prop="deliveryDate" />
       <el-table-column label="交货单号" align="center" prop="vbeln">
         <template slot-scope="scope">
           <el-input v-model="scope.row.vbeln" clearable placeholder="交货单号" @input="handleInput(scope.row)" />
@@ -165,23 +82,6 @@
           </el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="120px" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-search"
-            @click="getDetailList(scope.row)"
-          >查看明细</el-button>
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['system:post:remove']"-->
-<!--          >删除</el-button>-->
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination
@@ -193,9 +93,7 @@
     />
 
     <p style="">明细</p>
-
     <el-table v-loading="loading" :data="deliveryDetailList">
-      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <el-table-column label="交货单号" align="center" prop="subVBELN">
         <template slot-scope="scope">
           <el-input v-model="scope.row.subVBELN" clearable placeholder="交货单号" @input="handleItemInput(scope.row)" />
@@ -231,11 +129,6 @@
           </el-date-picker>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="有效日期" align="center" prop="charg" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
-        </template>
-      </el-table-column> -->
       <el-table-column label="数量" align="center" prop="lfimg">
         <template slot-scope="scope">
           <el-input v-model="scope.row.lfimg" clearable placeholder="数量" @input="handleItemInput(scope.row)" />
@@ -282,37 +175,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <!-- 添加或修改岗位对话框 -->
-<!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
-<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
-<!--        <el-form-item label="岗位名称" prop="postName">-->
-<!--          <el-input v-model="form.postName" placeholder="请输入岗位名称" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="岗位编码" prop="postCode">-->
-<!--          <el-input v-model="form.postCode" placeholder="请输入编码名称" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="岗位顺序" prop="postSort">-->
-<!--          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="岗位状态" prop="status">-->
-<!--          <el-radio-group v-model="form.status">-->
-<!--            <el-radio-->
-<!--              v-for="dict in dict.type.sys_normal_disable"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.value"-->
-<!--            >{{dict.label}}</el-radio>-->
-<!--          </el-radio-group>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="备注" prop="remark">-->
-<!--          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <div slot="footer" class="dialog-footer">-->
-<!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
-<!--        <el-button @click="cancel">取 消</el-button>-->
-<!--      </div>-->
-<!--    </el-dialog>-->
 
     <!-- 预览 -->
     <div style="opacity: 0;" id="PrintElementOptionSetting"></div>
@@ -480,58 +342,6 @@ export default {
         // this.getDetailList(this.deliveryList[0])
         this.deliveryDetailList = []
       }
-    },
-    /** 新增按钮操作 */
-    // handleAdd() {
-    //   this.reset();
-    //   this.open = true;
-    //   this.title = "添加岗位";
-    // },
-    /** 修改按钮操作 */
-    // handleUpdate(row) {
-    //   this.reset();
-    //   const postId = row.postId || this.ids
-    //   getPost(postId).then(response => {
-    //     this.form = response.data;
-    //     this.open = true;
-    //     this.title = "修改岗位";
-    //   });
-    // },
-    /** 提交按钮 */
-    // submitForm: function() {
-    //   this.$refs["form"].validate(valid => {
-    //     if (valid) {
-    //       if (this.form.postId != undefined) {
-    //         updatePost(this.form).then(response => {
-    //           this.$modal.msgSuccess("修改成功");
-    //           this.open = false;
-    //           this.getList();
-    //         });
-    //       } else {
-    //         addPost(this.form).then(response => {
-    //           this.$modal.msgSuccess("新增成功");
-    //           this.open = false;
-    //           this.getList();
-    //         });
-    //       }
-    //     }
-    //   });
-    // },
-    /** 删除按钮操作 */
-    // handleDelete(row) {
-    //   const postIds = row.postId || this.ids;
-    //   this.$modal.confirm('是否确认删除岗位编号为"' + postIds + '"的数据项？').then(function() {
-    //     return delPost(postIds);
-    //   }).then(() => {
-    //     this.getList();
-    //     this.$modal.msgSuccess("删除成功");
-    //   }).catch(() => {});
-    // },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('system/post/export', {
-        ...this.queryParams
-      }, `post_${new Date().getTime()}.xlsx`)
     },
 
     // 获取所有列表
@@ -767,11 +577,6 @@ export default {
           }
         })
       })
-    },
-
-    // 打印历史
-    printHistory(){
-      this.$router.push("/order/history/index");
     }
   }
 };

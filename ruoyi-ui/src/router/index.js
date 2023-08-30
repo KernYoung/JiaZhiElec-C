@@ -227,6 +227,20 @@ export const dynamicRoutes = [
       }
     ]
   },
+  {
+    path: '/order/history',
+    component: Layout,
+    hidden: true,
+    permissions: ['order:delivery:history'],
+    children: [
+      {
+        path: 'index/:id(\\d+)',
+        component: () => import('@/views/order/history/index'),
+        name: 'History',
+        meta: { title: '打印历史', activeMenu: '/order/delivery' }
+      }
+    ]
+  },
 ]
 
 // 防止连续点击多次路由报错
