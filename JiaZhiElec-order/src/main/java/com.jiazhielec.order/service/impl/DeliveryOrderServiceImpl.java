@@ -140,6 +140,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
 
         for (PrintData printData :printDataList){
             printData.setCreateTime(new Date());
+            printData.setPrintDate(new Date());
             printData.setId(null);
             //明细列表
             String printNumber = getSeq("");
@@ -151,6 +152,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
                     printDataDetail.setPrintNumber(printNumber);
                     printDataDetail.setCreateTime(new Date());
                     printDataDetail.setId(null);
+                    printDataDetail.setQrcode(printDataDetail.getKdmat());
                     printDataDetailMapper.insertIntoDataBase(printDataDetail);
                 }
             }
@@ -158,6 +160,24 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
         }
 
         return 0;
+    }
+
+    @Override
+    @DataSource(DataSourceType.SLAVE)
+    public List<PrintData> selectPrintDataList(FindPrintLikp findPrintLikp) {
+        return printDataMapper.selectPrintDataList(findPrintLikp);
+    }
+
+    @Override
+    @DataSource(DataSourceType.SLAVE)
+    public List<PrintDataDetail> selectPrintDataDetailList(PrintDataDetail printData) {
+        return printDataDetailMapper.selectPrintDataDetailList( printData);
+    }
+
+    @Override
+    @DataSource(DataSourceType.SLAVE)
+    public List<PrintData> selectPrintDataListByPrintData(PrintData printData) {
+        return  printDataMapper.selectPrintDataListByPrintData(printData);
     }
 
     private  String getSeq(String prefix) {
