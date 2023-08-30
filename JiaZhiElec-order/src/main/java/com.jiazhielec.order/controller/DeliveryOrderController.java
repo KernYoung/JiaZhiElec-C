@@ -109,14 +109,15 @@ public class DeliveryOrderController extends BaseController
     /**
      * 存入打印的数据
      */
-    @PostMapping("/storePrintDataIntoDatabase")
-    public TableDataInfo storePrintDataIntoDatabase(@RequestBody @Valid Map<String,Object> map){
-        deliveryOrderService.storePrintDataIntoDatabase(map);
+    @PostMapping("/storePrintDataIntoDatabase/{templateId}")
+    public TableDataInfo storePrintDataIntoDatabase(@RequestBody List<PrintData>  printDataList,@PathVariable Long templateId){
+
+        deliveryOrderService.storePrintDataIntoDatabase(printDataList,templateId);
 
         // todo 返回形式如下
 //        List<PrintData> printDataList = printDataService.selectHistoryDataAll();
 //        return getDataTable(printDataList);
-        return null;
+        return  getDataTable(printDataList);
     }
 
 }

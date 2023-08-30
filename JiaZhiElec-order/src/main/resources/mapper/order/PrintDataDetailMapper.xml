@@ -23,43 +23,45 @@
         <result property="effectiveDate"   column="EFFECTIVEDATE"   />
     </resultMap>
 
-    <insert id="insertIntoDataBase" parameterType="PrintData" useGeneratedKeys="true" keyProperty="id">
-        insert into A8X_SAP_JZ_PRINT_ORDERDETAIL(
-        <if test="id != null and id != 0">id,</if>
-        <if test="bstkd != null and bstkd != ''">BSTKD,</if>
-        <if test="posnr != null and posnr != ''">POSNR,</if>
-        <if test="subVBELN != null and subVBELN != ''">VBELN,</if>
-        <if test="kdmat != null and kdmat != ''">KDMAT,</if>
-        <if test="lfimg != null and lfimg != ''">LFIMG,</if>
-        <if test="meins != null and meins != ''">MEINS,</if>
-        <if test="matnr != null and matnr != ''">MATNR,</if>
-        <if test="postx != null and postx != ''">POSTX,</if>
-        <if test="charg != null and charg != ''">CHARG,</if>
-        <if test="lgobe != null and lgobe != ''">LGOBE,</if>
-        <if test="wjsl != null and wjsl != ''">WJSL,</if>
-        <if test="name != null and name != ''">NAME,</if>
-        <if test="printNumber != null and printNumber != ''">PRINTNUMBER,</if>
-        <if test="item != null and item != ''">ITEM,</if>
-        <if test="cartons != null and cartons != ''">CARTONS,</if>
-        <if test="effectiveDate != null and effectiveDate != ''">EFFECTIVEDATE,</if>
-        )values(
-        <if test="id != null and id != 0">#{id},</if>
-        <if test="bstkd != null and bstkd != ''">#{BSTKD},</if>
-        <if test="posnr != null and posnr != ''">#{POSNR},</if>
-        <if test="subVBELN != null and subVBELN != ''">#{VBELN},</if>
-        <if test="kdmat != null and kdmat != ''">#{KDMAT},</if>
-        <if test="lfimg != null and lfimg != ''">#{LFIMG},</if>
-        <if test="meins != null and meins != ''">#{MEINS},</if>
-        <if test="matnr != null and matnr != ''">#{MATNR},</if>
-        <if test="postx != null and postx != ''">#{POSTX},</if>
-        <if test="charg != null and charg != ''">#{CHARG},</if>
-        <if test="lgobe != null and lgobe != ''">#{LGOBE},</if>
-        <if test="wjsl != null and wjsl != ''">#{WJSL},</if>
-        <if test="name != null and name != ''">#{NAME},</if>
-        <if test="printNumber != null and printNumber != ''">#{PRINTNUMBER},</if>
-        <if test="item != null and item != ''">#{ITEM},</if>
-        <if test="cartons != null and cartons != ''">#{CARTONS},</if>
-        <if test="effectiveDate != null and effectiveDate != ''">#{EFFECTIVEDATE},</if>
-        )
+    <insert id="insertIntoDataBase" parameterType="PrintDataDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into A8X_SAP_JZ_PRINT_ORDERDETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != 0">id,</if>
+            <if test="bstkd != null and bstkd != ''">BSTKD,</if>
+            <if test="posnr != null and posnr != ''">POSNR,</if>
+            <if test="subVBELN != null and subVBELN != ''">VBELN,</if>
+            <if test="kdmat != null and kdmat != ''">KDMAT,</if>
+            <if test="lfimg != null and lfimg != ''">LFIMG,</if>
+            <if test="meins != null and meins != ''">MEINS,</if>
+            <if test="matnr != null and matnr != ''">MATNR,</if>
+            <if test="postx != null and postx != ''">POSTX,</if>
+            <if test="charg != null and charg != ''">CHARG,</if>
+            <if test="lgobe != null and lgobe != ''">LGOBE,</if>
+            <if test="wjsl != null and wjsl != ''">WJSL,</if>
+            <if test="name != null and name != ''">NAME,</if>
+            <if test="printNumber != null and printNumber != ''">PRINTNUMBER,</if>
+            <if test="item != null and item != ''">ITEM,</if>
+            <if test="cartons != null and cartons != ''">CARTONS,</if>
+            <if test="effectiveDate != null ">EFFECTIVEDATE,</if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != 0">#{id},</if>
+            <if test="bstkd != null and bstkd != ''">#{bstkd},</if>
+            <if test="posnr != null and posnr != ''">#{posnr},</if>
+            <if test="subVBELN != null and subVBELN != ''">#{subVBELN},</if>
+            <if test="kdmat != null and kdmat != ''">#{kdmat},</if>
+            <if test="lfimg != null and lfimg != ''">#{lfimg},</if>
+            <if test="meins != null and meins != ''">#{meins},</if>
+            <if test="matnr != null and matnr != ''">#{matnr},</if>
+            <if test="postx != null and postx != ''">#{postx},</if>
+            <if test="charg != null and charg != ''">#{charg},</if>
+            <if test="lgobe != null and lgobe != ''">#{lgobe},</if>
+            <if test="wjsl != null and wjsl != ''">#{wjsl},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="printNumber != null and printNumber != ''">#{printNumber},</if>
+            <if test="item != null and item != ''">#{item},</if>
+            <if test="cartons != null and cartons != ''">#{cartons},</if>
+            <if test="effectiveDate != null  != ''">#{effectiveDate},</if>
+        </trim>
     </insert>
 </mapper>

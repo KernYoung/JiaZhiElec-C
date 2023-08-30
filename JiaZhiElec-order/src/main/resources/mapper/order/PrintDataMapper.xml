@@ -16,27 +16,29 @@
     </resultMap>
 
     <insert id="insertIntoDataBase" parameterType="PrintData" useGeneratedKeys="true" keyProperty="id">
-        insert into A8X_SAP_JZ_PRINT_LIKP(
-        <if test="id != null and id != 0">id,</if>
-        <if test="vbeln != null and vbeln != ''">VBELN,</if>
-        <if test="werks != null and werks != ''">WERKS,</if>
-        <if test="kunnr != null and kunnr != ''">KUNNR,</if>
-        <if test="name1 != null and name1 != ''">NAME1,</if>
-        <if test="deliveryDate != null and deliveryDate != ''">DELIVERYDATE,</if>
-        <if test="printDate != null and printDate != ''">PRINTDATE,</if>
-        <if test="template != null and template != ''">TEMPLATE,</if>
-        <if test="printNumber != null and printNumber != ''">PRINTNUMBER,</if>
-        )values(
-        <if test="id != null and id != 0">#{id},</if>
-        <if test="vbeln != null and vbeln != ''">#{VBELN},</if>
-        <if test="werks != null and werks != ''">#{WERKS},</if>
-        <if test="kunnr != null and kunnr != ''">#{KUNNR},</if>
-        <if test="name1 != null and name1 != ''">#{NAME1},</if>
-        <if test="deliveryDate != null and deliveryDate != ''">#{DELIVERYDATE},</if>
-        <if test="printDate != null and printDate != ''">#{PRINTDATE},</if>
-        <if test="template != null and template != ''">#{TEMPLATE},</if>
-        <if test="printNumber != null and printNumber != ''">#{PRINTNUMBER},</if>
-        )
+        insert into A8X_SAP_JZ_PRINT_LIKP
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != 0">id,</if>
+            <if test="vbeln != null and vbeln != ''">VBELN,</if>
+            <if test="werks != null and werks != ''">WERKS,</if>
+            <if test="kunnr != null and kunnr != ''">KUNNR,</if>
+            <if test="name1 != null and name1 != ''">NAME1,</if>
+            <if test="deliveryDate != null">DELIVERYDATE,</if>
+            <if test="printDate != null ">PRINTDATE,</if>
+            <if test="template != null and template != ''">TEMPLATE,</if>
+            <if test="printNumber != null and printNumber != ''">PRINTNUMBER,</if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != 0">#{id},</if>
+            <if test="vbeln != null and vbeln != ''">#{vbeln},</if>
+            <if test="werks != null and werks != ''">#{werks},</if>
+            <if test="kunnr != null and kunnr != ''">#{kunnr},</if>
+            <if test="name1 != null and name1 != ''">#{name1},</if>
+            <if test="deliveryDate != null ">#{deliveryDate},</if>
+            <if test="printDate != null ">#{printDate},</if>
+            <if test="template != null and template != ''">#{template},</if>
+            <if test="printNumber != null and printNumber != ''">#{printNumber},</if>
+            </trim>
     </insert>
 
 </mapper>

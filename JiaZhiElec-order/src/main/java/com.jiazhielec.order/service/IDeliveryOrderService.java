@@ -47,5 +47,5 @@ public interface IDeliveryOrderService
      */
     List<PrintData> printDataConverter(List<DeliveryOrder> list);
 
-    int storePrintDataIntoDatabase(Map<String,Object> map);
+    int storePrintDataIntoDatabase(List<PrintData> printDataList,Long templateId);
 }

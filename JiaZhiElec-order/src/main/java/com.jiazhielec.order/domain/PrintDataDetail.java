@@ -2,6 +2,7 @@ package com.jiazhielec.order.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
 import java.math.BigDecimal;
@@ -82,6 +83,7 @@ public class PrintDataDetail extends BaseEntity
      * 有效日期
      * @return
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date effectiveDate;
 
     /**
@@ -244,4 +246,5 @@ public class PrintDataDetail extends BaseEntity
     public void setPrintNumber(String printNumber) {
         this.printNumber = printNumber;
     }
+
 }

@@ -19,6 +19,7 @@ import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jiazhielec.order.service.IDeliveryOrderService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.unit.DataUnit;
 
 /**
@@ -133,54 +134,54 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
     }
 
     @Override
-    public int storePrintDataIntoDatabase(Map<String,Object> map) {
-        HistoryPrintAbout historyPrintAbout=new HistoryPrintAbout();
-        String key= StringUtils.substring(DateUtils.getDate(),2,4)+StringUtils.substring(DateUtils.getDate(),5,7)+StringUtils.substring(DateUtils.getDate(),8,10);
-        historyPrintAbout.setKey(key);
-        List<Map<String,Object>> list= (List<Map<String, Object>>) map.get("map");
-        for (int i=0;i<list.size();i++){
-            PrintData printData=new PrintData();
-            Map<String,Object> map1=list.get(i);
-            printData.setKunnr(map1.get("kunnr").toString());
-            printData.setVbeln(map1.get("vbeln").toString());
-            printData.setWerks(map1.get("werks").toString());
-            printData.setName1(map1.get("name1").toString());
-            printData.setDeliveryDate((Date) map1.get("deliveryDate"));
-            printData.setTemplate(map.get("template").toString());
-            // todo printNumber  后端生成
-            printData.setPrintNumber(map.get("printNumber").toString());
+    @DataSource(DataSourceType.SLAVE)
+    @Transactional
+    public int storePrintDataIntoDatabase(List<PrintData> printDataList,Long templateId) {
+
+        for (PrintData printData :printDataList){
+            printData.setCreateTime(new Date());
+            printData.setId(null);
             //明细列表
-            List<Map<String,Object>> child= (List<Map<String, Object>>) map1.get("children");
-            if (child.size()>0){
-                for (int j=0;j<child.size();j++){
-                    PrintDataDetail printDataDetail=new PrintDataDetail();
-                    Map<String,Object> detail=child.get(i);
-                    printDataDetail.setItem(Integer.parseInt(detail.get("item").toString()));
-                    printDataDetail.setName(detail.get("name").toString());
-                    printDataDetail.setCartons(Integer.parseInt(detail.get("cartons").toString()));
-                    printDataDetail.setLgobe(detail.get("lgobe").toString());
-                    printDataDetail.setCharg(detail.get("charg").toString());
-                    printDataDetail.setPostx(detail.get("postx").toString());
-                    printDataDetail.setMatnr(detail.get("matnr").toString());
-                    printDataDetail.setWjsl(BigDecimal.valueOf(Long.parseLong(detail.get("wjsl").toString())));
-                    printDataDetail.setLfimg(BigDecimal.valueOf(Long.parseLong(detail.get("lfimg").toString())));
-                    printDataDetail.setKdmat(detail.get("kdmat").toString());
-                    printDataDetail.setPosnr(Integer.parseInt(detail.get("posnr").toString()));
-                    printDataDetail.setBstkd(detail.get("bstkd").toString());
-                    printDataDetail.setMeins(detail.get("meins").toString());
-                    printDataDetail.setSubVBELN(detail.get("subVBELN").toString());
-                    printDataDetail.setRemark(detail.get("remark").toString());
-                    printDataDetail.setKdmat(detail.get("kdmat").toString());
+            String printNumber = getSeq("");
+            printData.setPrintNumber(printNumber);
+            printData.setTemplate(String.valueOf(templateId));
+            List<PrintDataDetail> child= printData.getTable();
+            if (child!=null||child.size()>0){
+                for (PrintDataDetail printDataDetail :child){
+                    printDataDetail.setPrintNumber(printNumber);
+                    printDataDetail.setCreateTime(new Date());
+                    printDataDetail.setId(null);
                     printDataDetailMapper.insertIntoDataBase(printDataDetail);
                 }
             }
             printDataMapper.insertIntoDataBase(printData);
         }
-        //todo，查看当日是否有其他打印
-        historyPrintAboutMapper.selectHistoryPrintBykey();
-        historyPrintAbout.setValue(list.size());
-        historyPrintAboutMapper.insertIntoDataBase(historyPrintAbout);
+
         return 0;
+    }
+
+    private  String getSeq(String prefix) {
+        String key = DateUtils.dateTimeNow("yyMMdd");
+
+        HistoryPrintAbout historyPrintAbout=historyPrintAboutMapper.selectHistoryPrintBykey(key);
+
+        if(historyPrintAbout==null){
+            historyPrintAbout = new HistoryPrintAbout();
+            historyPrintAbout.setKey(key);
+            historyPrintAbout.setValue(1);
+            historyPrintAboutMapper.insertIntoDataBase(historyPrintAbout);
+            return prefix+key+"001";
+        }else {
+            Integer value = historyPrintAbout.getValue();
+            String s = String.valueOf(value + 1);
+            while (s.length() < 3)
+            {
+                s = "0" + s;
+            }
+            historyPrintAbout.setValue(value + 1);
+            historyPrintAboutMapper.updateIntoDataBase(historyPrintAbout);
+            return prefix+key+s;
+        }
     }
 
 }
