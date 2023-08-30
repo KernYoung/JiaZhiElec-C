@@ -59,6 +59,15 @@ export function deliveryPrint(id) {
   })
 }
 
+// 获取新的打印数据
+export function deliveryPrintData(id,data) {
+  return request({
+    url: '/order/delivery/storePrintDataIntoDatabase/'+ id,
+    method: 'post',
+    data: data
+  })
+}
+
 // 查询打印模版所有列表
 export function listTemplateAll(query) {
   return request({

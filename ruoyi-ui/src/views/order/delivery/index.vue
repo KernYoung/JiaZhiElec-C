@@ -327,7 +327,7 @@ import printPreview from '../../print/design/preview'
 import fontSize from "../../print/design/font-size.js";
 import scale from "../../print/design/scale.js";
 import { defaultElementTypeProvider, hiprint } from '../../index'
-import { listTemplateAll, getPrintQuery, deliveryPrint } from "@/api/print/template"
+import { listTemplateAll, getPrintQuery, deliveryPrint, deliveryPrintData } from "@/api/print/template"
 
 let hiprintTemplate;
 
@@ -404,7 +404,7 @@ export default {
         this.loading = false;
         this.allData = response.rows
         this.allData.map(k=>{
-          k.children = []
+          k.table = []
         })
         this.getDetailList(response.rows[0])
       });
@@ -413,15 +413,15 @@ export default {
     getDetailList(row) {
       this.allData.map((k,index)=>{
         if(k.vbeln == row.vbeln){
-          if(k.children.length>0){
-            this.deliveryDetailList = this.allData[index].children
+          if(k.table.length>0){
+            this.deliveryDetailList = this.allData[index].table
           }else{
             this.loading = true;
             this.queryParams.subVBELN = row.vbeln;
             listDeliveryDetail(this.queryParams).then(response => {
               this.deliveryDetailList = new Array();
               this.deliveryDetailList = response.rows;
-              this.allData[index].children = response.rows
+              this.allData[index].table = response.rows
               this.loading = false;
               // console.log(this.allData)
             });
@@ -699,8 +699,8 @@ export default {
             vbelnList.push(k)
           }
         })
-        console.log(vbelnList)
-        deliveryPrint(that.vbelns.join(',')+'/'+that.queryParams.templateName).then(response => {
+        // console.log(vbelnList)
+        deliveryPrintData(that.queryParams.templateName, JSON.stringify(vbelnList)).then(response => {
           if(response.code == 200){
             printData = response.rows
             // 测试, 点预览更新拖拽元素
@@ -760,7 +760,7 @@ export default {
     },
     handleItemInput(val){
       this.allData.map(k=>{
-        k.children.map(m=>{
+        k.table.map(m=>{
           if(val.subVBELN == m.subVBELN){
             m = val
           }
