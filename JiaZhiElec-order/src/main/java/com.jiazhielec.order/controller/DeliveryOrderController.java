@@ -1,19 +1,21 @@
 package com.jiazhielec.order.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jiazhielec.common.core.domain.R;
 import com.jiazhielec.common.core.page.TableDataInfo;
 import com.jiazhielec.common.utils.poi.ExcelUtil;
 import com.jiazhielec.order.domain.DeliveryOrder;
 import com.jiazhielec.order.domain.DeliveryOrderDetail;
 import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.domain.PrintTemplate;
-import com.jiazhielec.order.service.IDeliveryOrderService;
-import com.jiazhielec.order.service.IPrintTemplateService;
+import com.jiazhielec.order.service.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +35,7 @@ import com.jiazhielec.common.enums.BusinessType;
 import com.jiazhielec.common.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * 出货单信息
@@ -48,6 +51,9 @@ public class DeliveryOrderController extends BaseController
 
     @Autowired
     private IPrintTemplateService printTemplateService;
+
+    @Autowired
+    private IPrintDataService printDataService;
 
     /**
      * 获取出货单列表
@@ -98,6 +104,19 @@ public class DeliveryOrderController extends BaseController
         List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderListWithDetail(VBELNs, dataCollation);
         List<PrintData> printDataList = deliveryOrderService.printDataConverter(list);
         return getDataTable(printDataList);
+    }
+
+    /**
+     * 存入打印的数据
+     */
+    @PostMapping("/storePrintDataIntoDatabase")
+    public TableDataInfo storePrintDataIntoDatabase(@RequestBody @Valid Map<String,Object> map){
+        deliveryOrderService.storePrintDataIntoDatabase(map);
+
+        // todo 返回形式如下
+//        List<PrintData> printDataList = printDataService.selectHistoryDataAll();
+//        return getDataTable(printDataList);
+        return null;
     }
 
 }
