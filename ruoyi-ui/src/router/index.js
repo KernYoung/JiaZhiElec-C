@@ -228,7 +228,7 @@ export const dynamicRoutes = [
     ]
   },
   {
-    path: '/order/history',
+    path: '/order/history2',
     component: Layout,
     hidden: true,
     permissions: ['order:delivery:history'],

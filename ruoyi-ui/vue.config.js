@@ -36,6 +36,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         target: `http://localhost:8080`,
+        // target: `http://112.80.47.186:9299/`,
         // target: `http://suzhounarwhal.natapp1.cc`,
         changeOrigin: true,
         pathRewrite: {

@@ -771,7 +771,7 @@ export default {
 
     // 打印历史
     printHistory(){
-      this.$router.push("/order/history/index");
+      this.$router.push("/order/history2/index/1");
     }
   }
 };
