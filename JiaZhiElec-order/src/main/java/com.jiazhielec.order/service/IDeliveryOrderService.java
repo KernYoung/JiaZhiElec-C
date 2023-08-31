@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jiazhielec.order.domain.DeliveryOrder;
-import com.jiazhielec.order.domain.DeliveryOrderDetail;
-import com.jiazhielec.order.domain.PrintData;
+import com.jiazhielec.order.domain.*;
 
 /**
  * 部门管理 服务层
@@ -48,4 +46,10 @@ public interface IDeliveryOrderService
     List<PrintData> printDataConverter(List<DeliveryOrder> list);
 
     int storePrintDataIntoDatabase(List<PrintData> printDataList,Long templateId);
+
+    List<PrintData> selectPrintDataList(FindPrintLikp findPrintLikp);
+
+    List<PrintDataDetail> selectPrintDataDetailList(PrintDataDetail printData);
+
+    List<PrintData> selectPrintDataListByPrintData(PrintData printData);
 }

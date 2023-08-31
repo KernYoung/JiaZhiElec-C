@@ -7,10 +7,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jiazhielec.common.core.domain.R;
 import com.jiazhielec.common.core.page.TableDataInfo;
 import com.jiazhielec.common.utils.poi.ExcelUtil;
-import com.jiazhielec.order.domain.DeliveryOrder;
-import com.jiazhielec.order.domain.DeliveryOrderDetail;
-import com.jiazhielec.order.domain.PrintData;
-import com.jiazhielec.order.domain.PrintTemplate;
+import com.jiazhielec.order.domain.*;
 import com.jiazhielec.order.service.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.checkerframework.checker.units.qual.A;
@@ -118,6 +115,34 @@ public class DeliveryOrderController extends BaseController
 //        List<PrintData> printDataList = printDataService.selectHistoryDataAll();
 //        return getDataTable(printDataList);
         return  getDataTable(printDataList);
+    }
+
+    @GetMapping("/listPrintData")
+    public TableDataInfo listPrintData(FindPrintLikp findPrintLikp)
+    {
+        startPage();
+        List<PrintData> list = deliveryOrderService.selectPrintDataList(findPrintLikp);
+        return getDataTable(list);
+    }
+
+    @GetMapping("/listPrintDataDetail")
+    public TableDataInfo listPrintDataDetail(PrintDataDetail printDataDetail)
+    {
+        List<PrintDataDetail> list = deliveryOrderService.selectPrintDataDetailList(printDataDetail);
+        return getDataTable(list);
+    }
+
+    @GetMapping("/listPrintDataPrint")
+    public TableDataInfo listPrintDataPrint(PrintData PrintData)
+    {
+        List<PrintData> list = deliveryOrderService.selectPrintDataListByPrintData(PrintData);
+        for (PrintData printData:list) {
+            PrintDataDetail printDataDetail = new PrintDataDetail();
+            printDataDetail.setPrintNumber(printData.getPrintNumber());
+            List<PrintDataDetail> lists = deliveryOrderService.selectPrintDataDetailList(printDataDetail);
+            printData.setTable(lists);
+        }
+        return getDataTable(list);
     }
 
 }

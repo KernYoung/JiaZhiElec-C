@@ -15,6 +15,18 @@
         <result property="printNumber"    column="PRINTNUMBER"   />
     </resultMap>
 
+    <resultMap type="FindPrintLikp" id="FindPrintLikpResult">
+        <id     property="start"        column="start"       />
+        <result property="end"      column="end"     />
+        <result property="delDateStart"      column="delDateStart"     />
+        <result property="delDateEnd"        column="delDateEnd"       />
+        <result property="printNo"        column="printNo"       />
+        <result property="vbeln"        column="vbeln"        />
+        <result property="kdmat"      column="kdmat"     />
+        <result property="matnr"    column="matnr"   />
+        <result property="bstkd"      column="bstkd"     />
+    </resultMap>
+
     <insert id="insertIntoDataBase" parameterType="PrintData" useGeneratedKeys="true" keyProperty="id">
         insert into A8X_SAP_JZ_PRINT_LIKP
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -40,5 +52,40 @@
             <if test="printNumber != null and printNumber != ''">#{printNumber},</if>
             </trim>
     </insert>
+
+    <select id="selectPrintDataList" parameterType="FindPrintLikp" resultMap="PrintDataResult">
+        select a.id ,a.DELIVERYDATE,a.KUNNR,a.NAME1,a.PRINTDATE,a.PRINTNUMBER,a.TEMPLATE,a.VBELN,a.WERKS
+        from A8X_SAP_JZ_PRINT_LIKP a left join A8X_SAP_JZ_PRINT_ORDERDETAIL b on a.PRINTNUMBER = b.PRINTNUMBER
+        <where>
+            <if test="start != null  "> AND DATEADD(dd,DATEDIFF(dd,0,a.PRINTDATE),0) >= #{start}</if>
+
+            <if test="end != null  "> AND DATEADD(dd,DATEDIFF(dd,0,a.PRINTDATE),0) &lt;= #{end}</if>
+
+            <if test="delDateStart != null  "> AND DATEADD(dd,DATEDIFF(dd,0,a.DELIVERYDATE),0) >= #{delDateStart}</if>
+
+            <if test="delDateEnd != null  "> AND DATEADD(dd,DATEDIFF(dd,0,a.DELIVERYDATE),0)  &lt;= #{delDateEnd}</if>
+
+            <if test="printNo != null  and printNo != ''"> AND a.PRINTNUMBER like concat('%', #{printNo}, '%')</if>
+
+            <if test="vbeln != null  and vbeln != ''"> AND a.VBELN like concat('%', #{vbeln}, '%')</if>
+
+            <if test="kdmat != null  and kdmat != ''"> AND b.KDMAT like concat('%', #{kdmat}, '%')</if>
+
+            <if test="matnr != null  and matnr != ''"> AND b.MATNR  like concat('%', #{matnr}, '%')</if>
+
+            <if test="bstkd != null  and bstkd != ''"> AND b.BSTKD like concat('%', #{bstkd}, '%')</if>
+        </where>
+        GROUP BY a.id ,a.DELIVERYDATE,a.KUNNR,a.NAME1,a.PRINTDATE,a.PRINTNUMBER,a.TEMPLATE,a.VBELN,a.WERKS
+    </select>
+
+
+    <select id="selectPrintDataListByPrintData" parameterType="PrintData" resultMap="PrintDataResult">
+        select a.id ,a.DELIVERYDATE,a.KUNNR,a.NAME1,a.PRINTDATE,a.PRINTNUMBER,a.TEMPLATE,a.VBELN,a.WERKS
+        from A8X_SAP_JZ_PRINT_LIKP a
+        <where>
+
+            <if test="printNumber != null  and printNumber != ''"> AND a.PRINTNUMBER = #{printNumber}</if>
+        </where>
+    </select>
 
 </mapper>
