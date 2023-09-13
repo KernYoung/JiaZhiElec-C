@@ -1,12 +1,7 @@
 package com.jiazhielec.order.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 打印模板表 print_template

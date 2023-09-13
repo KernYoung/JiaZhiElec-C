@@ -1,7 +1,6 @@
 package com.jiazhielec.order.service.impl;
 
 import com.jiazhielec.common.constant.UserConstants;
-import com.jiazhielec.common.exception.ServiceException;
 import com.jiazhielec.common.utils.StringUtils;
 import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.domain.PrintTemplate;

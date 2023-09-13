@@ -1,6 +1,5 @@
 package com.jiazhielec.order.mapper;
 
-import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.domain.PrintDataDetail;
 
 import java.util.List;

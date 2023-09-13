@@ -1,48 +1,25 @@
 package com.jiazhielec.order.controller;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-
-import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.util.DateUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jiazhielec.common.core.domain.R;
+import com.jiazhielec.common.core.controller.BaseController;
 import com.jiazhielec.common.core.page.TableDataInfo;
-import com.jiazhielec.common.utils.poi.ExcelUtil;
 import com.jiazhielec.order.domain.*;
-import com.jiazhielec.order.service.*;
-import org.apache.commons.lang3.ArrayUtils;
+import com.jiazhielec.order.service.IDeliveryOrderService;
+import com.jiazhielec.order.service.IPrintDataService;
+import com.jiazhielec.order.service.IPrintTemplateService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.jiazhielec.common.annotation.Log;
-import com.jiazhielec.common.constant.UserConstants;
-import com.jiazhielec.common.core.controller.BaseController;
-import com.jiazhielec.common.core.domain.AjaxResult;
-import com.jiazhielec.common.core.domain.entity.SysDept;
-import com.jiazhielec.common.enums.BusinessType;
-import com.jiazhielec.common.utils.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 出货单信息
