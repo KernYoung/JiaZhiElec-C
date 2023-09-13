@@ -1,5 +1,6 @@
 package com.jiazhielec.order.service;
 
+import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.domain.PrintTemplate;
 
 import java.util.List;
@@ -104,5 +105,7 @@ public interface IPrintTemplateService
      * @param templateId 模板id
      * @return 结果
      */
-    String getDataCollation(Long templateId);
+    public String getDataCollation(Long templateId);
+
+    public void orderByprintDataList(Long templateId, List<PrintData> printDataList);
 }

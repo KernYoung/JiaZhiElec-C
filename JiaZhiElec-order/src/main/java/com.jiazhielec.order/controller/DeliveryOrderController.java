@@ -108,6 +108,8 @@ public class DeliveryOrderController extends BaseController
      */
     @PostMapping("/storePrintDataIntoDatabase/{templateId}")
     public TableDataInfo storePrintDataIntoDatabase(@RequestBody List<PrintData>  printDataList,@PathVariable Long templateId){
+        //排序
+        printTemplateService.orderByprintDataList(templateId,printDataList);
 
         deliveryOrderService.storePrintDataIntoDatabase(printDataList,templateId);
 

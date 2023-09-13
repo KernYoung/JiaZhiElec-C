@@ -3,12 +3,20 @@ package com.jiazhielec.order.service.impl;
 import com.jiazhielec.common.constant.UserConstants;
 import com.jiazhielec.common.exception.ServiceException;
 import com.jiazhielec.common.utils.StringUtils;
+import com.jiazhielec.order.domain.PrintData;
 import com.jiazhielec.order.domain.PrintTemplate;
 import com.jiazhielec.order.mapper.PrintTemplateMapper;
 import com.jiazhielec.order.service.IPrintTemplateService;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.ComparatorUtils;
+import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -234,33 +242,86 @@ public class PrintTemplateServiceImpl implements IPrintTemplateService
         return result;
     }
 
+    @Override
+    public void orderByprintDataList(Long templateId, List<PrintData> printDataList) {
+
+        PrintTemplate printTemplate = selectPrintTemplateById(templateId);
+        String dataCollation = printTemplate.getDataCollation();
+        String ascStr = "";
+
+        String[] ascArr;
+
+        if (dataCollation != null && !dataCollation.isEmpty()) {
+            ascArr = dataCollation.split(";");
+
+            String single;
+            String[] strs;
+            ArrayList<Object> sortFields = new ArrayList<Object>();
+
+            //第二排序
+            if (ascArr.length > 0 && !ascArr[0].isEmpty()){
+                for (int i = 0; i < ascArr.length; i ++){
+                    if(";".equals(ascArr[i])){
+                        continue;
+                    }
+                    strs = ascArr[i].split(":");
+                    single = matcher(strs[0]);
+
+                    Comparator myCom1 = ComparableComparator.getInstance();
+                    if("降序".equals(strs[1])){
+                        myCom1 = ComparatorUtils.reversedComparator(myCom1);
+                    }else{
+                        myCom1= ComparatorUtils. nullHighComparator(myCom1);
+                    }
+
+
+                    sortFields.add( new BeanComparator(single , myCom1));
+                }
+            }
+
+            if(sortFields.size()>0){
+
+                for (PrintData printData:printDataList ) {
+                    ComparatorChain multiSort = new ComparatorChain(sortFields);
+                    Collections.sort(printData.getTable(), multiSort);
+                }
+            }
+
+        }
+
+    }
+
     private String matcher(String str) {
         if (str != null && !str.isEmpty()){
             switch (str){
                 case "ID":
                     return "id";
                 case "交货单号":
-                    return "VBELN";
+                    return "subVBELN";
                 case "行项目号":
-                    return "POSNR";
+                    return "posnr";
                 case "产品编码":
-                    return "MATNR";
+                    return "matnr";
                 case "客户料号":
-                    return "KDMAT";
+                    return "kdmat";
                 case "客户物料描述":
-                    return "POSTX";
+                    return "postx";
                 case "有效日期":
-                    return "CHARG";
+                    return "charg";
                 case "数量":
-                    return "LFIMG";
+                    return "lfimg";
                 case "单位":
-                    return "MEINS";
+                    return "meins";
                 case "仓位":
-                    return "LGOBE";
+                    return "lgobe";
                 case "订单号码":
-                    return "BSTKD";
+                    return "bstkd";
                 case "未交量":
-                    return "WJSL";
+                    return "wjsl";
+                case "箱数":
+                    return "cartons";
+                case "序号":
+                    return "item";
                 default:
                     return "";
             }
