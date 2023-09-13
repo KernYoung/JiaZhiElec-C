@@ -167,8 +167,9 @@
     </el-dialog>
 
     <!-- 添加模板规则 -->
-    <el-dialog title="排序规则" :visible.sync="openSort" width="500px" append-to-body>
-      <el-form ref="sortForm" :model="sortForm" :rules="sortRules" label-width="100px">
+    <el-dialog title="排序规则" :visible.sync="openSort" width="600px" append-to-body>
+      <!-- <el-form ref="sortForm" :model="sortForm" :rules="sortRules" label-width="100px"> -->
+        <!-- 方法一 -->
         <!-- <el-form-item label="排序规则" prop="status">
           <el-radio-group v-model="sortForm.status">
             <el-radio key="无" label="无"></el-radio>
@@ -176,7 +177,9 @@
             <el-radio key="降序" label="降序"></el-radio>
           </el-radio-group>
         </el-form-item> -->
-        <el-form-item label="升序排序字段" prop="ascendField">
+
+        <!-- 方法二 -->
+        <!-- <el-form-item label="升序排序字段" prop="ascendField">
           <el-select v-model="sortForm.ascendField" multiple placeholder="升序排序字段" clearable>
             <el-option
               v-for="(item, index) in fieldList"
@@ -193,8 +196,37 @@
               :label="item.name"
               :value="item.name"/>
           </el-select>
-        </el-form-item>
-      </el-form>
+        </el-form-item> -->
+
+        <!-- 方法三 -->
+        <el-button type="primary" @click="AddCollate">添加排序</el-button>
+        <el-table :data="tableData" style="width: 100%; margin-top: 10px;">
+          <el-table-column prop="date" label="排序规则"  width="180">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.collation" placeholder="选择排序字段" clearable>
+                <el-option
+                  v-for="(item, index) in fieldList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.name"/>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="排序方式" width="180">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.sort" placeholder="选择排序方式" clearable>
+                <el-option label="升序" value="升序"/>
+                <el-option label="降序" value="降序"/>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click="delCollate(scope.row,scope.$index)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      <!-- </el-form> -->
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitSortForm">确 定</el-button>
         <el-button @click="cancelSort">取 消</el-button>
@@ -255,7 +287,8 @@ export default {
         templateName: [
           { required: true, message: "模版名称不能为空", trigger: "blur" }
         ]
-      }
+      },
+      tableData: [], // 动态表格
     };
   },
   created() {
@@ -365,10 +398,22 @@ export default {
       this.resetSort()
       this.sortForm.id = row.id
       let dataCollation = row.dataCollation && row.dataCollation.split(';') || []
-      let ascendField = dataCollation[0] && dataCollation[0].split(':')
-      let descendField = dataCollation[1] && dataCollation[1].split(':')
-      this.sortForm.ascendField = ascendField && ascendField[1].split(',')
-      this.sortForm.descendField = descendField && descendField[1].split(',')
+      // let ascendField = dataCollation[0] && dataCollation[0].split(':')
+      // let descendField = dataCollation[1] && dataCollation[1].split(':')
+      // this.sortForm.ascendField = ascendField && ascendField[1].split(',')
+      // this.sortForm.descendField = descendField && descendField[1].split(',')
+      if(dataCollation.length>0){
+        let tableData = []
+        dataCollation.map(k=>{
+          let obj = {}
+          let list = k.split(':')
+          obj.collation = list[0]
+          obj.sort = list[1]
+          tableData.push(obj)
+        })
+        // console.log(tableData)
+        this.tableData = tableData
+      }
       this.openSort = true
     },
     // 表单重置
@@ -380,6 +425,7 @@ export default {
         status: "无"
       };
       this.resetForm("sortForm");
+      this.tableData = []
     },
     cancelSort(){
       this.resetSort()
@@ -387,7 +433,12 @@ export default {
     },
     submitSortForm(){
       let that = this
-      let dataCollation = '升序:'+ that.sortForm.ascendField +';'+'降序:'+ that.sortForm.descendField
+      // let dataCollation = '升序:'+ that.sortForm.ascendField +';'+'降序:'+ that.sortForm.descendField
+      let tableData = []
+      that.tableData.map(k=>{
+        tableData.push(k.collation+':'+k.sort)
+      })
+      let dataCollation = tableData.join(';')
       let data = {
         id: that.sortForm.id,
         dataCollation: dataCollation,
@@ -399,6 +450,20 @@ export default {
           that.getList();
         }
       });
+    },
+
+    // 添加行
+    AddCollate(){
+      let data = {
+        collation: null,
+        sort: null
+      }
+      this.tableData.push(data)
+    },
+
+    // 删除
+    delCollate(row,i){
+      this.tableData.splice(i, 1)
     }
   }
 };

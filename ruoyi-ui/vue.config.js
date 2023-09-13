@@ -38,6 +38,7 @@ module.exports = {
         target: `http://localhost:8080`,
         // target: `http://112.80.47.186:9299/`,
         // target: `http://suzhounarwhal.natapp1.cc`,
+        // target: `http://delk.natapp1.cc`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
