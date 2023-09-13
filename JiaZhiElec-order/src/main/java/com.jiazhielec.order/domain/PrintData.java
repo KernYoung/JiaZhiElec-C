@@ -54,6 +54,8 @@ public class PrintData extends BaseEntity
     /** 出货单明细 */
     private List<PrintDataDetail> table;
 
+    private String deliveryOrderDetailList;
+
     public Integer getId() {
         return id;
     }
@@ -142,5 +144,13 @@ public class PrintData extends BaseEntity
     @Override
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getDeliveryOrderDetailList() {
+        return deliveryOrderDetailList;
+    }
+
+    public void setDeliveryOrderDetailList(String deliveryOrderDetailList) {
+        this.deliveryOrderDetailList = deliveryOrderDetailList;
     }
 }

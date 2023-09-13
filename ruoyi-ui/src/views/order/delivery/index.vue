@@ -529,8 +529,20 @@ export default {
     // },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/post/export', {
-        ...this.queryParams
+      let that = this;
+      let vbelnList = []
+      that.allData.map(k=>{
+        if(that.vbelns.indexOf(k.vbeln)>-1){
+          vbelnList.push(k)
+        }
+      })
+      let kunnr = JSON.stringify(vbelnList);
+      let param = {
+        kunnr:kunnr
+
+      }
+      this.download('/order/delivery/export', {
+        ...param
       }, `post_${new Date().getTime()}.xlsx`)
     },
 
