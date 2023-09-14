@@ -30,9 +30,9 @@ public class PrintCustomerTemplateServiceImpl implements IPrintCustomerTemplateS
      * @return 客户模板映射
      */
     @Override
-    public PrintCustomerTemplate selectPrintCustomerTemplateByPingtCustomerTemplateId(Long pingtCustomerTemplateId)
+    public PrintCustomerTemplate selectPrintCustomerTemplateByPrintCustomerTemplateId(Long pingtCustomerTemplateId)
     {
-        return printCustomerTemplateMapper.selectPrintCustomerTemplateByPingtCustomerTemplateId(pingtCustomerTemplateId);
+        return printCustomerTemplateMapper.selectPrintCustomerTemplateByPrintCustomerTemplateId(pingtCustomerTemplateId);
     }
 
     /**
@@ -78,9 +78,9 @@ public class PrintCustomerTemplateServiceImpl implements IPrintCustomerTemplateS
      * @return 结果
      */
     @Override
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateIds(Long[] printCustomerTemplateIds)
+    public int deletePrintCustomerTemplateByPrintCustomerTemplateIds(Long[] printCustomerTemplateIds)
     {
-        return printCustomerTemplateMapper.deletePrintCustomerTemplateByPingtCustomerTemplateIds(printCustomerTemplateIds);
+        return printCustomerTemplateMapper.deletePrintCustomerTemplateByPrintCustomerTemplateIds(printCustomerTemplateIds);
     }
 
     /**
@@ -90,9 +90,9 @@ public class PrintCustomerTemplateServiceImpl implements IPrintCustomerTemplateS
      * @return 结果
      */
     @Override
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateId(Long printCustomerTemplateId)
+    public int deletePrintCustomerTemplateByPrintCustomerTemplateId(Long printCustomerTemplateId)
     {
-        return printCustomerTemplateMapper.deletePrintCustomerTemplateByPingtCustomerTemplateId(printCustomerTemplateId);
+        return printCustomerTemplateMapper.deletePrintCustomerTemplateByPrintCustomerTemplateId(printCustomerTemplateId);
     }
 
     @Override

@@ -66,7 +66,7 @@ public class PrintCustomerTemplateController extends BaseController
     @GetMapping(value = "/{printCustomerTemplateId}")
     public AjaxResult getInfo(@PathVariable("printCustomerTemplateId") Long printCustomerTemplateId)
     {
-        return success(printCustomerTemplateService.selectPrintCustomerTemplateByPingtCustomerTemplateId(printCustomerTemplateId));
+        return success(printCustomerTemplateService.selectPrintCustomerTemplateByPrintCustomerTemplateId(printCustomerTemplateId));
     }
 
     /**
@@ -103,6 +103,6 @@ public class PrintCustomerTemplateController extends BaseController
 	@DeleteMapping("/{printCustomerTemplateIds}")
     public AjaxResult remove(@PathVariable Long[] printCustomerTemplateIds)
     {
-        return toAjax(printCustomerTemplateService.deletePrintCustomerTemplateByPingtCustomerTemplateIds(printCustomerTemplateIds));
+        return toAjax(printCustomerTemplateService.deletePrintCustomerTemplateByPrintCustomerTemplateIds(printCustomerTemplateIds));
     }
 }

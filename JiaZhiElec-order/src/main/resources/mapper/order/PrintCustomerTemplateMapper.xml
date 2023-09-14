@@ -33,12 +33,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectPrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long" resultMap="PrintCustomerTemplateResult">
+    <select id="selectPrintCustomerTemplateByPrintCustomerTemplateId" parameterType="Long" resultMap="PrintCustomerTemplateResult">
         <include refid="selectPrintCustomerTemplateVo"/>
         where print_customer_template_id = #{printCustomerTemplateId}
     </select>
         
-    <insert id="insertPrintCustomerTemplate" parameterType="PrintCustomerTemplate" useGeneratedKeys="true" keyProperty="pingtCustomerTemplateId">
+    <insert id="insertPrintCustomerTemplate" parameterType="PrintCustomerTemplate" useGeneratedKeys="true" keyProperty="printCustomerTemplateId">
         insert into print_customer_template
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="customerId != null">customer_id,</if>
@@ -59,14 +59,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where print_customer_template = #{printCustomerTemplateId}
     </update>
 
-    <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long">
+    <delete id="deletePrintCustomerTemplateByPrintCustomerTemplateId" parameterType="Long">
         delete from print_customer_template where print_customer_template_id = #{printCustomerTemplateId}
     </delete>
 
-    <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateIds" parameterType="String">
+    <delete id="deletePrintCustomerTemplateByPrintCustomerTemplateIds" parameterType="String">
         delete from print_customer_template where print_customer_template_id in
-        <foreach item="pingtCustomerTemplateId" collection="array" open="(" separator="," close=")">
+        <foreach item="printCustomerTemplateId" collection="array" open="(" separator="," close=")">
             #{printCustomerTemplateId}
         </foreach>
     </delete>
+
+    <select id="checkPrintCustomerTemplateCustomerIdUnique"  parameterType="PrintCustomerTemplate" resultMap="PrintCustomerTemplateResult">
+        select top(1) customer_id, template_id, print_customer_template_id from print_customer_template
+        where template_id=#{templateId} and customer_id = #{customerId}
+    </select>
+
+
 </mapper>

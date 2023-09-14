@@ -17,7 +17,7 @@ public interface PrintCustomerTemplateMapper
      * @param pingtCustomerTemplateId 客户模板映射主键
      * @return 客户模板映射
      */
-    public PrintCustomerTemplate selectPrintCustomerTemplateByPingtCustomerTemplateId(Long pingtCustomerTemplateId);
+    public PrintCustomerTemplate selectPrintCustomerTemplateByPrintCustomerTemplateId(Long pingtCustomerTemplateId);
 
     /**
      * 查询客户模板映射列表
@@ -46,18 +46,18 @@ public interface PrintCustomerTemplateMapper
     /**
      * 删除客户模板映射
      * 
-     * @param pingtCustomerTemplateId 客户模板映射主键
+     * @param printCustomerTemplateId 客户模板映射主键
      * @return 结果
      */
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateId(Long pingtCustomerTemplateId);
+    public int deletePrintCustomerTemplateByPrintCustomerTemplateId(Long printCustomerTemplateId);
 
     /**
      * 批量删除客户模板映射
      * 
-     * @param pingtCustomerTemplateIds 需要删除的数据主键集合
+     * @param printCustomerTemplateIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateIds(Long[] pingtCustomerTemplateIds);
+    public int deletePrintCustomerTemplateByPrintCustomerTemplateIds(Long[] printCustomerTemplateIds);
 
     public PrintCustomerTemplate checkPrintCustomerTemplateCustomerIdUnique(PrintCustomerTemplate printCustomerTemplate);
 }
