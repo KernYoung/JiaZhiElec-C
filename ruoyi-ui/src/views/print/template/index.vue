@@ -435,21 +435,29 @@ export default {
       let that = this
       // let dataCollation = '升序:'+ that.sortForm.ascendField +';'+'降序:'+ that.sortForm.descendField
       let tableData = []
+      let arr1 = []
+      let arr2 = []
       that.tableData.map(k=>{
         tableData.push(k.collation+':'+k.sort)
+        arr1.push(k.collation)
+        arr2.push(k.sort)
       })
       let dataCollation = tableData.join(';')
       let data = {
         id: that.sortForm.id,
         dataCollation: dataCollation,
       }
-      updateTemplate(data).then(response => {
-        if(response.code == 200){
-          that.$modal.msgSuccess("提交成功");
-          that.openSort = false;
-          that.getList();
-        }
-      });
+      if(arr1.indexOf('')>-1 || arr1.indexOf(null)>-1 || arr2.indexOf('')>-1 || arr2.indexOf(null)>-1){
+        that.$message.warning("请选择排序规则再进行提交");
+      }else{
+        updateTemplate(data).then(response => {
+          if(response.code == 200){
+            that.$modal.msgSuccess("提交成功");
+            that.openSort = false;
+            that.getList();
+          }
+        });
+      }
     },
 
     // 添加行
