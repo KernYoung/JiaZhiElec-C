@@ -221,7 +221,7 @@
           <el-input v-model="scope.row.postx" clearable placeholder="客户物料描述" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="有效日期" align="center" prop="effectiveDate" width="180">
+      <el-table-column label="有效日期" align="center" prop="effectiveDate" width="250">
         <template slot-scope="scope">
           <el-date-picker clearable
             v-model="scope.row.effectiveDate"
