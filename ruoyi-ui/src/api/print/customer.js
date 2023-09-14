@@ -29,7 +29,7 @@ export function getCustomer(id) {
 export function addCustomer(data) {
   return request({
     url: '/print/customer',
-    method: 'customer',
+    method: 'post',
     data: data
   })
 }

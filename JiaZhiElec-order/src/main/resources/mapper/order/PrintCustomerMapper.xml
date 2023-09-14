@@ -90,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	
  	<insert id="insertPrintCustomer" parameterType="PrintCustomer" useGeneratedKeys="true" keyProperty="id">
  		insert into print_customer(
- 			<if test="id != null and id != 0">id,</if>
+
  			<if test="customerName != null and customerName != ''">customer_name,</if>
  			<if test="customerCode != null and customerCode != ''">customer_code,</if>
 			<if test="templateMapping != null and templateMapping != 0">template_mapping,</if>
@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			create_time
  		)values(
- 			<if test="id != null and id != 0">#{id},</if>
+
  			<if test="customerName != null and customerName != ''">#{customerName},</if>
  			<if test="customerCode != null and customerCode != ''">#{customerCode},</if>
 			<if test="templateMapping != null and templateMapping != 0">#{templateMapping},</if>
