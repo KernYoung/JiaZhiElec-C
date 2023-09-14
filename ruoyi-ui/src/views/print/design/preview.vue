@@ -74,7 +74,7 @@ export default {
       }
     },
     toPdf() {
-      this.hiprintTemplate.toPdf({}, '打印预览');
+      this.hiprintTemplate.toPdf(this.printData, '打印预览');
     },
   }
 }
