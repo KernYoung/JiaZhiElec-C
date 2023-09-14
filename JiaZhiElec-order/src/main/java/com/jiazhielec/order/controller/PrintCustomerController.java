@@ -39,6 +39,16 @@ public class PrintCustomerController extends BaseController
         List<PrintCustomer> list = printCustomerService.selectPrintCustomerList(printCustomer);
         return getDataTable(list);
     }
+
+    /**
+     * 获取打印客户列表
+     */
+    @GetMapping("/listAll")
+    public TableDataInfo listAll(PrintCustomer printCustomer)
+    {
+        List<PrintCustomer> list = printCustomerService.selectPrintCustomerList(printCustomer);
+        return getDataTable(list);
+    }
     
     @Log(title = "打印客户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('print:customer:export')")

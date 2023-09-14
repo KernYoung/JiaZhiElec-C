@@ -9,6 +9,14 @@ export function listCustomer(query) {
   })
 }
 
+export function listCustomerAll(query) {
+  return request({
+    url: '/print/customer/listAll',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询打印模版详细
 export function getCustomer(id) {
   return request({

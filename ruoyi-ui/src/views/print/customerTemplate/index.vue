@@ -107,11 +107,25 @@
     <!-- 添加或修改客户模板映射对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="客户id" prop="customerId">
-          <el-input v-model="form.customerId" placeholder="请输入客户id" />
+        <el-form-item label="客户" prop="customerId">
+          <el-select v-model="form.customerId" placeholder="请选择客户" clearable no-data-text="暂无需要绑定的客户">
+            <el-option
+              v-for="data in customerListExt"
+              :key="data.id"
+              :label="data.customerName+'('+data.customerCode+')'"
+              :value="data.id">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="模版id" prop="templateId">
-          <el-input v-model="form.templateId" placeholder="请输入模版id" />
+        <el-form-item label="模版" prop="templateId">
+          <el-select v-model="form.templateId" placeholder="请选择模版" clearable no-data-text="暂无需要绑定的客户">
+            <el-option
+              v-for="data in templateListExt"
+              :key="data.id"
+              :label="data.templateName+'('+data.id+')'"
+              :value="data.id" disabled>
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -124,6 +138,8 @@
 
 <script>
 import { listCustomerTemplate, getCustomerTemplate, delCustomerTemplate, addCustomerTemplate, updateCustomerTemplate } from "@/api/print/customerTemplate";
+import {listCustomerAll} from "@/api/print/customer";
+import {listTemplateAll} from "@/api/print/template";
 
 export default {
   name: "CustomerTemplate",
@@ -164,11 +180,22 @@ export default {
         templateId: [
           { required: true, message: "模版id不能为空", trigger: "blur" }
         ],
-      }
+      },
+      customerListExt:[],
+      templateListExt:[],
     };
   },
   created() {
+    this.queryParams.templateId = this.$route.query.templateId;
+    this.form.templateId = parseInt(this.$route.query.templateId);
     this.getList();
+  },
+  activated() {
+    if (this.$route.query.templateId) {
+      this.queryParams.templateId = this.$route.query.templateId;
+      this.form.templateId = parseInt(this.$route.query.templateId);
+      this.getList();
+    }
   },
   methods: {
     /** 查询客户模板映射列表 */
@@ -189,7 +216,7 @@ export default {
     reset() {
       this.form = {
         customerId: null,
-        templateId: null,
+        templateId:this.form.templateId,
         pingtCustomerTemplateId: null
       };
       this.resetForm("form");
@@ -213,8 +240,23 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.changeCustomerListExt();
+      this.changeTemplateListExt();
       this.open = true;
       this.title = "添加客户模板映射";
+
+    },
+    changeCustomerListExt(){
+      listCustomerAll().then(response => {
+        this.customerListExt = response.rows;
+      });
+    },
+    changeTemplateListExt(){
+      listTemplateAll().then(response => {
+        if(response.code == 200){
+          this.templateListExt = response.data
+        }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

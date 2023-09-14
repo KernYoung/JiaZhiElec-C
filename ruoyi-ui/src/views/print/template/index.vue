@@ -112,6 +112,12 @@
           <el-button
             size="mini"
             type="text"
+            icon="el-icon-link"
+            @click="handCustomer(scope.row)"
+          >绑定客户</el-button>
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['print:template:edit']"
@@ -426,6 +432,14 @@ export default {
       };
       this.resetForm("sortForm");
       this.tableData = []
+    },
+    handCustomer(row){
+      this.$router.push({
+        path: "/print/customerTemplate",
+        query: {
+          templateId: row.id,
+        },
+      });
     },
     cancelSort(){
       this.resetSort()
