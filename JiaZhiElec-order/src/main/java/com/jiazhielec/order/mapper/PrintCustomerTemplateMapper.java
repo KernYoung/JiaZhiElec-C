@@ -58,4 +58,6 @@ public interface PrintCustomerTemplateMapper
      * @return 结果
      */
     public int deletePrintCustomerTemplateByPingtCustomerTemplateIds(Long[] pingtCustomerTemplateIds);
+
+    public PrintCustomerTemplate checkPrintCustomerTemplateCustomerIdUnique(PrintCustomerTemplate printCustomerTemplate);
 }

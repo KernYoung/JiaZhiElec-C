@@ -63,10 +63,10 @@ public class PrintCustomerTemplateController extends BaseController
      * 获取客户模板映射详细信息
      */
     @PreAuthorize("@ss.hasPermi('print:customerTemplate:query')")
-    @GetMapping(value = "/{pingtCustomerTemplateId}")
-    public AjaxResult getInfo(@PathVariable("pingtCustomerTemplateId") Long pingtCustomerTemplateId)
+    @GetMapping(value = "/{printCustomerTemplateId}")
+    public AjaxResult getInfo(@PathVariable("printCustomerTemplateId") Long printCustomerTemplateId)
     {
-        return success(printCustomerTemplateService.selectPrintCustomerTemplateByPingtCustomerTemplateId(pingtCustomerTemplateId));
+        return success(printCustomerTemplateService.selectPrintCustomerTemplateByPingtCustomerTemplateId(printCustomerTemplateId));
     }
 
     /**
@@ -77,6 +77,10 @@ public class PrintCustomerTemplateController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody PrintCustomerTemplate printCustomerTemplate)
     {
+        if (!printCustomerTemplateService.checkPrintCustomerTemplateCustomerIdUnique(printCustomerTemplate))
+        {
+            return error("新增客户模板映射'" + printCustomerTemplate.getCustomerId() + "'失败，客户已存在");
+        }
         return toAjax(printCustomerTemplateService.insertPrintCustomerTemplate(printCustomerTemplate));
     }
 
@@ -96,9 +100,9 @@ public class PrintCustomerTemplateController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('print:customerTemplate:remove')")
     @Log(title = "客户模板映射", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{pingtCustomerTemplateIds}")
-    public AjaxResult remove(@PathVariable Long[] pingtCustomerTemplateIds)
+	@DeleteMapping("/{printCustomerTemplateIds}")
+    public AjaxResult remove(@PathVariable Long[] printCustomerTemplateIds)
     {
-        return toAjax(printCustomerTemplateService.deletePrintCustomerTemplateByPingtCustomerTemplateIds(pingtCustomerTemplateIds));
+        return toAjax(printCustomerTemplateService.deletePrintCustomerTemplateByPingtCustomerTemplateIds(printCustomerTemplateIds));
     }
 }

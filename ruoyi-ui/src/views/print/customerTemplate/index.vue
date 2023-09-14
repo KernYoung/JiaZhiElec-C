@@ -1,21 +1,33 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="客户id" prop="customerId">
+      <el-form-item label="客户名称" prop="customerId">
         <el-input
-          v-model="queryParams.customerId"
-          placeholder="请输入客户id"
+          v-model="queryParams.customerName"
+          placeholder="请输入客户名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="客户编码" prop="customerId">
+        <el-input
+          v-model="queryParams.customerCode"
+          placeholder="请输入客户编码"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="模版id" prop="templateId">
-        <el-input
-          v-model="queryParams.templateId"
-          placeholder="请输入模版id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.templateId" placeholder="请选择模版" >
+          <el-option
+            v-for="data in selectTemplateListExt"
+            :key="data.id"
+            :label="data.templateName+'('+data.id+')'"
+            :value="data.id"
+            disabled
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -71,11 +83,15 @@
 
     <el-table v-loading="loading" :data="customerTemplateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="客户id" align="center" prop="customerId">
+      <el-table-column label="id" align="center" prop="printCustomerTemplateId" />
+      <el-table-column label="客户名称" align="center" prop="customerName">
       </el-table-column>
-      <el-table-column label="模版id" align="center" prop="templateId">
+      <el-table-column label="客户编码" align="center" prop="customerCode">
       </el-table-column>
-      <el-table-column label="id" align="center" prop="pingtCustomerTemplateId" />
+      <el-table-column label="模版名称" align="center" prop="templateName">
+      </el-table-column>
+      <el-table-column label="模版编号" align="center" prop="templateId">
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -108,7 +124,7 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="客户" prop="customerId">
-          <el-select v-model="form.customerId" placeholder="请选择客户" clearable no-data-text="暂无需要绑定的客户">
+          <el-select v-model="form.customerId" placeholder="请选择客户" clearable no-data-text="暂无需要绑定的客户" filterable>
             <el-option
               v-for="data in customerListExt"
               :key="data.id"
@@ -118,7 +134,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="模版" prop="templateId">
-          <el-select v-model="form.templateId" placeholder="请选择模版" clearable no-data-text="暂无需要绑定的客户">
+          <el-select v-model="form.templateId" placeholder="请选择模版" clearable no-data-text="暂无需要绑定的客户" >
             <el-option
               v-for="data in templateListExt"
               :key="data.id"
@@ -169,6 +185,8 @@ export default {
         pageSize: 10,
         customerId: null,
         templateId: null,
+        customerName: null,
+        customerCode: null,
       },
       // 表单参数
       form: {},
@@ -183,18 +201,21 @@ export default {
       },
       customerListExt:[],
       templateListExt:[],
+      selectTemplateListExt:[],
     };
   },
   created() {
-    this.queryParams.templateId = this.$route.query.templateId;
+    this.queryParams.templateId = parseInt(this.$route.query.templateId);
     this.form.templateId = parseInt(this.$route.query.templateId);
     this.getList();
+    this.getTemplateListExt();
   },
   activated() {
     if (this.$route.query.templateId) {
-      this.queryParams.templateId = this.$route.query.templateId;
+      this.queryParams.templateId = parseInt(this.$route.query.templateId);
       this.form.templateId = parseInt(this.$route.query.templateId);
       this.getList();
+      this.getTemplateListExt();
     }
   },
   methods: {
@@ -217,7 +238,7 @@ export default {
       this.form = {
         customerId: null,
         templateId:this.form.templateId,
-        pingtCustomerTemplateId: null
+        printCustomerTemplateId: null
       };
       this.resetForm("form");
     },
@@ -233,7 +254,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.pingtCustomerTemplateId)
+      this.ids = selection.map(item => item.printCustomerTemplateId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -258,11 +279,18 @@ export default {
         }
       });
     },
+    getTemplateListExt(){
+      listTemplateAll().then(response => {
+        if(response.code == 200){
+          this.selectTemplateListExt = response.data
+        }
+      });
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const pingtCustomerTemplateId = row.pingtCustomerTemplateId || this.ids
-      getCustomerTemplate(pingtCustomerTemplateId).then(response => {
+      const printCustomerTemplateId = row.printCustomerTemplateId || this.ids
+      getCustomerTemplate(printCustomerTemplateId).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改客户模板映射";
@@ -272,7 +300,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.pingtCustomerTemplateId != null) {
+          if (this.form.printCustomerTemplateId != null) {
             updateCustomerTemplate(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
@@ -290,9 +318,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const pingtCustomerTemplateIds = row.pingtCustomerTemplateId || this.ids;
-      this.$modal.confirm('是否确认删除客户模板映射编号为"' + pingtCustomerTemplateIds + '"的数据项？').then(function() {
-        return delCustomerTemplate(pingtCustomerTemplateIds);
+      const printCustomerTemplateIds = row.printCustomerTemplateId || this.ids;
+      this.$modal.confirm('是否确认删除客户模板映射编号为"' + printCustomerTemplateIds + '"的数据项？').then(function() {
+        return delCustomerTemplate(printCustomerTemplateIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");

@@ -46,16 +46,18 @@ public interface IPrintCustomerTemplateService
     /**
      * 批量删除客户模板映射
      * 
-     * @param pingtCustomerTemplateIds 需要删除的客户模板映射主键集合
+     * @param printCustomerTemplateIds 需要删除的客户模板映射主键集合
      * @return 结果
      */
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateIds(Long[] pingtCustomerTemplateIds);
+    public int deletePrintCustomerTemplateByPingtCustomerTemplateIds(Long[] printCustomerTemplateIds);
 
     /**
      * 删除客户模板映射信息
      * 
-     * @param pingtCustomerTemplateId 客户模板映射主键
+     * @param printCustomerTemplateId 客户模板映射主键
      * @return 结果
      */
-    public int deletePrintCustomerTemplateByPingtCustomerTemplateId(Long pingtCustomerTemplateId);
+    public int deletePrintCustomerTemplateByPingtCustomerTemplateId(Long printCustomerTemplateId);
+
+    public boolean checkPrintCustomerTemplateCustomerIdUnique(PrintCustomerTemplate printCustomerTemplate);
 }

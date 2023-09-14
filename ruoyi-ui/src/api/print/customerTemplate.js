@@ -10,9 +10,9 @@ export function listCustomerTemplate(query) {
 }
 
 // 查询客户模板映射详细
-export function getCustomerTemplate(pingtCustomerTemplateId) {
+export function getCustomerTemplate(printCustomerTemplateId) {
   return request({
-    url: '/print/customerTemplate/' + pingtCustomerTemplateId,
+    url: '/print/customerTemplate/' + printCustomerTemplateId,
     method: 'get'
   })
 }
@@ -36,9 +36,9 @@ export function updateCustomerTemplate(data) {
 }
 
 // 删除客户模板映射
-export function delCustomerTemplate(pingtCustomerTemplateId) {
+export function delCustomerTemplate(printCustomerTemplateId) {
   return request({
-    url: '/print/customerTemplate/' + pingtCustomerTemplateId,
+    url: '/print/customerTemplate/' + printCustomerTemplateId,
     method: 'delete'
   })
 }

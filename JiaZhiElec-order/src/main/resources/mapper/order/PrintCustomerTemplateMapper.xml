@@ -6,25 +6,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="PrintCustomerTemplate" id="PrintCustomerTemplateResult">
         <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="customerCode"      column="customer_code"     />
         <result property="templateId"    column="template_id"    />
-        <result property="pingtCustomerTemplateId"    column="pingt_customer_template_id"    />
+        <result property="templateName"      column="template_name"     />
+        <result property="printCustomerTemplateId"    column="print_customer_template_id"    />
     </resultMap>
 
     <sql id="selectPrintCustomerTemplateVo">
-        select customer_id, template_id, pingt_customer_template_id from print_customer_template
+        select customer_id, template_id, print_customer_template_id from print_customer_template
     </sql>
 
     <select id="selectPrintCustomerTemplateList" parameterType="PrintCustomerTemplate" resultMap="PrintCustomerTemplateResult">
-        <include refid="selectPrintCustomerTemplateVo"/>
+        select a.customer_id, a.template_id,a.print_customer_template_id,c.customer_name,c.customer_code,t.template_name from print_customer_template a
+        left join print_customer c on a.customer_id = c.id
+        left join print_template t on a.template_id = t.id
         <where>  
-            <if test="customerId != null "> and customer_id = #{customerId}</if>
-            <if test="templateId != null "> and template_id = #{templateId}</if>
+            <if test="customerId != null "> and a.customer_id = #{customerId}</if>
+            <if test="templateId != null "> and a.template_id = #{templateId}</if>
+            <if test="customerName != null and customerName != ''">
+                and c.customer_name like concat('%', #{customerName}, '%')
+            </if>
+            <if test="customerCode != null and customerCode != ''">
+                and c.customer_code like concat('%', #{customerCode}, '%')
+            </if>
         </where>
     </select>
     
     <select id="selectPrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long" resultMap="PrintCustomerTemplateResult">
         <include refid="selectPrintCustomerTemplateVo"/>
-        where pingt_customer_template_id = #{pingtCustomerTemplateId}
+        where print_customer_template_id = #{printCustomerTemplateId}
     </select>
         
     <insert id="insertPrintCustomerTemplate" parameterType="PrintCustomerTemplate" useGeneratedKeys="true" keyProperty="pingtCustomerTemplateId">
@@ -45,17 +56,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="customerId != null">customer_id = #{customerId},</if>
             <if test="templateId != null">template_id = #{templateId},</if>
         </trim>
-        where pingt_customer_template_id = #{pingtCustomerTemplateId}
+        where print_customer_template = #{printCustomerTemplateId}
     </update>
 
     <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long">
-        delete from print_customer_template where pingt_customer_template_id = #{pingtCustomerTemplateId}
+        delete from print_customer_template where print_customer_template_id = #{printCustomerTemplateId}
     </delete>
 
     <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateIds" parameterType="String">
-        delete from print_customer_template where pingt_customer_template_id in 
+        delete from print_customer_template where print_customer_template_id in
         <foreach item="pingtCustomerTemplateId" collection="array" open="(" separator="," close=")">
-            #{pingtCustomerTemplateId}
+            #{printCustomerTemplateId}
         </foreach>
     </delete>
 </mapper>
