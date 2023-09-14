@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiazhielec.order.mapper.PrintCustomerTemplateMapper">
+    
+    <resultMap type="PrintCustomerTemplate" id="PrintCustomerTemplateResult">
+        <result property="customerId"    column="customer_id"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="pingtCustomerTemplateId"    column="pingt_customer_template_id"    />
+    </resultMap>
+
+    <sql id="selectPrintCustomerTemplateVo">
+        select customer_id, template_id, pingt_customer_template_id from print_customer_template
+    </sql>
+
+    <select id="selectPrintCustomerTemplateList" parameterType="PrintCustomerTemplate" resultMap="PrintCustomerTemplateResult">
+        <include refid="selectPrintCustomerTemplateVo"/>
+        <where>  
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="templateId != null "> and template_id = #{templateId}</if>
+        </where>
+    </select>
+    
+    <select id="selectPrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long" resultMap="PrintCustomerTemplateResult">
+        <include refid="selectPrintCustomerTemplateVo"/>
+        where pingt_customer_template_id = #{pingtCustomerTemplateId}
+    </select>
+        
+    <insert id="insertPrintCustomerTemplate" parameterType="PrintCustomerTemplate" useGeneratedKeys="true" keyProperty="pingtCustomerTemplateId">
+        insert into print_customer_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="templateId != null">template_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="templateId != null">#{templateId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePrintCustomerTemplate" parameterType="PrintCustomerTemplate">
+        update print_customer_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="templateId != null">template_id = #{templateId},</if>
+        </trim>
+        where pingt_customer_template_id = #{pingtCustomerTemplateId}
+    </update>
+
+    <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateId" parameterType="Long">
+        delete from print_customer_template where pingt_customer_template_id = #{pingtCustomerTemplateId}
+    </delete>
+
+    <delete id="deletePrintCustomerTemplateByPingtCustomerTemplateIds" parameterType="String">
+        delete from print_customer_template where pingt_customer_template_id in 
+        <foreach item="pingtCustomerTemplateId" collection="array" open="(" separator="," close=")">
+            #{pingtCustomerTemplateId}
+        </foreach>
+    </delete>
+</mapper>

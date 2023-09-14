@@ -4,7 +4,6 @@ import com.jiazhielec.common.constant.UserConstants;
 import com.jiazhielec.common.utils.StringUtils;
 import com.jiazhielec.order.domain.PrintCustomer;
 import com.jiazhielec.order.mapper.PrintCustomerMapper;
-import com.jiazhielec.order.mapper.PrintCustomerMapper;
 import com.jiazhielec.order.service.IPrintCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

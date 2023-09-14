@@ -1,7 +1,6 @@
 package com.jiazhielec.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -53,6 +52,8 @@ public class PrintData extends BaseEntity
 
     /** 出货单明细 */
     private List<PrintDataDetail> table;
+
+    private String deliveryOrderDetailList;
 
     public Integer getId() {
         return id;
@@ -142,5 +143,13 @@ public class PrintData extends BaseEntity
     @Override
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getDeliveryOrderDetailList() {
+        return deliveryOrderDetailList;
+    }
+
+    public void setDeliveryOrderDetailList(String deliveryOrderDetailList) {
+        this.deliveryOrderDetailList = deliveryOrderDetailList;
     }
 }

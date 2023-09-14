@@ -2,7 +2,6 @@ package com.jiazhielec.order.domain;
 
 
 import com.jiazhielec.common.core.domain.BaseEntity;
-import org.apache.poi.hpsf.Decimal;
 
 import java.math.BigDecimal;
 

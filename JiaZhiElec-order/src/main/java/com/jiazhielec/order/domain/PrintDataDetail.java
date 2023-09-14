@@ -57,13 +57,13 @@ public class PrintDataDetail extends BaseEntity
     private BigDecimal wjsl;
 
     /**
-     *
+     * 品名
      * @return
      */
     private String name;
 
     /**
-     *
+     * 序号
      * @return
      */
     private Integer item;
@@ -75,7 +75,7 @@ public class PrintDataDetail extends BaseEntity
     private String remark;
 
     /**
-     *箱数
+     * 箱数
      */
     private Integer cartons;
 
