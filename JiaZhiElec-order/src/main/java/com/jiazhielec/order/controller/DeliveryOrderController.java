@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jiazhielec.common.core.controller.BaseController;
 import com.jiazhielec.common.core.page.TableDataInfo;
+import com.jiazhielec.common.exception.ServiceException;
 import com.jiazhielec.order.domain.*;
 import com.jiazhielec.order.service.IDeliveryOrderService;
+import com.jiazhielec.order.service.IPrintCustomerTemplateService;
 import com.jiazhielec.order.service.IPrintDataService;
 import com.jiazhielec.order.service.IPrintTemplateService;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +38,9 @@ public class DeliveryOrderController extends BaseController
 
     @Autowired
     private IPrintTemplateService printTemplateService;
+
+    @Autowired
+    private IPrintCustomerTemplateService printCustomerTemplateService;
 
     @Autowired
     private IPrintDataService printDataService;
@@ -60,6 +66,20 @@ public class DeliveryOrderController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DeliveryOrder deliveryOrder)
     {
+
+        Long templateId = deliveryOrder.getParams().get("templateId") == null ? -1L : Long.valueOf(deliveryOrder.getParams().get("templateId").toString());
+        if(templateId.longValue()!=-1L){
+            PrintCustomerTemplate printCustomerTemplate = new PrintCustomerTemplate();
+            printCustomerTemplate.setTemplateId(templateId);
+            List<PrintCustomerTemplate> list = printCustomerTemplateService.selectPrintCustomerTemplateList(printCustomerTemplate);
+            if (!list.isEmpty()){
+                List<String> list1 = new ArrayList<>();
+                for (PrintCustomerTemplate p: list) {
+                    list1.add(p.getCustomerCode());
+                }
+                deliveryOrder.getParams().put("customerCodes",list1);
+            }
+        }
         startPage();
         List<DeliveryOrder> list = deliveryOrderService.selectDeliveryOrderList(deliveryOrder);
         return getDataTable(list);
@@ -95,6 +115,21 @@ public class DeliveryOrderController extends BaseController
      */
     @PostMapping("/storePrintDataIntoDatabase/{templateId}")
     public TableDataInfo storePrintDataIntoDatabase(@RequestBody List<PrintData>  printDataList,@PathVariable Long templateId){
+        //检验
+        PrintCustomerTemplate printCustomerTemplate = new PrintCustomerTemplate();
+        printCustomerTemplate.setTemplateId(templateId);
+        List<PrintCustomerTemplate> list = printCustomerTemplateService.selectPrintCustomerTemplateList(printCustomerTemplate);
+        if (!list.isEmpty()){
+            List<String> list1 = new ArrayList<>();
+            for (PrintCustomerTemplate p: list) {
+                list1.add(p.getCustomerCode());
+            }
+            for (PrintData p: printDataList) {
+                if(!list1.contains(p.getKunnr())){
+                    throw new ServiceException("客户编码："+p.getKunnr()+"与该模版不匹配");
+                }
+            }
+        }
         //排序
         printTemplateService.orderByprintDataList(templateId,printDataList);
 

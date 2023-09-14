@@ -52,7 +52,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="打印模版" prop="templateName">
-        <el-select v-model="queryParams.templateName" placeholder="打印模版" clearable @change="getInfo">
+        <el-select v-model="queryParams.params.templateId" placeholder="打印模版" clearable @change="getInfo">
           <el-option
             v-for="(item,index) in templateList"
             :key="index"
@@ -368,7 +368,10 @@ export default {
         KDMAT: undefined,//客户料号
         MATNR: undefined,//产品编号
         printTemplate: undefined,//打印模版
-        templateName: undefined
+        params:{
+          templateId: undefined,
+        },
+        templateName: undefined,
       },
       // 表单参数
       form: {},
@@ -557,7 +560,7 @@ export default {
 
     // 打印
     getInfo(){
-      getPrintQuery(this.queryParams.templateName).then(response => {
+      getPrintQuery(this.queryParams.params.templateId).then(response => {
         if(response.code == 200){
           this.designInfo = response.data.templateJson && JSON.parse(response.data.templateJson)
           this.init()
@@ -701,7 +704,7 @@ export default {
     printView(){
       let [that, printData] = [this, []]
       // console.log(that.vbelns)
-      if(that.queryParams.templateName == undefined ||that.queryParams.templateName == ''){
+      if(that.queryParams.params.templateId == undefined ||that.queryParams.params.templateId == ''){
         that.$message.error('请选择打印模版')
       }else if(that.vbelns.length == 0){
         that.$message.error('请选择出货单')
@@ -713,7 +716,7 @@ export default {
           }
         })
         // console.log(vbelnList)
-        deliveryPrintData(that.queryParams.templateName, JSON.stringify(vbelnList)).then(response => {
+        deliveryPrintData(that.queryParams.params.templateId, JSON.stringify(vbelnList)).then(response => {
           if(response.code == 200){
             printData = response.rows
             // 测试, 点预览更新拖拽元素

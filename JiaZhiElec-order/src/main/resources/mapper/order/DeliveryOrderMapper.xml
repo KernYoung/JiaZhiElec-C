@@ -70,6 +70,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="NAME1 != null  and NAME1 != ''"> AND NAME1 like concat('%', #{NAME1}, '%')</if>
 <!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
 <!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
+			<if test="params.customerCodes != null ">
+				and a.KUNNR in
+				<foreach collection="params.customerCodes" item="customerCode" open="(" separator="," close=")">
+					#{customerCode,jdbcType=VARCHAR}
+				</foreach>
+			</if>
 		</where>
 		order by a.create_time desc
 	</select>
