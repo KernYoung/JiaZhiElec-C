@@ -42,6 +42,9 @@ public class PrintData extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
+    /**订单号码  */
+    private String BSTKD;
+
     /**
      * 模板号
      */
@@ -151,5 +154,13 @@ public class PrintData extends BaseEntity
 
     public void setDeliveryOrderDetailList(String deliveryOrderDetailList) {
         this.deliveryOrderDetailList = deliveryOrderDetailList;
+    }
+
+    public String getBSTKD() {
+        return BSTKD;
+    }
+
+    public void setBSTKD(String BSTKD) {
+        this.BSTKD = BSTKD;
     }
 }

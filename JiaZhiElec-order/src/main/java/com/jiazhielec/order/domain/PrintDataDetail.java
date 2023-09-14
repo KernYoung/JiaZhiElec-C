@@ -3,6 +3,7 @@ package com.jiazhielec.order.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
 import java.math.BigDecimal;
@@ -91,6 +92,10 @@ public class PrintDataDetail extends BaseEntity
      * @return
      */
     private String printNumber;
+
+    /**公司代码  */
+    @Excel(name = "公司代码")
+    private String WERKS;
 
     public Integer getId() {
         return id;
@@ -247,4 +252,11 @@ public class PrintDataDetail extends BaseEntity
         this.printNumber = printNumber;
     }
 
+    public String getWERKS() {
+        return WERKS;
+    }
+
+    public void setWERKS(String WERKS) {
+        this.WERKS = WERKS;
+    }
 }

@@ -1,6 +1,7 @@
 package com.jiazhielec.order.domain;
 
 
+import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
 import java.math.BigDecimal;
@@ -50,6 +51,10 @@ public class DeliveryOrderDetail extends BaseEntity
 
     /**未交量  */
     private BigDecimal WJSL;
+
+    /**公司代码  */
+    @Excel(name = "公司代码")
+    private String WERKS;
 
 
     public BigDecimal getLFIMG() {
@@ -147,6 +152,14 @@ public class DeliveryOrderDetail extends BaseEntity
 
     public void setBSTKD(String BSTKD) {
         this.BSTKD = BSTKD;
+    }
+
+    public String getWERKS() {
+        return WERKS;
+    }
+
+    public void setWERKS(String WERKS) {
+        this.WERKS = WERKS;
     }
 
     @Override

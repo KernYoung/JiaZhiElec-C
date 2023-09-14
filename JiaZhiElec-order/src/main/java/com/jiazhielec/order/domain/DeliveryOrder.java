@@ -46,6 +46,9 @@ public class DeliveryOrder extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliveryDate;
 
+    /**订单号码  */
+    private String BSTKD;
+
     
     /** 出货单明细 */
     private List<DeliveryOrderDetail> deliveryOrderDetailList;
@@ -114,6 +117,14 @@ public class DeliveryOrder extends BaseEntity
 
     public void setDeliveryOrderDetailList(List<DeliveryOrderDetail> deliveryOrderDetailList) {
         this.deliveryOrderDetailList = deliveryOrderDetailList;
+    }
+
+    public String getBSTKD() {
+        return BSTKD;
+    }
+
+    public void setBSTKD(String BSTKD) {
+        this.BSTKD = BSTKD;
     }
 
     @Override
