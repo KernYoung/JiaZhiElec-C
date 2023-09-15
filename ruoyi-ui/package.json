@@ -40,6 +40,7 @@
     "af-table-column": "^1.0.3",
     "ant-design-vue": "^1.7.8",
     "axios": "0.24.0",
+    "bwip-js": "^4.1.1",
     "clipboard": "2.0.8",
     "concurrent-tasks": "^1.0.7",
     "core-js": "3.25.3",

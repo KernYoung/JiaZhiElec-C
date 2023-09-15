@@ -447,7 +447,7 @@ font-weight: normal;*/
 }
 
 .hiprint-option-items .minicolors-sprite {
-    background-image: url(image/jquery.minicolors.png);
+    background-image: url(./image/jquery.minicolors.png);
 }
 
 .hiprint-option-items .minicolors-swatch {

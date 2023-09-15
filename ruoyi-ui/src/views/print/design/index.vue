@@ -61,7 +61,7 @@
             <a-icon type="close"/>
           </a-button>
         </a-popconfirm>
-        
+
         <a-popconfirm
           title="是否确认保存?"
           okType="primary"
@@ -266,6 +266,24 @@
                     <a class="ep-draggable-item" tid="defaultModule.oval">
                       <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
                       <p class="glyphicon-class">椭圆</p>
+                    </a>
+                  </div>
+                </a-col>
+              </a-row>
+              <a-row style="height: 100px;">
+                <a-col :span="12" class="drag_item_box">
+                  <div>
+                    <a class="ep-draggable-item" tid="defaultModule.barcode">
+                      <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                      <p class="glyphicon-class">条形码</p>
+                    </a>
+                  </div>
+                </a-col>
+                <a-col :span="12" class="drag_item_box">
+                  <div>
+                    <a class="ep-draggable-item" tid="defaultModule.qrcode">
+                      <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+                      <p class="glyphicon-class">二维码</p>
                     </a>
                   </div>
                 </a-col>
@@ -622,8 +640,7 @@ export default {
       this.$refs.preView.show(hiprintTemplate, printData)
     },
     onlyPrint() {
-      let that = this
-      let hiprintTemplate = this.$print(undefined, that.designInfo, printData, {}, {
+      let hiprintTemplate = this.$print(undefined, panel, printData, {}, {
         styleHandler: () => {
           let css = '<link href="http://hiprint.io/Content/hiprint/css/print-lock.css" media="print" rel="stylesheet">';
           return css
@@ -634,7 +651,7 @@ export default {
     onlyPrint2() {
       let that = this;
       if (window.hiwebSocket.opened) {
-        let hiprintTemplate = this.$print2(undefined, that.designInfo, printData, {
+        let hiprintTemplate = this.$print2(undefined, panel, printData, {
           printer: '', title: 'Api单独打印',
           styleHandler: () => {
             // let css = '<link href="http://hiprint.io/Content/hiprint/css/print-lock.css" media="print" rel="stylesheet">';
@@ -695,7 +712,7 @@ export default {
           }
         });
       }
-      
+
     },
     exportPdf(type) {
       hiprintTemplate.toPdf(printData, '测试导出pdf', {isDownload: false, type: type}).then((res) => {
@@ -933,10 +950,45 @@ export default {
 }
 
 // 设计容器
-.card-design {
+/deep/ .card-design {
   overflow: hidden;
   overflow-x: auto;
   overflow-y: auto;
+}
+
+/deep/ .menus {
+  padding: 10px 24px;
+}
+
+
+
+// 修改 页眉/页脚线 样式
+/deep/ .hiprint-headerLine,/deep/ .hiprint-footerLine {
+  border-color: red !important;
+}
+
+/deep/ .hiprint-headerLine:hover,/deep/ .hiprint-footerLine:hover {
+  border-top: 3px dashed red !important;
+}
+
+/deep/ .hiprint-headerLine:hover:before {
+  content: "页眉线";
+  left: calc(50% - 18px);
+  position: relative;
+  background: #FFFF;
+  top: -12px;
+  color: red;
+  font-size: 12px;
+}
+
+/deep/ .hiprint-footerLine:hover:before {
+  content: "页脚线";
+  left: calc(50% - 18px);
+  position: relative;
+  color: red;
+  background: #FFFF;
+  top: -12px;
+  font-size: 12px;
 }
 
 </style>
