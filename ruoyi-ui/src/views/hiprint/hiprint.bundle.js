@@ -1885,7 +1885,7 @@ var hiprint = function (t) {
                     useSVG: !0,
                     correctLevel: t.tableQRCodeLevel || 0,
                   }).makeCode(p);
-                  r.html(qrcodebox)
+                  r.html(qrcodebox);
                 }
               } catch (t) {
                 console.log(t), r.html("二维码生成失败");

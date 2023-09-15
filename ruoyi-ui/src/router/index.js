@@ -75,56 +75,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/nestRoutes',
-    meta: {
-      title: '多级路由嵌套(缓存测试)',
-      icon: 'form'
-    },
-    component: Layout,
-    children: [
-      {
-        path: '/nestRoutes/2',
-        meta: {
-          title: '二级',
-          icon: 'form',
-          showAlways: true
-        },
-        component: plainView,
-        children: [
-          {
-            path: '/nestRoutes/2/3',
-            meta: {
-              title: '三级',
-              icon: 'form',
-              showAlways: true
-            },
-            component: plainView,
-            children: [
-              {
-                path: `/nestRoutes/2/3/4/list`,
-                name: 'page-list',
-                meta: {
-                  title: `四级表列表页`,
-                  icon: 'form'
-                },
-                component: () => import('@/views/testCache/list')
-              },
-              {
-                path: '/nestRoutes/2/3/4/page-form',
-                name: 'page-form',
-                meta: {
-                  title: `四级表单页`,
-                  icon: 'form'
-                },
-                component: () => import('@/views/testCache')
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
+
   {
     path: '/user',
     component: Layout,
