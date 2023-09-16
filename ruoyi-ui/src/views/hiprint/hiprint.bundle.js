@@ -1870,21 +1870,27 @@ var hiprint = function (t) {
 
             }
             if ("qrcode" == t.tableTextType) {
+              // console.log(11111,t,p)
               r.html("");
               try {
-                var qrcodebox = $('<div></div>')
+                var qrcodebox = $("<div></div>")
+                var qrcodeCode = $("<div></div>")
 
                 if (p) {
                   var l = parseInt(t.width || t.targetWidth || 20),
                     u = parseInt(t.tableColumnHeight || 20);
                   qrcodebox.css('height', (l > u ? u : l) + 'pt')
-                  new QRCode(qrcodebox[0], {
+                  qrcodeCode.css('height', '70%')
+                  new QRCode(qrcodeCode[0], {
                     width: l > u ? u : l,
                     height: l > u ? u : l,
                     colorDark: "#000000",
                     useSVG: !0,
                     correctLevel: t.tableQRCodeLevel || 0,
                   }).makeCode(p);
+                  // qrcodebox.append("<p'>这是一个二维码</p>")
+                  qrcodebox.append(qrcodeCode)
+                  qrcodebox.append("<div style='text-align:center;margin-top:10px'>"+p+"</div>")
                   r.html(qrcodebox);
                 }
               } catch (t) {
@@ -8605,6 +8611,7 @@ var hiprint = function (t) {
                   useSVG: !0,
                   correctLevel: this.options.getQRcodeLevel()
                 }).makeCode(n);
+                // box.append('<p>这是一个二维码</p>')
                 a.html(box)
               }
             } catch (t) {
