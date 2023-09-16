@@ -1777,6 +1777,10 @@
           hidden: false
         },
         {
+          name: 'qrCodeShowText',
+          hidden: false
+        },
+        {
           name: 'renderFormatter',
           hidden: false
         },
