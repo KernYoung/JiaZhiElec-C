@@ -39,7 +39,8 @@ export default [
         "cartons": 12,
         "effectiveDate": "2023-09-15",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -65,7 +66,8 @@ export default [
         "cartons": 32,
         "effectiveDate": "2023-09-04",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -91,7 +93,8 @@ export default [
         "cartons": 12,
         "effectiveDate": "2023-09-05",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -117,7 +120,8 @@ export default [
         "cartons": 33,
         "effectiveDate": "2023-09-19",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -143,7 +147,8 @@ export default [
         "cartons": 33,
         "effectiveDate": "2023-09-04",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -169,7 +174,8 @@ export default [
         "cartons": 33,
         "effectiveDate": "2023-09-01",
         "printNumber": "230915048",
-        "werks": "9000"
+        "werks": "9000",
+        "deliveryDate": "2023-09-15"
       }
     ],
     "deliveryOrderDetailList": null,
@@ -215,7 +221,8 @@ export default [
         "cartons": 22,
         "effectiveDate": "2023-09-01",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -241,7 +248,8 @@ export default [
         "cartons": 334,
         "effectiveDate": "2023-09-27",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -267,7 +275,8 @@ export default [
         "cartons": 4,
         "effectiveDate": "2023-09-27",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -293,7 +302,8 @@ export default [
         "cartons": 5,
         "effectiveDate": "2023-09-18",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -319,7 +329,8 @@ export default [
         "cartons": 6,
         "effectiveDate": "2023-09-17",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -345,7 +356,8 @@ export default [
         "cartons": 7,
         "effectiveDate": "2023-09-04",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -371,7 +383,8 @@ export default [
         "cartons": 8,
         "effectiveDate": "2023-09-05",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       },
       {
         "createBy": null,
@@ -397,7 +410,8 @@ export default [
         "cartons": 9,
         "effectiveDate": "2023-09-05",
         "printNumber": "230915049",
-        "werks": "8000"
+        "werks": "8000",
+        "deliveryDate": "2023-09-15"
       }
     ],
     "deliveryOrderDetailList": null,

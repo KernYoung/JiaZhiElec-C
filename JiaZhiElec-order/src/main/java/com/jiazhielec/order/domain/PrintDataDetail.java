@@ -93,6 +93,10 @@ public class PrintDataDetail extends BaseEntity
      */
     private String printNumber;
 
+    /** 交货日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deliveryDate;
+
     /**公司代码  */
     @Excel(name = "公司代码")
     private String WERKS;
@@ -258,5 +262,13 @@ public class PrintDataDetail extends BaseEntity
 
     public void setWERKS(String WERKS) {
         this.WERKS = WERKS;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

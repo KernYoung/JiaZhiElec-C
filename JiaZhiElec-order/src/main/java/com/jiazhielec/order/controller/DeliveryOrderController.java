@@ -164,6 +164,10 @@ public class DeliveryOrderController extends BaseController
             PrintDataDetail printDataDetail = new PrintDataDetail();
             printDataDetail.setPrintNumber(printData.getPrintNumber());
             List<PrintDataDetail> lists = deliveryOrderService.selectPrintDataDetailList(printDataDetail);
+            for (PrintDataDetail printDataDetail1: lists) {
+                printDataDetail1.setDeliveryDate(printData.getDeliveryDate());
+                printDataDetail1.setWERKS(printData.getWerks());
+            }
             printData.setTable(lists);
         }
         return getDataTable(list);

@@ -121,6 +121,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
                         printDataDetail.getKdmat() + "_" + printDataDetail.getMeins();
 
                 printDataDetail.setQrcode(codeQC);
+                printDataDetail.setDeliveryDate(new Date());
                 printDataDetails.add(printDataDetail);
             }
             printData.setTable(printDataDetails);
@@ -149,6 +150,7 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
                     printDataDetail.setCreateTime(new Date());
                     printDataDetail.setId(null);
                     printDataDetail.setQrcode(printDataDetail.getKdmat());
+                    printDataDetail.setDeliveryDate(printData.getDeliveryDate());
                     printDataDetailMapper.insertIntoDataBase(printDataDetail);
                 }
             }

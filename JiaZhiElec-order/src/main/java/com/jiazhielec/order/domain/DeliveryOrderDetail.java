@@ -1,10 +1,12 @@
 package com.jiazhielec.order.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiazhielec.common.annotation.Excel;
 import com.jiazhielec.common.core.domain.BaseEntity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
@@ -55,6 +57,10 @@ public class DeliveryOrderDetail extends BaseEntity
     /**公司代码  */
     @Excel(name = "公司代码")
     private String WERKS;
+
+    /** 交货日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deliveryDate;
 
 
     public BigDecimal getLFIMG() {
@@ -160,6 +166,14 @@ public class DeliveryOrderDetail extends BaseEntity
 
     public void setWERKS(String WERKS) {
         this.WERKS = WERKS;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     @Override
