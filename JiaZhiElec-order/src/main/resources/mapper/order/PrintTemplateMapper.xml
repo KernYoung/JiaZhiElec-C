@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectPrintTemplateAll" resultMap="PrintTemplateResult">
 		<include refid="selectPrintTemplateVo"/>
+		where status = 0
 		order by sort
 	</select>
 	
