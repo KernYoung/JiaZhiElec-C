@@ -15,10 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"    column="update_time"   />
 		<result property="remark"        column="remark"        />
 		<result property="dataCollation"        column="data_collation"        />
+		<result property="sort"        column="sort"        />
 	</resultMap>
 	
 	<sql id="selectPrintTemplateVo">
-        select id, template_name, template_json, status, create_by, create_time, remark, data_collation
+        select id, template_name, template_json, status, create_by, create_time, remark, data_collation,sort
 		from print_template
     </sql>
 	
@@ -36,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectPrintTemplateAll" resultMap="PrintTemplateResult">
 		<include refid="selectPrintTemplateVo"/>
+		order by sort
 	</select>
 	
 	<select id="selectPrintTemplateById" parameterType="Long" resultMap="PrintTemplateResult">
@@ -60,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--	</select>-->
 	
 	<select id="checkPrintTemplateNameUnique" parameterType="String" resultMap="PrintTemplateResult">
-		select top(1) id, template_name, status, create_by, create_time, remark
+		select top(1) id, template_name, status, create_by, create_time, remark,sort
 		from print_template
 		where template_name=#{templateName}
 	</select>
@@ -77,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
  			<if test="templateJson != null and templateJson != ''">template_json = #{templateJson},</if>
 			<if test="dataCollation != null ">data_Collation = #{dataCollation},</if>
+			<if test="sort != null ">sort = #{sort},</if>
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
@@ -91,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="templateName != null and templateName != ''">template_name,</if>
  			<if test="templateJson != null and templateJson != ''">template_json,</if>
  			<if test="status != null and status != ''">status,</if>
+			<if test="sort != null and sort != ''">sort,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			create_time
@@ -99,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="templateName != null and templateName != ''">#{templateName},</if>
  			<if test="templateJson != null and templateJson != ''">#{templateJson},</if>
  			<if test="status != null and status != ''">#{status},</if>
+			<if test="sort != null and sort != ''">#{sort},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
 			getdate()

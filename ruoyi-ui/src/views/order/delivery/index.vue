@@ -52,7 +52,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="打印模版" prop="templateName">
-        <el-select v-model="queryParams.params.templateId" placeholder="打印模版" clearable @change="getInfo">
+        <el-select v-model="queryParams.params.templateId" placeholder="打印模版" clearable filterable @change="getInfo">
           <el-option
             v-for="(item,index) in templateList"
             :key="index"

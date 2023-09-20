@@ -28,6 +28,9 @@ public class PrintTemplate extends BaseEntity
     @Excel(name = "排序规则")
     private String dataCollation;
 
+    @Excel(name = "排序")
+    private Long sort;
+
     /** 状态（0正常 1停用） */
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
@@ -72,6 +75,14 @@ public class PrintTemplate extends BaseEntity
         this.status = status;
     }
 
+    public Long getSort() {
+        return sort;
+    }
+
+    public void setSort(Long sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         return "PrintTemplate{" +
@@ -80,6 +91,7 @@ public class PrintTemplate extends BaseEntity
                 ", templateJson='" + templateJson + '\'' +
                 ", dataCollation='" + dataCollation + '\'' +
                 ", status='" + status + '\'' +
+                ", sort='" + sort + '\'' +
                 '}';
     }
 }

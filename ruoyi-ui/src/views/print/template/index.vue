@@ -76,6 +76,7 @@
       <el-table-column label="模版编号" align="center" prop="id" />
       <el-table-column label="模版名称" align="center" prop="templateName" />
       <el-table-column label="排序规则" align="center" prop="dataCollation" />
+      <el-table-column label="排序号" align="center" prop="sort" />
       <!-- <el-table-column label="排序规则" align="center" prop="collation">
         <template slot-scope="scope">
           <span v-if="scope.row.collation == 0">无</span>
@@ -164,6 +165,9 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="排序号" prop="sort">
+          <el-input v-model="form.sort" type="number" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
