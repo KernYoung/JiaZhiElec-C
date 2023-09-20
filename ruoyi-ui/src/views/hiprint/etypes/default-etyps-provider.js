@@ -36,30 +36,69 @@ export default function (hiprint) {
                 {
                   title: "行号",
                   fixed: true,
-                  rowspan: 2,
-                  field: "id",
+                  field: "posnr",
                   width: 70
                 },
-                {title: "人员信息", colspan: 2},
-                {title: "销售统计", colspan: 2}
-              ],
-              [
+                {title: "交货单号", field: "vbeln"},
+                {title: "订单号码",field: "bstkd"},
                 {
-                  title: "姓名",
+                  title: "客户料号",
                   align: "left",
-                  field: "name",
+                  field: "kdmat",
                   width: 100
                 },
-                {title: "性别", field: "gender", width: 100},
+                {title: "仓位", field: "lgobe", width: 100},
                 {
-                  title: "销售数量",
-                  field: "count",
+                  title: "数量",
+                  field: "lfimg",
                   width: 100
                 },
                 {
-                  title: "销售金额",
-                  field: "amount",
+                  title: "产品编号",
+                  field: "matnr",
                   width: 100
+                },
+                {
+                  title: "单位",
+                  field: "meins",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "客户物料描述",
+                  field: "postx",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "备注",
+                  field: "charg",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "未交数量",
+                  field: "wjsl",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "箱数",
+                  field: "cartons",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "有效日期",
+                  field: "effectiveDate",
+                  width: 100,
+                  checked:false,
+                },
+                {
+                  title: "序号",
+                  field: "item",
+                  width: 100,
+                  checked:false,
                 }
               ]
             ],
