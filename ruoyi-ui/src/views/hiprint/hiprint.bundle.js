@@ -1932,13 +1932,52 @@ var hiprint = function (t) {
                     scale: 1,
                     width: l > u ? u : l,
                     height: l > u ? u : l,
-                    includetext: false
+                    includetext: false,
+                    correctLevel: t.tableQRCodeLevel || 0,
                   })
                   r.html($(qrcode))
                   if (t["qrCodeShowText"]) {
                     r.append($(`<div class="hiprint-printElement-qrcode-content-title" style="text-align: center">${p}</div>`))
                   }
                 }
+              } catch (t) {
+                console.log(t), r.html("二维码生成失败");
+              }
+            }
+            if ("rqrcode" == t.tableTextType) {
+              // console.log(11111,t,p)
+              r.html("");
+              try {
+                var qrcodebox = $("<div></div>");
+                var qrcodeCode = $("<div></div>");
+
+                if (p) {
+
+                  var l = parseInt(t.width || t.targetWidth || 20),
+                    u = parseInt(t.tableColumnHeight || 20);
+                  qrcodebox.css('height', (l > u ? u : l) + 'pt')
+                  let qrcodekey = qrcodebox[0];
+                  if(t["qrCodeShowText"]){
+                    qrcodeCode.css('height', '80%');
+                    qrcodeCode.css('margin-top', '2px');
+                    qrcodekey =qrcodeCode[0];
+                  }
+                  new QRCode(qrcodekey, {
+                    width: l > u ? u : l,
+                    height: l > u ? u : l,
+                    colorDark: "#000000",
+                    useSVG: !0,
+                    correctLevel: t.tableQRCodeLevel || 0,
+                  }).makeCode(p);
+
+
+                  if(t["qrCodeShowText"]) {
+                    qrcodebox.append(qrcodeCode)
+                    qrcodebox.append("<div style='text-align:center;font-size:7px;margin-top:6px'>" + p + "</div>")
+                  }
+                  r.html(qrcodebox);
+                }
+
               } catch (t) {
                 console.log(t), r.html("二维码生成失败");
               }
@@ -4406,7 +4445,7 @@ var hiprint = function (t) {
 
       return t.prototype.createTarget = function () {
         return this.target = $(
-          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认(文本)</option>\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n    <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
+          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认(文本)</option>\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n  <option value="rqrcode" >普通二维码</option>\n   <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
         ), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("select").val();
@@ -4833,7 +4872,7 @@ var hiprint = function (t) {
 
       return t.prototype.createTarget = function () {
         return this.target = $(
-          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        二维码容错率\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="1" >7% L</option>\n        <option value="0" >15% M</option>\n        <option value="3" >25% Q</option>\n        <option value="2" >30% H</option>\n        </select>\n        </div>\n    </div>'
+          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        普通二维码容错率\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="1" >7% L</option>\n        <option value="0" >15% M</option>\n        <option value="3" >25% Q</option>\n        <option value="2" >30% H</option>\n        </select>\n        </div>\n    </div>'
         ), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("select").val();
