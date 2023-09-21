@@ -1737,6 +1737,14 @@
           hidden: false
         },
         {
+          name: 'tableQRCodeType',
+          hidden: false
+        },
+        {
+          name: 'qrCodeShowText',
+          hidden: false
+        },
+        {
           name: 'tableColumnHeight',
           hidden: false
         },
@@ -1774,10 +1782,6 @@
         },
         {
           name: 'upperCase',
-          hidden: false
-        },
-        {
-          name: 'qrCodeShowText',
           hidden: false
         },
         {
