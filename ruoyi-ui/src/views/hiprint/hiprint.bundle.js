@@ -32,6 +32,26 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+/* 数字金额逢三加， 比如 123,464.23 */
+function numberToCurrency(value) {
+  if (!value) return '0'
+  // 将数值截取，保留两位小数
+  //value = value.toFixed(2)
+  // 获取整数部分
+  const intPart = Math.trunc(value)
+  // 整数部分处理，增加,
+  const intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+  // 预定义小数部分
+  let floatPart = '.00'
+  // 将数值截取为小数部分和整数部分
+  const valueArray = value.toString().split('.')
+  if (valueArray.length === 2) { // 有小数部分
+    floatPart = valueArray[1].toString() // 取得小数部分
+    return intPartFormat + '.' + floatPart
+  }
+  return intPartFormat;
+}
+
 /**
  * import 相关资源
  */
@@ -348,6 +368,9 @@ var hiprint = function (t) {
 		case "7":
 			backStr = Nzh.cn.toMoney(val, {complete: true, outSymbol: false});
 			break;
+        case "8":
+            backStr= numberToCurrency(val);
+            break;
 	}
     return backStr;
   };
@@ -1839,6 +1862,9 @@ var hiprint = function (t) {
           //表格内容插入二维码等
           } else if ("text" == t.tableTextType || t.tableTextType == void 0) r.html(p);
           else {
+            if("number2"){
+              r.html(numberToCurrency(p));
+            }
             if ("barcode" == t.tableTextType) {
               // let svg1 ="<svg width=\"100%\" display=\"block\" height=\"100%\" class=\"hibarcode_imgcode\" preserveAspectRatio=\"none slice\"></svg ><div class=\"hibarcode_displayValue\"></div>"
               // if(p){
@@ -4445,7 +4471,7 @@ var hiprint = function (t) {
 
       return t.prototype.createTarget = function () {
         return this.target = $(
-          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认(文本)</option>\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n  <option value="rqrcode" >普通二维码</option>\n   <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
+          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认(文本)</option>\n        <option value="text" >文本</option>\n        <option value="number2" >数字带逗号</option>\n       <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n  <option value="rqrcode" >普通二维码</option>\n   <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
         ), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("select").val();
@@ -5100,6 +5126,8 @@ var hiprint = function (t) {
           { t: "「金额」人民币壹拾元捌角", v: "5" },
           { t: "「金额」人民币壹拾元捌角零分", v: "6" },
           { t: "「金额」壹拾元捌角零分", v: "7" },
+          { t: "数字金额逢三加，", v: "8" },
+
         ];
         var n = '\n<option value="">默认</option>';
         list.forEach((e) => {

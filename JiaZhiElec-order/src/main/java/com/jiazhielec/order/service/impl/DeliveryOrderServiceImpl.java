@@ -47,9 +47,9 @@ public class DeliveryOrderServiceImpl implements IDeliveryOrderService
     public List<DeliveryOrder> selectDeliveryOrderList(DeliveryOrder deliveryOrder)
     {
         List<DeliveryOrder> deliveryOrders = deliveryOrderMapper.selectDeliveryOrderList(deliveryOrder);
-        for (DeliveryOrder item : deliveryOrders){
-            item.setDeliveryDate(new Date());
-        }
+//        for (DeliveryOrder item : deliveryOrders){
+//            item.setDeliveryDate(new Date());
+//        }
         return deliveryOrders;
     }
 

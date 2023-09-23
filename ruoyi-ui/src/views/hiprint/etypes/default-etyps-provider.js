@@ -28,9 +28,9 @@ export default function (hiprint) {
             title: "表格",
             type: "table",
             groupFields: ["name"],
-            groupFooterFormatter: function (group, option) {
-              return "这里自定义统计脚信息";
-            },
+            // groupFooterFormatter: function (group, option) {
+            //   return "这里自定义统计脚信息";
+            // },
             columns: [
               [
                 {
