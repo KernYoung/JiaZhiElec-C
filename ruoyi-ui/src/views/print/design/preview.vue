@@ -62,9 +62,9 @@ export default {
     },
     print() {
       this.waitShowPrinter = true
-      if(this.type == 1){
+      if (this.type == 1) {
 
-      }else{
+      } else {
         this.hiprintTemplate.print(this.printData, {}, {
           callback: () => {
             console.log('callback')
@@ -75,6 +75,87 @@ export default {
     },
     toPdf() {
       this.hiprintTemplate.toPdf(this.printData, '打印预览');
+
+
+    },
+
+    function1(data, col, colIndex, rowIndex, tableData, printData) {
+     if(tableData===undefined){
+       return [1, 1];
+     }
+      if (colIndex === 0 && rowIndex === 0) {
+        let  spanArr= [];
+        let spanIdx = 0;
+        tableData.forEach((row, idx) => {
+          let b = row ;
+          if(!row.list){
+            let list =[];
+            list.push(b);
+            row.list = list;
+          }
+          if (idx === 0) {
+            spanArr.push(1)
+            spanIdx = 0
+
+          } else {
+            if (row.kdmat === tableData[idx - 1].kdmat) {
+              spanArr[spanIdx] += 1
+              spanArr.push(0)
+              let list2  =  tableData[idx - 1].list;
+              list2.push(b);
+              for(var idx2  =idx-spanArr[spanIdx]+1;idx2<=idx;idx2++){
+                tableData[idx2].list = list2;
+              }
+            } else {
+              spanArr.push(1)
+              spanIdx = idx
+            }
+          }
+        })
+        printData['spanArr'] =spanArr;
+      }
+
+
+
+      if (colIndex === 7) {
+
+        let _row =  printData['spanArr'][rowIndex];
+        let _col = 1;
+        return [_row, _col];
+      }
+      return [1, 1];
+    },
+    function2(data, col, colIndex, rowIndex, tableData, printData) {
+
+      if (colIndex === 0 && rowIndex === 0) {
+        let  spanArr= [];
+        let spanIdx = 0;
+        tableData.forEach((row, idx) => {
+          if (idx === 0) {
+            spanArr.push(1);
+            spanIdx = 0;
+
+          } else {
+            if (row.kdmat === tableData[idx - 1].kdmat) {
+              spanArr[spanIdx] += 1;
+              spanArr.push(0);
+
+            } else {
+              spanArr.push(1);
+              spanIdx = idx;
+            }
+          }
+        })
+        printData['spanArr'] =spanArr;
+      }
+
+      if (colIndex === 7) {
+
+        let _row =  printData['spanArr'][rowIndex];
+        let _col = 1;
+        return [_row, _col];
+      }
+      return [1, 1];
     },
   }
 }

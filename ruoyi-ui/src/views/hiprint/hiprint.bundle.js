@@ -1829,7 +1829,7 @@ var hiprint = function (t) {
         }).forEach(function (t, i) {
           if (!t.checked) return;
           var rowsColumnsMerge = ''
-          if (n.rowsColumnsMerge) {
+          if (n.rowsColumnsMerge&&typeof printData != 'undefined') {
             eval('rowsColumnsMerge=' + n.rowsColumnsMerge)
             var rowsColumnsArr = rowsColumnsMerge(e, t, i, rowIndex, tableData, printData) || [1, 1]
             var r = $(`<td style = 'display:${!(rowsColumnsArr[0] && rowsColumnsArr[1]) ? "none" : ""}' rowspan = '${rowsColumnsArr[0]}' colspan = '${rowsColumnsArr[1]}'></td>`);
@@ -1840,7 +1840,7 @@ var hiprint = function (t) {
           if (e && Object.keys(e).length > 0 && ("first" == n.tableHeaderRepeat || "none" == n.tableHeaderRepeat)) {
             t.field && r.attr("field", t.field), t.align && r.css("text-align", t.align), t.vAlign && r.css("vertical-align", t.vAlign);
             // 无表头时跨行无效，需根据所跨行数重新计算宽度
-            if (n.rowsColumnsMerge) {
+            if (n.rowsColumnsMerge&&typeof printData != 'undefined') {
               if (rowsColumnsArr[1] > 1) {
                 var width = 0;
                 columns.forEach((item, index) => {
