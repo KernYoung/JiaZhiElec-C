@@ -9,6 +9,10 @@ spring:
                 url: jdbc:sqlserver://112.80.47.186:14306;DatabaseName=JiaZhiDev
                 username: sa
                 password: Djj20190527Jdd
+                #driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                #url: jdbc:sqlserver://10.168.0.51:1433;DatabaseName=JiaZhiDev
+                #username: sa
+                #password: SZ@panel
             # 从库数据源
             slave:
                 driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -17,6 +21,10 @@ spring:
                 url: jdbc:sqlserver://118.178.191.50:1433;DataBaseName=seeyona8v51
                 username: sa
                 password: Djj20190527!@#$
+                #driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                #url: jdbc:sqlserver://10.168.0.51:1433;DatabaseName=oa
+                #username: sa
+                #password: SZ@panel
             # 第三方库数据源
             one:
                 driverClassName: com.mysql.cj.jdbc.Driver
