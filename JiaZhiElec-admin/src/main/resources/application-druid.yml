@@ -21,9 +21,9 @@ spring:
             one:
                 driverClassName: com.mysql.cj.jdbc.Driver
                 enabled: false
-                url: jdbc:mysql://112.80.47.186:13206/narwhals_vue_plus?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+                url: jdbc:mysql://127.0.0.1:3306/narwhals_vue_plus?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
                 username: root
-                password: Djj20190527
+                password: password
             two:
                 driverClassName: oracle.jdbc.driver.OracleDriver
                 enabled: false

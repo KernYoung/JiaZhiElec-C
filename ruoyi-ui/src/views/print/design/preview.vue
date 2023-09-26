@@ -157,6 +157,30 @@ export default {
       }
       return [1, 1];
     },
+    function3(value,row,index,options){
+      debugger;
+      let re = '';
+      row.list.forEach((row2) => {
+        let a = row2.werks;
+        if (a == 8000) {
+          a = 'JZ'
+        } else {
+          a = 'YIBANG'
+        }
+        let d = new Date(row2.deliveryDate);
+        let b = d.getMonth() + 1;
+        let c = d.getDate();
+        if (b < 10) {
+          b = '0' + b;
+        }
+        if (c < 10) {
+          c = '0' + c;
+        }
+        re += a + '_' + d.getFullYear() + b + c + '_' + row2.bstkd + '_' + row2.posnr + '_' + row2.kdmat + '_' + row2.lfimg + '_' + row2.meins + '/';
+      });
+      re = re.substring(0,re.length-1)
+      return re;
+    },
   }
 }
 
