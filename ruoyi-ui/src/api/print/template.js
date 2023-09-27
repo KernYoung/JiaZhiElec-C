@@ -68,6 +68,15 @@ export function deliveryPrintData(id,data) {
   })
 }
 
+// 获取新的打印数据
+export function deliveryPrintData2(id,data) {
+  return request({
+    url: '/order/delivery/storePrintDataIntoDatabase2/'+ id,
+    method: 'post',
+    data: data
+  })
+}
+
 // 查询打印模版所有列表
 export function listTemplateAll(query) {
   return request({

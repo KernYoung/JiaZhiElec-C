@@ -65,15 +65,15 @@
 
             <if test="delDateEnd != null  "> AND DATEADD(dd,DATEDIFF(dd,0,a.DELIVERYDATE),0)  &lt;= #{delDateEnd}</if>
 
-            <if test="printNo != null  and printNo != ''"> AND a.PRINTNUMBER like concat('%', #{printNo}, '%')</if>
+            <if test="printNo != null  and printNo != ''"> AND a.PRINTNUMBER like '%${printNo}%'</if>
 
-            <if test="vbeln != null  and vbeln != ''"> AND a.VBELN like concat('%', #{vbeln}, '%')</if>
+            <if test="vbeln != null  and vbeln != ''"> AND a.VBELN like '%${vbeln}%'</if>
 
-            <if test="kdmat != null  and kdmat != ''"> AND b.KDMAT like concat('%', #{kdmat}, '%')</if>
+            <if test="kdmat != null  and kdmat != ''"> AND b.KDMAT like '%${kdmat}%'</if>
 
-            <if test="matnr != null  and matnr != ''"> AND b.MATNR  like concat('%', #{matnr}, '%')</if>
+            <if test="matnr != null  and matnr != ''"> AND b.MATNR  like '%${matnr}%'</if>
 
-            <if test="bstkd != null  and bstkd != ''"> AND b.BSTKD like concat('%', #{bstkd}, '%')</if>
+            <if test="bstkd != null  and bstkd != ''"> AND b.BSTKD like '%${bstkd}%'</if>
         </where>
         GROUP BY a.id ,a.DELIVERYDATE,a.KUNNR,a.NAME1,a.PRINTDATE,a.PRINTNUMBER,a.TEMPLATE,a.VBELN,a.WERKS
     </select>

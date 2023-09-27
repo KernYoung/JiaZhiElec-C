@@ -181,6 +181,16 @@ export default {
       re = re.substring(0,re.length-1)
       return re;
     },
+    function5(value,row,index,options){
+      debugger;
+      let re = 0;
+      row.list.forEach((row2) => {
+        let a = Number(row2.lfimg);
+        re += a;
+      });
+
+      return re;
+    },
   }
 }
 

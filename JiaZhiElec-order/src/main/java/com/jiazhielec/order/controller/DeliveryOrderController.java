@@ -16,13 +16,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 出货单信息
@@ -139,6 +139,53 @@ public class DeliveryOrderController extends BaseController
 //        List<PrintData> printDataList = printDataService.selectHistoryDataAll();
 //        return getDataTable(printDataList);
         return  getDataTable(printDataList);
+    }
+
+
+    /**
+     * 存入打印的数据
+     */
+    @PostMapping("/storePrintDataIntoDatabase2/{templateId}")
+    public TableDataInfo storePrintDataIntoDatabase2(@RequestBody List<PrintData>  printDataList,@PathVariable Long templateId){
+        //检验
+        PrintCustomerTemplate printCustomerTemplate = new PrintCustomerTemplate();
+        printCustomerTemplate.setTemplateId(templateId);
+        List<PrintCustomerTemplate> list = printCustomerTemplateService.selectPrintCustomerTemplateList(printCustomerTemplate);
+        if (!list.isEmpty()){
+            List<String> list1 = new ArrayList<>();
+            for (PrintCustomerTemplate p: list) {
+                list1.add(p.getCustomerCode());
+            }
+            for (PrintData p: printDataList) {
+                if(!list1.contains(p.getKunnr())){
+                    throw new ServiceException("客户编码："+p.getKunnr()+"与该模版不匹配");
+                }
+            }
+        }
+
+        List<PrintData> printDataList1=sortPrintDataList(printDataList);
+
+        //排序
+        printTemplateService.orderByprintDataList(templateId,printDataList1);
+
+        deliveryOrderService.storePrintDataIntoDatabase(printDataList1,templateId);
+
+        // todo 返回形式如下
+//        List<PrintData> printDataList = printDataService.selectHistoryDataAll();
+//        return getDataTable(printDataList);
+        return  getDataTable(printDataList1);
+    }
+
+    private List<PrintData> sortPrintDataList(List<PrintData> printDataList) {
+        List<PrintData> printDataList1 = new ArrayList<>();
+        printDataList1.add(printDataList.get(0));
+        List<PrintDataDetail> printDataDetailList = new ArrayList<>();
+        for (PrintData printData :printDataList){
+            List<PrintDataDetail> list = printData.getTable();
+            printDataDetailList.addAll(list);
+        }
+        printDataList1.get(0).setTable(printDataDetailList);
+        return printDataList1;
     }
 
     @GetMapping("/listPrintData")

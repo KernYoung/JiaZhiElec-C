@@ -73,6 +73,7 @@
           v-hasPermi="['system:post:export']"
         >导出Excel</el-button>
         <el-button type="primary" icon="el-icon-download" size="mini" @click="printView">打印</el-button>
+        <el-button type="primary" icon="el-icon-download" size="mini" @click="printView2">明细合并打印</el-button>
         <el-button type="warning" size="mini" @click="printHistory" v-hasPermi="['order:delivery:history']">打印历史</el-button>
       </el-form-item>
     </el-form>
@@ -333,7 +334,7 @@ import printPreview from '../../print/design/preview'
 import fontSize from "../../print/design/font-size.js";
 import scale from "../../print/design/scale.js";
 import { defaultElementTypeProvider, hiprint } from '../../index'
-import { listTemplateAll, getPrintQuery, deliveryPrint, deliveryPrintData } from "@/api/print/template"
+import { listTemplateAll, getPrintQuery, deliveryPrint, deliveryPrintData ,deliveryPrintData2} from "@/api/print/template"
 
 let hiprintTemplate;
 
@@ -750,6 +751,70 @@ export default {
         })
         // console.log(vbelnList)
         deliveryPrintData(that.queryParams.params.templateId, JSON.stringify(vbelnList)).then(response => {
+          if(response.code == 200){
+            printData = response.rows
+            // 测试, 点预览更新拖拽元素
+            // hiprint.updateElementType('defaultModule.text', (type) => {
+            //   type.title = '这是更新后的元素';
+            //   return type
+            // })
+            // 测试, 通过socket刷新打印机列表； 默认只有连接的时候才会获取到最新的打印机列表
+            hiprint.refreshPrinterList((list) => {
+              console.log('refreshPrinterList')
+              console.log(list)
+            });
+            // 测试, 获取IP、IPV6、MAC地址、DNS
+            // 参数格式：
+            // 1. 类型（ip、ipv6、mac、dns、all、interface、vboxnet）
+            // 2. 回调 data => {addr, e}  addr: 返回的数据 e:错误信息
+            // 3. 其他参数 ...args
+            hiprint.getAddress('ip', (data) => {
+              console.log('ip')
+              console.log(data)
+            })
+            hiprint.getAddress('ipv6', (data) => {
+              console.log('ipv6')
+              console.log(data)
+            })
+            hiprint.getAddress('mac', (data) => {
+              console.log('mac')
+              console.log(data)
+            })
+            hiprint.getAddress('dns', (data) => {
+              console.log('dns')
+              console.log(data)
+            })
+            hiprint.getAddress('all', (data) => {
+              console.log('all')
+              console.log(data)
+            })
+            // 各个平台不一样, 用法见: https://www.npmjs.com/package/address
+            hiprint.getAddress('interface', (data) => {
+              console.log('interface')
+              console.log(data)
+            }, 'IPv4', 'eth1')
+            // console.log(printData)
+            that.$refs.preView.show(hiprintTemplate, printData)
+          }
+        });
+      }
+    },
+    printView2(){
+      let [that, printData] = [this, []]
+      // console.log(that.vbelns)
+      if(that.queryParams.params.templateId == undefined ||that.queryParams.params.templateId == ''){
+        that.$message.error('请选择打印模版')
+      }else if(that.vbelns.length == 0){
+        that.$message.error('请选择出货单')
+      }else{
+        let vbelnList = []
+        that.allData.map(k=>{
+          if(that.vbelns.indexOf(k.vbeln)>-1){
+            vbelnList.push(k)
+          }
+        })
+        // console.log(vbelnList)
+        deliveryPrintData2(that.queryParams.params.templateId, JSON.stringify(vbelnList)).then(response => {
           if(response.code == 200){
             printData = response.rows
             // 测试, 点预览更新拖拽元素

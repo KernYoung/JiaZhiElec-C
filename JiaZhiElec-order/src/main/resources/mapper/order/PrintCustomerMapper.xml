@@ -26,10 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <include refid="selectPrintCustomerVo"/>
 		<where>
 			<if test="customerName != null and customerName != ''">
-				AND customer_name like concat('%', #{customerName}, '%')
+				AND customer_name like '%${customerName}%'
 			</if>
 			<if test="customerCode != null and customerCode != ''">
-				AND customer_code like concat('%', #{customerCode}, '%')
+				AND customer_code like '%${customerCode}%'
 			</if>
 			<if test="status != null and status != ''">
 				AND status = #{status}

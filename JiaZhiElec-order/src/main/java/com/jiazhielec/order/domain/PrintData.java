@@ -53,6 +53,12 @@ public class PrintData extends BaseEntity
     /**单据号  */
     private String printNumber;
 
+    /**产品编码  */
+    private String MATNR;
+
+    /**客户料号  */
+    private String KDMAT;
+
     /** 出货单明细 */
     private List<PrintDataDetail> table;
 
@@ -162,5 +168,21 @@ public class PrintData extends BaseEntity
 
     public void setBSTKD(String BSTKD) {
         this.BSTKD = BSTKD;
+    }
+
+    public String getMATNR() {
+        return MATNR;
+    }
+
+    public void setMATNR(String MATNR) {
+        this.MATNR = MATNR;
+    }
+
+    public String getKDMAT() {
+        return KDMAT;
+    }
+
+    public void setKDMAT(String KDMAT) {
+        this.KDMAT = KDMAT;
     }
 }

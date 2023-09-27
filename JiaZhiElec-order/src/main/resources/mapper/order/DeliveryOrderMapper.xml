@@ -68,9 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select a.id,a.VBELN,a.WERKS,a.KUNNR,a.NAME1,a.CREATE_TIME,a.DELIVERY_DATE,(select top 1 j.BSTKD from A8X_SAP_JZ_ORDERDETAIL j where j.VBELN = a.VBELN) BSTKD
 		from A8X_SAP_JZ_LIKP a
 		<where>
-			<if test="VBELN != null  and VBELN != ''"> AND a.VBELN like concat('%', #{VBELN}, '%')</if>
+			AND a.CREATE_TIME > '2023-07-31'
+			<if test="VBELN != null  and VBELN != ''"> AND a.VBELN like '%${VBELN}%'</if>
 
-			<if test="NAME1 != null  and NAME1 != ''"> AND a.NAME1 like concat('%', #{NAME1}, '%')</if>
+			<if test="NAME1 != null  and NAME1 != ''"> AND a.NAME1 like '%${NAME1}%'</if>
+
+			<if test="KDMAT != null  and KDMAT != ''">AND a.VBELN in (select k.VBELN from A8X_SAP_JZ_ORDERDETAIL k where k.VBELN = a.VBELN and k.KDMAT like '%${KDMAT}%') </if>
+
+			<if test="MATNR != null  and MATNR != ''">AND a.VBELN in (select k.VBELN from A8X_SAP_JZ_ORDERDETAIL k where k.VBELN = a.VBELN and k.MATNR like '%${MATNR}%')</if>
 <!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
 <!--			<if test="status != null  and status != ''"> and a.status = #{status}</if>-->
 			<if test="params.customerCodes != null ">
@@ -89,8 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from A8X_SAP_JZ_ORDERDETAIL a
 		<where>
 			<if test="subVBELN != null  and subVBELN != ''"> and a.VBELN = #{subVBELN}</if>
-			<if test="KDMAT != null  and KDMAT != ''"> and a.KDMAT = #{KDMAT}</if>
-			<if test="MATNR != null  and MATNR != ''"> and a.MATNR = #{MATNR}</if>
+
 		</where>
 	</select>
 
@@ -99,8 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from A8X_SAP_JZ_ORDERDETAIL a
 		<where>
 			<if test="subVBELN != null  and subVBELN != ''"> and a.VBELN = #{subVBELN}</if>
-			<if test="KDMAT != null  and KDMAT != ''"> and a.KDMAT = #{KDMAT}</if>
-			<if test="MATNR != null  and MATNR != ''"> and a.MATNR = #{MATNR}</if>
+
 		</where>
 	</select>
 

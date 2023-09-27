@@ -49,6 +49,11 @@ public class DeliveryOrder extends BaseEntity
     /**订单号码  */
     private String BSTKD;
 
+    /**产品编码  */
+    private String MATNR;
+
+    /**客户料号  */
+    private String KDMAT;
     
     /** 出货单明细 */
     private List<DeliveryOrderDetail> deliveryOrderDetailList;
@@ -125,6 +130,23 @@ public class DeliveryOrder extends BaseEntity
 
     public void setBSTKD(String BSTKD) {
         this.BSTKD = BSTKD;
+    }
+
+
+    public String getMATNR() {
+        return MATNR;
+    }
+
+    public void setMATNR(String MATNR) {
+        this.MATNR = MATNR;
+    }
+
+    public String getKDMAT() {
+        return KDMAT;
+    }
+
+    public void setKDMAT(String KDMAT) {
+        this.KDMAT = KDMAT;
     }
 
     @Override
