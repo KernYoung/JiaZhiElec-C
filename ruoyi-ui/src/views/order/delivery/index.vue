@@ -192,7 +192,7 @@
       @pagination="getList"
     />
 
-    <p style="">明细</p>
+    <div style="">明细<el-button size="mini" type="primary" @click="addDelivery" style="margin:0 0 10px 10px;">添加行</el-button></div>
 
     <el-table v-loading="loading" :data="deliveryDetailList">
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
@@ -279,6 +279,11 @@
      <el-table-column label="序号" align="center" prop="item">
         <template slot-scope="scope">
           <el-input v-model.number="scope.row.item" clearable placeholder="序号" @input="handleItemInput(scope.row)" />
+        </template>
+      </el-table-column>
+     <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleClear(scope.$index)" >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -433,6 +438,34 @@ export default {
         }
       })
     },
+
+    // 添加行
+    addDelivery(){
+      let data = {
+        subVBELN: null,
+        posnr: null,
+        matnr: null,
+        kdmat: null,
+        postx: null,
+        effectiveDate: null,
+        lfimg: null,
+        meins: null,
+        lgobe: null,
+        bstkd: null,
+        wjsl: null,
+        cartons: null,
+        charg: null,
+        name: null,
+        item: null,
+      }
+      this.deliveryDetailList.push(data)
+    },
+
+    // 删除行
+    handleClear(index){
+      this.deliveryDetailList.splice(index,1)
+    },
+
     // 取消按钮
     cancel() {
       this.open = false;
