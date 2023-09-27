@@ -1961,7 +1961,7 @@ var hiprint = function (t) {
                     includetext: false,
                     correctLevel: t.tableQRCodeLevel || 0,
                   })
-                  r.html($(qrcode))
+                  r.html($("<div style='display: flex; justify-content: center; align-items: center; margin: 5px 0;'>"+qrcode+"</div>"))
                   if (t["qrCodeShowText"]) {
                     r.append($(`<div class="hiprint-printElement-qrcode-content-title" style="text-align: center">${p}</div>`))
                   }
