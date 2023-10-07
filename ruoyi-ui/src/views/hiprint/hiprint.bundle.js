@@ -10855,6 +10855,11 @@ var hiprint = function (t) {
           e.imageToBase64($(n));
         });
       }, t.prototype.toPdf = function (t, e, options) {
+        // console.log(this.getHtml(t, e).html())
+        // console.log(document.querySelector('#preview_content_design'))
+        // let dom = document.createElement('div');
+	      // dom.innerHTML = this.getHtml(t, e).html();
+        // console.log(dom)
         html2canvas(document.querySelector('#preview_content_design'), {
           useCORS: true,
           allowTaint: true

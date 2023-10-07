@@ -157,7 +157,7 @@ export default {
       return [1, 1];
     },
     function3(value,row,index,options){
-      debugger;
+      // debugger;
       let re = '';
       row.list.forEach((row2) => {
         let a = row2.werks;
@@ -181,7 +181,7 @@ export default {
       return re;
     },
     function5(value,row,index,options){
-      debugger;
+      // debugger;
       let re = 0;
       row.list.forEach((row2) => {
         let a = Number(row2.lfimg);
