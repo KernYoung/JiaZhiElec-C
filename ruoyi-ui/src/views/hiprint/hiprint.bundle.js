@@ -1961,7 +1961,9 @@ var hiprint = function (t) {
                     includetext: false,
                     correctLevel: t.tableQRCodeLevel || 0,
                   })
-                  r.html($("<div style='display: flex; justify-content: center; align-items: center; margin: 5px 0;'>"+qrcode+"</div>"))
+                  // r.html(qrcode)
+                  // console.log('二维码已经生成,toPdf---', qrcode)
+                  r.html($("<div style='display: flex; justify-content: center; align-items: center; margin: 5px 0;min-width:30px;min-height:30px;'>"+qrcode+"</div>"))
                   if (t["qrCodeShowText"]) {
                     r.append($(`<div class="hiprint-printElement-qrcode-content-title" style="text-align: center">${p}</div>`))
                   }
@@ -10853,50 +10855,81 @@ var hiprint = function (t) {
           e.imageToBase64($(n));
         });
       }, t.prototype.toPdf = function (t, e, options) {
-        var i = this;
-        var dtd = $.Deferred();
-        var isDownload = true;
-        if (this.printPanels.length) {
-          var r = o.a.mm.toPt(this.printPanels[0].width),
-            a = o.a.mm.toPt(this.printPanels[0].height),
-            p = $.extend({
-              scale: 2,
-              width: o.a.pt.toPx(r),
-              x: 0,
-              y: 0,
-              useCORS: !0
-            }, options || {}),
-            s = new jsPDF({
-              orientation: 1 == this.getOrient(0) ? "portrait" : "landscape",
-              unit: "pt",
-              format: this.printPanels[0].paperType ? this.printPanels[0].paperType.toLocaleLowerCase() : [r, a]
-            }),
-            l = this.getHtml(t, options);
-          if (options && undefined != options.isDownload) {
-            isDownload = options.isDownload
+        html2canvas(document.querySelector('#preview_content_design'), {
+          useCORS: true,
+          allowTaint: true
+        }).then(function (canvas) {
+          let contentWidth = canvas.width
+          let contentHeight = canvas.height
+          let pageHeight = contentWidth / 592.28 * 841.89
+          let leftHeight = contentHeight
+          let position = 0
+          let imgWidth = 595.28
+          let imgHeight = 592.28 / contentWidth * contentHeight
+          let pageData = canvas.toDataURL('image/jpeg', 1.0)
+          let PDF = new jsPDF('', 'pt', 'a4')
+          if (leftHeight < pageHeight) {
+            PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
+          } else {
+            while (leftHeight > 0) {
+              PDF.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+              leftHeight -= pageHeight
+              position -= 841.89
+              if (leftHeight > 0) {
+                PDF.addPage()
+              }
+            }
           }
-          this.createTempContainer();
-          var u = this.getTempContainer();
-          this.svg2canvas(l), u.html(l[0]);
-          var d = u.find(".hiprint-printPanel .hiprint-printPaper").length;
-          $(l).css("position:fixed"), html2canvas(l[0], p).then(function (t) {
-            var n = t.getContext("2d");
-            n.mozImageSmoothingEnabled = !1, n.webkitImageSmoothingEnabled = !1, n.msImageSmoothingEnabled = !1, n.imageSmoothingEnabled = !1;
+          PDF.save(e + '.pdf')
+        })
+        // var i = this;
+        // var dtd = $.Deferred();
+        // var isDownload = true;
+        // if (this.printPanels.length) {
+        //   var r = o.a.mm.toPt(this.printPanels[0].width),
+        //     a = o.a.mm.toPt(this.printPanels[0].height),
+        //     p = $.extend({
+        //       scale: 2,
+        //       width: o.a.pt.toPx(r),
+        //       x: 0,
+        //       y: 0,
+        //       // useCORS: !0
+        //       allowTaint: true,
+        //       useCORS: true,
+        //       crossOrigin: 'anonymous'
+        //     }, options || {}),
+        //     s = new jsPDF({
+        //       orientation: 1 == this.getOrient(0) ? "portrait" : "landscape",
+        //       unit: "pt",
+        //       format: this.printPanels[0].paperType ? this.printPanels[0].paperType.toLocaleLowerCase() : [r, a]
+        //     }),
+        //     l = this.getHtml(t, options);
+        //   if (options && undefined != options.isDownload) {
+        //     isDownload = options.isDownload
+        //   }
+        //   this.createTempContainer();
+        //   var u = this.getTempContainer();
+        //   this.svg2canvas(l), u.html(l[0]);
+        //   var d = u.find(".hiprint-printPanel .hiprint-printPaper").length;
+        //   $(l).css("position:fixed"), html2canvas(l[0], p).then(function (t) {
+        //     var n = t.getContext("2d");
+        //     n.mozImageSmoothingEnabled = !1, n.webkitImageSmoothingEnabled = !1, n.msImageSmoothingEnabled = !1, n.imageSmoothingEnabled = !1;
 
-            for (var o = t.toDataURL("image/jpeg"), p = 0; p < d; p++) {
-              s.addImage(o, "JPEG", 0, 0 - p * a, r, d * a), p < d - 1 && s.addPage();
-            }
-            if (isDownload) {
-              i.removeTempContainer(), e.indexOf(".pdf") > -1 ? s.save(e) : s.save(e + ".pdf");
-            } else {
-              i.removeTempContainer();
-              let type = options.type || 'blob';
-              var pdfFile = s.output(type);
-              dtd.resolve(pdfFile);
-            }
-          });
-        }
-        return dtd.promise();
+        //     for (var o = t.toDataURL("image/jpeg"), p = 0; p < d; p++) {
+        //       s.addImage(o, "JPEG", 0, 0 - p * a, r, d * a), p < d - 1 && s.addPage();
+        //       // console.log(s)
+        //     }
+        //     if (isDownload) {
+        //       i.removeTempContainer(), e.indexOf(".pdf") > -1 ? s.save(e) : s.save(e + ".pdf");
+        //     } else {
+        //       i.removeTempContainer();
+        //       let type = options.type || 'blob';
+        //       var pdfFile = s.output(type);
+        //       dtd.resolve(pdfFile);
+        //     }
+        //   });
+        // }
+        // return dtd.promise();
       }, t.prototype.createTempContainer = function () {
         this.removeTempContainer(), $("body").prepend($('<div class="hiprint_temp_Container" style="overflow:hidden;height: 0px;box-sizing: border-box;"></div>'));
       }, t.prototype.removeTempContainer = function () {

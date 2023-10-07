@@ -74,9 +74,8 @@ export default {
       }
     },
     toPdf() {
+      // console.log('这是接口数据---',this.printData)
       this.hiprintTemplate.toPdf(this.printData, '打印预览');
-
-
     },
 
     function1(data, col, colIndex, rowIndex, tableData, printData) {
