@@ -84,7 +84,7 @@
       <el-table-column label="打印单号" align="center" prop="printNumber" />
       <el-table-column label="公司代码" align="center" prop="werks" />
       <el-table-column label="客户代码" align="center" prop="kunnr" />
-      <el-table-column label="客户名称" align="center" prop="name1" />
+      <el-table-column label="客户名称" align="center" prop="name1"  width="200"/>
       <el-table-column label="交货日期" align="center" prop="deliveryDate" />
       <el-table-column label="template" align="center" prop="template" />
       <el-table-column label="打印日期" align="center" prop="printDate" />
@@ -109,21 +109,21 @@
 
     <p style="">明细</p>
     <el-table v-loading="loading" :data="deliveryDetailList">
-      <el-table-column label="交货单号" align="center" prop="subVBELN" />
-      <el-table-column label="行项目号" align="center" prop="posnr" />
-      <el-table-column label="产品编码" align="center" prop="matnr" />
-      <el-table-column label="客户料号" align="center" prop="kdmat" />
-      <el-table-column label="客户物料描述" align="center" prop="postx" />
-      <el-table-column label="有效日期" align="center" prop="effectiveDate" width="180" />
-      <el-table-column label="数量" align="center" prop="lfimg" />
-      <el-table-column label="单位" align="center" prop="meins" />
-      <el-table-column label="仓位" align="center" prop="lgobe" />
-      <el-table-column label="订单号码" align="center" prop="bstkd" />
-      <el-table-column label="未交量" align="center" prop="wjsl" />
-     <el-table-column label="箱数" align="center" prop="cartons" />
-     <el-table-column label="备注" align="center" prop="charg" />
-     <el-table-column label="品名" align="center" prop="name" />
-     <el-table-column label="序号" align="center" prop="item" />
+      <el-table-column label="交货单号" align="center" prop="subVBELN" width="120" />
+      <el-table-column label="行项目号" align="center" prop="posnr"  width="80"/>
+      <el-table-column label="产品编码" align="center" prop="matnr"  width="150"/>
+      <el-table-column label="客户料号" align="center" prop="kdmat"  width="180"/>
+      <el-table-column label="客户物料描述" align="center" prop="postx" width="120" />
+      <el-table-column label="有效日期" align="center" prop="effectiveDate" width="150" />
+      <el-table-column label="数量" align="center" prop="lfimg"  width="120"/>
+      <el-table-column label="单位" align="center" prop="meins"  width="80"/>
+      <el-table-column label="仓位" align="center" prop="lgobe"  width="80"/>
+      <el-table-column label="订单号码" align="center" prop="bstkd"  width="160"/>
+      <el-table-column label="未交量" align="center" prop="wjsl"  width="120"/>
+     <el-table-column label="箱数" align="center" prop="cartons"  width="80"/>
+     <el-table-column label="备注" align="center" prop="charg"  width="120"/>
+     <el-table-column label="品名" align="center" prop="name"  width="120"/>
+     <el-table-column label="序号" align="center" prop="item"  width="80"/>
     </el-table>
 
     <!-- 预览 -->

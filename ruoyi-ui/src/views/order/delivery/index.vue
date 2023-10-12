@@ -126,7 +126,7 @@
 
     <el-table v-loading="loading" :data="deliveryList" @selection-change="handleSelectionChange" @row-click="getDetailList">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="交货日期" align="center" prop="deliveryDate">
+      <el-table-column label="交货日期" align="center" prop="deliveryDate" width="250">
         <template slot-scope="scope">
           <el-date-picker clearable
             v-model="scope.row.deliveryDate"
@@ -136,27 +136,27 @@
           </el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="交货单号" align="center" prop="vbeln">
+      <el-table-column label="交货单号" align="center" prop="vbeln" width="180">
         <template slot-scope="scope">
           <el-input v-model="scope.row.vbeln" clearable placeholder="交货单号" @input="handleInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="公司代码" align="center" prop="werks" >
+      <el-table-column label="公司代码" align="center" prop="werks" width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.werks" clearable placeholder="公司代码" @input="handleInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="客户代码" align="center" prop="kunnr" >
+      <el-table-column label="客户代码" align="center" prop="kunnr" width="200">
         <template slot-scope="scope">
           <el-input v-model="scope.row.kunnr" clearable placeholder="客户代码" @input="handleInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="客户名称" align="center" prop="name1">
+      <el-table-column label="客户名称" align="center" prop="name1" width="300">
         <template slot-scope="scope">
           <el-input v-model="scope.row.name1" clearable placeholder="客户名称" @input="handleInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="250">
         <template slot-scope="scope">
           <el-date-picker clearable
             v-model="scope.row.createTime"
@@ -197,27 +197,27 @@
 
     <el-table v-loading="loading" :data="deliveryDetailList">
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
-      <el-table-column label="交货单号" align="center" prop="subVBELN">
+      <el-table-column label="交货单号" align="center" prop="subVBELN"  width="180">
         <template slot-scope="scope">
           <el-input v-model="scope.row.subVBELN" clearable placeholder="交货单号" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="行项目号" align="center" prop="posnr">
+      <el-table-column label="行项目号" align="center" prop="posnr" width="100">
         <template slot-scope="scope">
           <el-input v-model="scope.row.posnr" clearable placeholder="行项目号" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="产品编码" align="center" prop="matnr">
+      <el-table-column label="产品编码" align="center" prop="matnr"  width="200">
         <template slot-scope="scope">
           <el-input v-model="scope.row.matnr" clearable placeholder="产品编码" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="客户料号" align="center" prop="kdmat">
+      <el-table-column label="客户料号" align="center" prop="kdmat" width="200">
         <template slot-scope="scope">
           <el-input v-model="scope.row.kdmat" clearable placeholder="客户料号" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="客户物料描述" align="center" prop="postx">
+      <el-table-column label="客户物料描述" align="center" prop="postx"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.postx" clearable placeholder="客户物料描述" @input="handleItemInput(scope.row)" />
         </template>
@@ -237,47 +237,47 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column label="数量" align="center" prop="lfimg">
+      <el-table-column label="数量" align="center" prop="lfimg"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.lfimg" clearable placeholder="数量" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="单位" align="center" prop="meins">
+      <el-table-column label="单位" align="center" prop="meins"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.meins" clearable placeholder="单位" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="仓位" align="center" prop="lgobe">
+      <el-table-column label="仓位" align="center" prop="lgobe"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.lgobe" clearable placeholder="仓位" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="订单号码" align="center" prop="bstkd">
+      <el-table-column label="订单号码" align="center" prop="bstkd"  width="200">
         <template slot-scope="scope">
           <el-input v-model="scope.row.bstkd" clearable placeholder="订单号码" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="未交量" align="center" prop="wjsl">
+      <el-table-column label="未交量" align="center" prop="wjsl"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.wjsl" clearable placeholder="未交量" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-     <el-table-column label="箱数" align="center" prop="cartons">
+     <el-table-column label="箱数" align="center" prop="cartons"  width="120">
         <template slot-scope="scope">
           <el-input v-model.number="scope.row.cartons" clearable placeholder="箱数" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-     <el-table-column label="备注" align="center" prop="charg">
+     <el-table-column label="备注" align="center" prop="charg"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.charg" clearable placeholder="备注" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-     <el-table-column label="品名" align="center" prop="name">
+     <el-table-column label="品名" align="center" prop="name"  width="120">
         <template slot-scope="scope">
           <el-input v-model="scope.row.name" clearable placeholder="品名" @input="handleItemInput(scope.row)" />
         </template>
       </el-table-column>
-     <el-table-column label="序号" align="center" prop="item">
+     <el-table-column label="序号" align="center" prop="item"  width="120">
         <template slot-scope="scope">
           <el-input v-model.number="scope.row.item" clearable placeholder="序号" @input="handleItemInput(scope.row)" />
         </template>
